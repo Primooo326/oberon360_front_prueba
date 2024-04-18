@@ -38,3 +38,7 @@ export const getEventsMotorcycle = async () => {
 export const getItinerary = async (id: string) => {
   return await fetch.get(`map/getItinerary/${id}`);
 }
+// pi/map/reportsIndicators
+export const reportsIndicators = async () => {
+  return await fetch.get("map/reportsIndicators");
+}

@@ -2,7 +2,7 @@ import Sidebar from "@/Componentes/DashboardComponents/Sidebar/Sidebar"
 import "./DashboardLayout.css"
 import SidebarRight from "@/Componentes/DashboardComponents/SidebarRight/SidebarRight"
 import { useSystemStore } from '../../states/System.state';
-import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients } from "@/api/conexiones.api";
+import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators } from "@/api/conexiones.api";
 import IconoCargando from "@/Componentes/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
@@ -14,6 +14,7 @@ import { useRef, useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie";
+import { useIndicadoresStore } from "@/states/indicadores.state";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter()
     const { setUbicaciones } = useUbicaciones()
@@ -21,6 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { setToken, token } = useLoginStore.getState()
     const { setVehiculos } = useVehiculosStore()
     const { setMobiles } = useMobilesStore()
+    const { setIndicadores } = useIndicadoresStore()
     const { theme, itemSidebarRight, setItemSidebarRight, setMapConfig, mapConfig, mapExpand } = useSystemStore()
     const itemSidebarRightRef = useRef(itemSidebarRight);
     const mapConfigRef = useRef(mapConfig);
@@ -98,6 +100,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         }
 
     }
+    const getIndicadores = async () => {
+        try {
+            const response = await reportsIndicators();
+            console.log(response);
+            setIndicadores(response)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         itemSidebarRightRef.current = itemSidebarRight;
@@ -109,7 +120,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     useEffect(() => {
         verify().finally(() => setLoad(true))
-
     }, [])
 
     useEffect(() => {
@@ -117,11 +127,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         const interval = setInterval(() => {
             getVehiculos();
             getMobiles();
+            getIndicadores();
         }, 5000);
         if (token) {
             if (!clienteSelected) {
                 getData();
                 getVehiculos();
+                getIndicadores();
                 return () => clearInterval(interval); // Clear interval when component unmounts
             }
         } else {
