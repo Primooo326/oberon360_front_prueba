@@ -10,12 +10,13 @@
 .gm-style-iw.gm-style-iw-c {
   top: -30px !important;
   /* Estilo de la ventana de información */
-  color: #00c3de;
-  background-image: linear-gradient(
+  color: #000;
+  /* background-image: linear-gradient(
     to bottom,
     rgba(0, 82, 118, 1),
     rgba(16, 26, 50, 1)
-  );
+  ); */
+  background-color: #fff;
   /* background-image: url("../../assets//img/VENTANA-EMERGENTE-.png"); */
 
   border-radius: 20px;
@@ -41,12 +42,12 @@
   gap: 5px;
 }
 .mapPopover p {
-  color: #00c3de;
+  color: #000;
   font-size: 14px;
   font-weight: bold;
 }
 .mapPopover p span {
-  color: #fff;
+  color: #383838;
   font-size: 12px;
   font-weight: normal;
 }
@@ -96,5 +97,13 @@ button.dark {
   line-height: normal !important;
   padding: 5px !important;
   border-radius: 5px !important;
+  font-size: 14px !important;
   /* transform: translate(50%, -50%) !important; */
+}
+.botonExpandable {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  border-radius: 5px;
 }

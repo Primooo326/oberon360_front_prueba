@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import LoginCard from "@/Componentes/AuthComponents/LoginCard/LoginCard"
 import ResetCard from "@/Componentes/AuthComponents/ResetCard/ResetCard"
 import AuthLayout from "@/layouts/Auth/AuthLayout"
@@ -9,7 +9,7 @@ export default function page() {
     const [cargando, setCargando] = useState(false);
     const [reset, setReset] = useState(false)
     return (
-        <AuthLayout>
+        <AuthLayout data-theme="oberon" >
             {reset ? (
                 <ResetCard setCargando={setCargando} />
             ) : (

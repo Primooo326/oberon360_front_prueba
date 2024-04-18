@@ -3,6 +3,7 @@ import Llamadas from "@assets/img/img-asistencia/llamadas.png";
 import type { IAsistencia } from '@/models/asistencia.model';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 export default function TableAsistencia({ data }: { data: IAsistencia[] }) {
 
@@ -85,7 +86,7 @@ export default function TableAsistencia({ data }: { data: IAsistencia[] }) {
         { name: "INCIDENCIA", selector: (row: any) => row.HORA_INCIDENCIA, sortable: true },
         { name: "ESTADO_ASIST", selector: (row: any) => row.ESTADO_ASISTENCIA, sortable: true },
         {
-            name: "LLAMAR", selector: () => <img src={Llamadas} style={{ width: "100px" }} onClick={handleLlamar} alt='llamar' />
+            name: "LLAMAR", selector: () => <Image src={Llamadas} style={{ width: "100px" }} onClick={handleLlamar} alt='llamar' />
             , sortable: true
         },
     ]

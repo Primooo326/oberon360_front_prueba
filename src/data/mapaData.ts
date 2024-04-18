@@ -1,13 +1,9 @@
 import FincaVerde from "@assets/img/MapaIconos/FINCA-VERDE.png";
 import FincaVIPVerde from "@assets/img/MapaIconos/FINCA-VIP-VERDE.png";
-import FlotaPrimariaVerde from "@assets/img/MapaIconos/FLOTA-PRIMARIA-VERDE.png";
-import FlotaSecundariaVerde from "@assets/img/MapaIconos/FLOTA-SECUNDARIA-VERDE.png";
-import MobileVerde from "@assets/img/MapaIconos/MOBILE-VERDE.png";
+import MobileVerde from "@assets/img/MapaIconos/nuevos/MOBILE.svg";
 import TicketRojo from "@assets/img/MapaIconos/DAVIVIENDA-ROJO.png";
 import TicketVerde from "@assets/img/MapaIconos/DAVIVIENDA-VERDE.png";
 import ZonaCalor from "@assets/img/MapaIconos/CIRCULO-RIESGOS.gif";
-// import escudo from "@assets/img/MapaIconos/ihmze7vc.png"
-import escudo from "@assets/img/MapaIconos/asistencia-verde.png"
 import type { TRiesgo } from "@/models/ubicaciones.model";
 
 export const heatmapData = [
@@ -43,11 +39,7 @@ export const heatmapData = [
     { latitude: 3.8708, longitude: -67.9211, intensity: 0 },
     { latitude: 4.9081, longitude: -73.9403, intensity: 0 },
 ];
-export const containerStyle = {
-    width: "100%",
-    height: "100%",
-    borderRadius: "0.75rem",
-};
+
 export const colombiaBounds = {
     north: 13.509,
     south: -4.227,
@@ -264,8 +256,25 @@ export const mapaDefecto = [
     {
         featureType: "poi",
         elementType: "labels",
-        stylers: [{ visibility: "off" }]
-    }
+        stylers: [{ visibility: "false" }]
+    },
+    {
+        featureType: "transit",
+        elementType: "labels",
+        stylers: [{ visibility: "true" }]
+    },
+    {
+        featureType: "road",
+        elementType: "labels",
+        stylers: [{ visibility: "false" }]
+    },
+    {
+        featureType: "administrative",
+        elementType: "labels",
+        stylers: [{ visibility: "false" }]
+    },
+
+
 ]
 export const darkMapStyles = [
     { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
@@ -342,14 +351,21 @@ export const darkMapStyles = [
         stylers: [{ color: "#17263c" }],
     },
 ];
-export const Primaria = {
-    url: escudo,
+export const Asistencia: any = {
+    url: '/assets/img/MapaIconos/nuevos/ASISTENCIA.svg',
+    scaledSize: { width: 50, height: 50 },
 };
-export const Secundaria = {
-    url: FlotaSecundariaVerde,
+export const Primaria: any = {
+    url: "/assets/img/MapaIconos/nuevos/FLOTA PRIMARIA.svg",
+    scaledSize: { width: 50, height: 50 },
+};
+export const Secundaria: any = {
+    url: "/assets/img/MapaIconos/nuevos/FLOTA SECUNDARIA.svg",
+    scaledSize: { width: 50, height: 50 },
 };
 export const Mobile = {
-    url: MobileVerde,
+    url: "/assets/img/MapaIconos/nuevos/MOBILE.svg",
+    scaledSize: { width: 50, height: 50 },
 };
 export const Finca = {
     url: FincaVerde,
@@ -369,18 +385,3 @@ export const ZonaRoja = {
     url: ZonaCalor,
 };
 export const riesgosData: TRiesgo[] = ["vial"]
-export const clusterStyles = [
-
-    {
-        url: Primaria.url,
-        height: 80,
-        width: 80,
-        className: 'clusterText',
-    },
-    {
-        url: Primaria.url,
-        height: 100,
-        width: 100,
-        className: 'clusterText',
-    }
-]

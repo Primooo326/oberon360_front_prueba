@@ -2,13 +2,13 @@ import usuLogo from "@assets/img/login/ICONO-USUARIO-GRANDE.png";
 import "./LoginCard.css"
 import { login } from "@/api/conexiones.api";
 import { useLoginStore } from "@/states/Login.state";
+import { verifyJWT } from "@/tools";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { verifyJWT } from "@/utils/tools";
 import { useRouter } from "next/navigation"
 import Image from "next/image";
+import Cookies from "js-cookie";
 export default function LoginCard({ setCargando, setReset }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
-    const router = useRouter()
+    const router = useRouter();
     const { setToken, setUser } = useLoginStore()
     const [userForm, setUserForm] = useState("");
     const [password, setPassword] = useState("");
@@ -23,26 +23,22 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
     };
 
     const onClickLogin = async (e: any) => {
-        e.preventDefault();
         setCargando(true);
-        console.log("object");
+        e.preventDefault();
         try {
             const respuesta = await login({ user: userForm, password });
             console.log(respuesta);
 
             setUser(userForm);
-            setToken(respuesta.data.token);
-            localStorage.setItem("token", respuesta.data.token);
-            if (respuesta.data.resetPass) {
+            setToken(respuesta.token);
+            Cookies.set("token", respuesta.token);
+            if (respuesta.resetPass) {
                 setReset(true);
             } else {
-                router.push("/dashboard");
+                router.push("/dashboard")
             }
-            setCargando(false);
         } catch (error: any) {
-            toast.error(error.response.data.message, { autoClose: 5000 })
             console.log(error);
-            setCargando(false);
         }
         setCargando(false);
     };
@@ -60,7 +56,7 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
     }
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = Cookies.get("token")
         if (token) {
             verifyToken(token)
         }

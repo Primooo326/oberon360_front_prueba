@@ -1,8 +1,6 @@
-// import LogoCarga from '@assets/img/login/CIRCULO-CARGAR.png';
 import LogoCarga from '@assets/img/login/gif/OBERON BLANCO RESPONSIVE.gif';
-
-import './IconoCargando.css'
 import Image from 'next/image';
+import './IconoCargando.css'
 
 export default function IconoCargando() {
   return (

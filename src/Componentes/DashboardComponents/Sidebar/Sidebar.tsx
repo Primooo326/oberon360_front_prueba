@@ -1,4 +1,3 @@
-"use client"
 import { FaMoon, FaRegMap, FaSun } from "react-icons/fa6"
 import { CgHome } from "react-icons/cg";
 import HomeSubmenu from "./SidebarComponents/HomeSubmenu";
@@ -65,7 +64,7 @@ export default function Sidebar() {
     const styleSubmenu = "p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100"
     const styleSubmenuHover = "p-1.5 text-blue-500 transition-colors duration-200 bg-blue-100 rounded-lg dark:text-blue-400 dark:bg-gray-800"
     return (
-        <section className="flex">
+        <section className="flex border-r">
             <div className="flex flex-col justify-between w-16 h-screen bg-base-100 py-8 dark:bg-gray-900 dark:border-gray-700">
                 <div className="flex flex-col items-center  space-y-8  " >
 
@@ -90,7 +89,7 @@ export default function Sidebar() {
             </div>
 
 
-            {!showSidebar && currentMenu.component}
+            {showSidebar && currentMenu.component}
 
         </section>
     )

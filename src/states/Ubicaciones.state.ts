@@ -6,7 +6,7 @@ interface UbicacionesState {
     setUbicaciones: (ubicaciones: IUbicacionCliente[]) => void;
 }
 
-export const useUbicacionesStore = create<UbicacionesState>((set) => ({
+export const useUbicaciones = create<UbicacionesState>((set) => ({
     ubicaciones: [],
     setUbicaciones: (ubicaciones) => set({ ubicaciones }),
 }));

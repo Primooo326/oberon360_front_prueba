@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -30,18 +30,17 @@ module.exports = {
 
           info: "#00E7FF",
 
-          success: "#5e8f32",
+          success: "#00d287",
+
+          "success-content": "#fff",
 
           warning: "#facc15",
 
+          "warning-content": "#fff",
+
           error: "#ef4c53",
 
-          white: "#ffffff",
-          "white-100": "#f9fafb",
-          "white-200": "#f4f5f7",
-          "white-300": "#e5e7eb",
-          "white-content": "#1f2937",
-
+          "error-content": "#fff",
         },
         dark: {
           primary: "#1d3f65",
@@ -58,11 +57,15 @@ module.exports = {
 
           info: "#00E7FF",
 
-          success: "#5e8f32",
+          success: "#00d287",
 
           warning: "#facc15",
 
           error: "#ef4c53",
+
+          disabled: "#3b82f6",
+
+          "btn-disabled-content": "#fff",
         }
         // oberon: {
 

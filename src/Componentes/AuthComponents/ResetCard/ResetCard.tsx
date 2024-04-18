@@ -3,9 +3,12 @@ import "./ResetCard.css"
 import { changePassword } from "@/api/conexiones.api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 export default function ResetCard({ setCargando }: { setCargando: (b: boolean) => void }) {
     const router = useRouter()
+
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [mostrarPassword, setMostrarPassword] = useState(false);
@@ -24,7 +27,7 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
         try {
             const respuesta = await changePassword(newPassword, confirmPassword);
             console.log(respuesta);
-            localStorage.setItem("token", respuesta.data.token);
+            Cookies.set("token", respuesta.data.token);
             router.push("/dashboard");
 
         } catch (error: any) {
