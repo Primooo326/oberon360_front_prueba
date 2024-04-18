@@ -1,0 +1,100 @@
+.backgroud {
+  width: 200;
+}
+
+.marker-with-shadow {
+  /* Agregar sombra al marcador */
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 1); /* Ejemplo de sombra */
+}
+
+.gm-style-iw.gm-style-iw-c {
+  top: -30px !important;
+  /* Estilo de la ventana de información */
+  color: #00c3de;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 82, 118, 1),
+    rgba(16, 26, 50, 1)
+  );
+  /* background-image: url("../../assets//img/VENTANA-EMERGENTE-.png"); */
+
+  border-radius: 20px;
+  padding: 15px;
+}
+.gm-ui-hover-effect > span {
+  background-color: #00c3de !important;
+}
+.gm-ui-hover-effect {
+  top: 6px !important;
+  right: 6px !important;
+}
+.gm-style .gm-style-iw-tc::after {
+  top: -31px !important;
+  background-color: rgba(16, 26, 50, 1);
+}
+.icono div {
+  box-shadow: red 10px 10px 20px;
+}
+.mapPopover {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.mapPopover p {
+  color: #00c3de;
+  font-size: 14px;
+  font-weight: bold;
+}
+.mapPopover p span {
+  color: #fff;
+  font-size: 12px;
+  font-weight: normal;
+}
+.theme {
+  position: absolute;
+  bottom: calc(50% - 100px);
+  right: 10px;
+  transform: translateY(50%);
+  z-index: 1000;
+  font-size: 30px;
+}
+button.light {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #fff 2px solid;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+button.dark {
+  color: #101a32;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #101a32 2px solid;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.clusterText div {
+  color: #000;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  background-color: #ffffffb0 !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  line-height: normal !important;
+  padding: 5px !important;
+  border-radius: 5px !important;
+  /* transform: translate(50%, -50%) !important; */
+}

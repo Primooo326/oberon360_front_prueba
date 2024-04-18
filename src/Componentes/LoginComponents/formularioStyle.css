@@ -1,0 +1,128 @@
+.contenedor_formulario {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.formContainer {
+  width: 500px;
+  height: auto;
+}
+
+.usuLogo {
+  object-fit: contain;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -0%);
+  width: 15%;
+  height: 20%;
+}
+
+.usuLogo img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+h1 {
+  color: #00e7ff;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -0%);
+}
+.ContainerUsuText {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -0%);
+
+  width: 50%;
+  height: 15%;
+}
+
+.ImgUsuText {
+  position: absolute;
+  width: 90%;
+  height: 100%;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.InputText {
+  width: 80%;
+  height: 55%;
+  border-style: none;
+  background-color: transparent;
+  color: #00e7ff;
+}
+.InputText:focus {
+  outline: none;
+}
+
+.usuText img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.ConetenedorContrasena {
+  top: 52%;
+}
+
+.usuPwd {
+  position: absolute;
+  top: 62%;
+  right: 107%;
+}
+
+.usuPwd img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.ContainerBtn {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 25%;
+  height: 10%;
+}
+
+.btnSubmit {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: #011343;
+  border-radius: 15px;
+  border: none;
+  color: #00e7ff;
+}
+
+.MostrarContraseña {
+  position: absolute;
+  color: #000;
+  width: 5%;
+  height: 30%;
+  z-index: 2;
+  right: 15%;
+  top: 50%;
+  transform: translate(-0%, -50%);
+}
+label {
+  color: #00e7ff;
+  position: absolute;
+  top: -15px;
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 28.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:0.5;fill:url(#SVGID_1_);}
+	.st1{fill:url(#SVGID_00000000207452475637418930000012785224168284211361_);}
+	.st2{fill:url(#SVGID_00000029740744960732302670000014690596705163136931_);}
+	.st3{opacity:0.55;fill:#FFFFFF;}
+</style>
+<g>
+	<g>
+		
+			<radialGradient id="SVGID_1_" cx="-424.1311" cy="-3369.9622" r="20.7228" gradientTransform="matrix(0.1598 0 0 3.040000e-02 83.5447 132.7041)" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#221E20"/>
+			<stop  offset="1" style="stop-color:#727375;stop-opacity:0"/>
+		</radialGradient>
+		<ellipse class="st0" cx="15.8" cy="30.3" rx="3.3" ry="0.6"/>
+		<g>
+			
+				<linearGradient id="SVGID_00000125574393266825896930000014710860454325524392_" gradientUnits="userSpaceOnUse" x1="24.7446" y1="-421.9549" x2="26.0382" y2="-421.4005" gradientTransform="matrix(0.9291 -0.3699 0.3699 0.9291 148.2806 422.5694)">
+				<stop  offset="0" style="stop-color:#353947"/>
+				<stop  offset="0.3118" style="stop-color:#FFFFFF"/>
+				<stop  offset="0.6882" style="stop-color:#000000"/>
+				<stop  offset="1" style="stop-color:#B9E2F8"/>
+			</linearGradient>
+			<path style="fill:url(#SVGID_00000125574393266825896930000014710860454325524392_);" d="M16.5,29.8c0.1,0.3,0,0.6-0.3,0.7l0,0
+				c-0.3,0.1-0.6,0-0.7-0.3L15.5,13c-0.1-0.3,0-0.6,0.3-0.7l0,0c0.3-0.1,0.6,0,0.7,0.3L16.5,29.8z"/>
+			<g>
+				
+					<radialGradient id="SVGID_00000147184945644294731380000011827053506387435679_" cx="16" cy="8.2458" r="7.1331" gradientUnits="userSpaceOnUse">
+					<stop  offset="0" style="stop-color:#B22038"/>
+					<stop  offset="1" style="stop-color:#7A0020"/>
+				</radialGradient>
+				<circle style="fill:url(#SVGID_00000147184945644294731380000011827053506387435679_);" cx="16" cy="8.2" r="7.1"/>
+			</g>
+		</g>
+	</g>
+	<path class="st3" d="M15.9,3.1c-2.8,0-5.1,2.3-5.1,5.1s2.3,5.1,5.1,5.1S21,11,21,8.2S18.7,3.1,15.9,3.1z M15.9,11.7
+		c-2,0-3.6-1.6-3.6-3.6c0-2,1.6-3.6,3.6-3.6s3.6,1.6,3.6,3.6C19.5,10.1,17.9,11.7,15.9,11.7z"/>
+	<path class="st3" d="M15.9,5.6c-1.4,0-2.6,1.1-2.6,2.6s1.1,2.6,2.6,2.6s2.6-1.1,2.6-2.6S17.3,5.6,15.9,5.6z M15.9,9.7
+		c-0.8,0-1.5-0.7-1.5-1.5s0.7-1.5,1.5-1.5c0.8,0,1.5,0.7,1.5,1.5S16.7,9.7,15.9,9.7z"/>
+</g>
+</svg>
