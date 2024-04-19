@@ -9,6 +9,7 @@ import { LuSettings } from "react-icons/lu";
 import { FiSettings } from "react-icons/fi";
 import { useSystemStore } from "@/states/System.state";
 import { AnimatePresence, motion } from "framer-motion";
+import FiltrosSubmenu from "./SidebarComponents/FiltrosSubmenu";
 
 interface SubMenu {
     title: string;
@@ -67,7 +68,7 @@ export default function Sidebar() {
     return (
         <section className="flex">
             <div className="flex flex-col justify-between z-10 w-16 h-screen bg-base-100 py-8 dark:bg-gray-900 dark:border-gray-700 border-r">
-                <div className="flex flex-col items-center  space-y-8  " >
+                <div className="flex flex-col items-center space-y-8" >
 
                     <a href="#">
                         <img className="w-auto h-6" src="https://merakiui.com/images/logo.svg" alt="" />
@@ -98,7 +99,9 @@ export default function Sidebar() {
                         transition={{ type: 'linear', stiffness: 200 }}
                         className="sidebar"
                     >
-                        {currentMenu.component}
+                        <SubmenuContainer title="Filtros Avanzados">
+                            <FiltrosSubmenu />
+                        </SubmenuContainer>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import type { IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
 import { evaluarItinerario, formatFecha } from "@/tools";
 import { IoWarning } from "react-icons/io5";
-import { getItinerary } from "@/api/conexiones.api";
+import { getItinerary } from "@/api/mapa.api";
 import Image from "next/image";
 export default function VehiculosContent({ content }: { content: IVehiculo }) {
 
@@ -63,7 +63,6 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
                 ) : (
                     <Image src={SECUNDARIA} alt="SECUNDARIA" className="w-[250px]" />
                 )}
-                {/* <img src={truck} alt="truck" className="w-[250px]" /> */}
             </div>
             <div className="w-full">
                 <div className="flex justify-between mb-3" >

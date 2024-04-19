@@ -70,6 +70,7 @@ export default {
           disabled: "#3b82f6",
 
           "btn-disabled-content": "#fff",
+
         }
         // oberon: {
 
