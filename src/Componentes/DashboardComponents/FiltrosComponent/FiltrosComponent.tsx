@@ -8,7 +8,7 @@ import { useSystemStore } from '@/states/System.state';
 export default function FiltrosComponent() {
     const { setMobileFiltro: setMobile, setProteccionFiltro: setProteccion, setTelemetriaFiltro: setTelemetria, mobileFiltro: mobile, proteccionFiltro: proteccion, telemetriaFiltro: telemetria } = useFiltrosMapa()
     const { clientes, setClienteSelected } = useClientesStore();
-    const { resetMapConfig } = useSystemStore()
+    const { resetMapConfig, setShowSidebar } = useSystemStore()
     const [clientesOptions, setClientesOptions] = useState<{ value: string, label: string }[]>([])
     const [selectedOption, setSelectedOption] = useState<{ value: string, label: string } | null>(null)
     const stylesSelect: StylesConfig = {
@@ -35,7 +35,7 @@ export default function FiltrosComponent() {
                     placeholder='Filtrar por cliente'
                     isClearable
                 />
-                <button className={`btn btn-sm ${proteccion ? 'btn-error' : ''}`}
+                {/* <button className={`btn btn-sm ${proteccion ? 'btn-error' : ''}`}
                     onClick={() => { resetMapConfig(); setProteccion(!proteccion); }}
                 >
                     Protección
@@ -49,14 +49,14 @@ export default function FiltrosComponent() {
                     onClick={() => { resetMapConfig(); setMobile(!mobile); }}
                 >
                     Mobile
-                </button>
+                </button> */}
+                <div>
+                    <button className='btn btn-sm btn-ghost text-gray-500 border-gray-400' onClick={() => setShowSidebar(true)}>
+                        Filtros avanzados
+                        <BiFilter className='text-gray-500 w-5 h-auto' />
+                    </button>
+                </div>
             </div>
-            {/* <div>
-                <button className='btn btn-sm btn-ghost text-gray-500 border-gray-400 ' >
-                    Filtrar
-                    <BiFilter className='text-gray-500 w-5 h-auto' />
-                </button>
-            </div> */}
 
 
             <div className='flex gap-4 w-full justify-end'>

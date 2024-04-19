@@ -1,6 +1,6 @@
 import usuLogo from "@assets/img/login/ICONO-USUARIO-GRANDE.png";
 import "./ResetCard.css"
-import { changePassword } from "@/api/conexiones.api";
+import { changePassword } from "@/api/auth.api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";

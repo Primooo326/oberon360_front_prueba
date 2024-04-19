@@ -41,6 +41,10 @@ export default {
           error: "#ef4c53",
 
           "error-content": "#fff",
+
+          light: "#fff",
+
+          "light-content": "#242f3e",
         },
         dark: {
           primary: "#1d3f65",

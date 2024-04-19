@@ -9,6 +9,7 @@ import MapaGoogleComponent from '@/Componentes/DashboardComponents/MapaComponent
 import { useSystemStore } from '@/states/System.state'
 import SidebarRight from '@/Componentes/DashboardComponents/SidebarRight/SidebarRight'
 import { useFiltrosMapa } from '@/states/FiltrosMapa.state'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function Dashboard() {
 
@@ -54,37 +55,38 @@ export default function Dashboard() {
                     <div className=' mb-2' >
                         <FiltrosComponent />
                     </div>
-                    <div className="flex-grow overflow-auto flex lg:flex-row md:flex-col gap-4 h-full">
-                        <div className="w-full h-full rounded-xl contenedorMapa">
+                    <div className="flex-grow overflow-y-auto overflow-x-hidden flex lg:flex-row md:flex-col gap-4 h-full relative">
+                        <div className="w-full h-full rounded-xl">
                             {showLoadMap ?
                                 <div className="skeleton w-full h-full flex items-center justify-center ">
                                     <span className="loading loading-spinner loading-lg" />
-
                                 </div>
                                 :
-                                <MapaGoogleComponent />
+                                <motion.div
+                                    initial={{ position: "relative", width: itemSidebarRight ? "calc(100% - 550px)" : "100%" }}
+                                    animate={{ left: 0, position: "absolute", width: itemSidebarRight ? "calc(100% - 582px)" : "100%" }}
+                                    exit={{ width: "100%" }}
+                                    transition={{ type: 'linear', stiffness: 200 }}
+                                    className='contenedorMapa w-full h-full rounded-xl'
+                                >
+                                    <MapaGoogleComponent />
+                                </motion.div>
                             }
                         </div>
-                        {itemSidebarRight && (
+                        <AnimatePresence>
+                            {itemSidebarRight && (
 
-                            <div className="animate__animated animate__faster animate__slideInRight">
-                                <SidebarRight item={itemSidebarRight.item} content={itemSidebarRight.content} />
-                            </div>
-                        )}
-                        {/* <div className="flex flex-col justify-between lg:w-2/6 md:w-full h-full bg-base-100 border rounded-xl p-5">
+                                <motion.div
+                                    initial={{ x: '100%' }}
+                                    animate={{ x: 0 }}
+                                    exit={{ x: '100%' }}
+                                    transition={{ type: 'linear', stiffness: 200 }}
+                                >
 
-                            <div>
-                                <h1 className=' text-lg font-bolf' >Control de asistencia</h1>
-                                <small className='text-gray-400' >Shift 1</small>
-                                <div className='my-4  overflow-y-auto scroll' >
-                                    {[1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
-                                        <div className='flex mb-4 bg-secondary rounded-lg h-14' >
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <button className='btn btn-accent text-white btn-block' >Ver mas</button>
-                        </div> */}
+                                    <SidebarRight item={itemSidebarRight.item} content={itemSidebarRight.content} />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
             )}

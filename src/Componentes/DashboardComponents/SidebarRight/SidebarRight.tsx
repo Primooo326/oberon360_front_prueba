@@ -23,7 +23,7 @@ export default function SidebarRight({ item, content }: SidebarRightProps) {
     }
 
     return (
-        <section className="flex h-full" data-theme="oberon">
+        <section className="flex h-full bg-transparent" data-theme="oberon">
             <div className={`flex flex-col justify-between w-[550px] h-full bg-base-100  dark:bg-gray-900 dark:border-gray-700 ${mapExpand ? "border-l" : "border rounded-xl"}`}>
                 <div className=" flex justify-between p-6">
                     <h1 className="font-bold text-lg" >{item === "vehiculos" ? "Vehiculo" : "Ubicación"}</h1>
@@ -42,7 +42,6 @@ export default function SidebarRight({ item, content }: SidebarRightProps) {
                         <VehiculosContent content={content as IVehiculo} />
                     )}
                 </div>
-
 
             </div>
         </section>
