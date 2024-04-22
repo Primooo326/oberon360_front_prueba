@@ -27,7 +27,7 @@ function MapaGoogle() {
   const { mobileFiltro, proteccionFiltro, telemetriaFiltro } = useFiltrosMapa()
   const { theme, setMapExpand, mapExpand, mapConfig, setMapConfig } = useSystemStore()
   const { clienteSelected } = useClientesStore()
-  const { vehiculos } = useVehiculosStore()
+  const { vehiculosFiltered } = useVehiculosStore()
   const { mobiles } = useMobilesStore()
   const [map, setMap] = useState<null | any>(null);
   const { ubicaciones } = useUbicaciones()
@@ -107,7 +107,7 @@ function MapaGoogle() {
       >
 
         <UbicacionCluster ubicaciones={ubicacionesShow} showUbicaciones={proteccionFiltro} />
-        <VehiculosAlpCluster vehiculos={vehiculos} showVehiculos={showVehiculos && telemetriaFiltro} />
+        <VehiculosAlpCluster vehiculos={vehiculosFiltered} showVehiculos={showVehiculos && telemetriaFiltro} />
         <MobileCluster mobiles={mobiles} mobileShow={mobileFiltro} />
       </GoogleMap>
       <button className="btn btn-light botonExpandable" onClick={() => setMapExpand(!mapExpand)} >

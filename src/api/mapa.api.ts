@@ -27,3 +27,8 @@ export const getItinerary = async (id: string) => {
 export const reportsIndicators = async () => {
     return await fetchApiWeb.get("map/reportsIndicators");
 }
+// /api/map/getEventsPlatesDispon
+
+export const getEventsPlatesDispon = async () => {
+    return await fetchApiWeb.get("map/getEventsPlatesDispon");
+}

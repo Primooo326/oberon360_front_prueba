@@ -23,12 +23,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { setUbicaciones } = useUbicaciones()
     const { setClientes, clienteSelected } = useClientesStore()
     const { setToken, token } = useLoginStore.getState()
-    const { setVehiculos } = useVehiculosStore()
+    const { setVehiculos, vehiculos, setVehiculosFiltered } = useVehiculosStore()
     const { setMobiles } = useMobilesStore()
     const { setIndicadores } = useIndicadoresStore()
     const { theme, itemSidebarRight, setItemSidebarRight, showSidebar, setMapConfig, mapConfig, mapExpand } = useSystemStore()
     const itemSidebarRightRef = useRef(itemSidebarRight);
     const mapConfigRef = useRef(mapConfig);
+    const vehiculosRef = useRef(vehiculos);
     const [load, setLoad] = useState(false)
     const verify = async () => {
         const token = Cookies.get("token")
@@ -52,7 +53,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const getVehiculos = async () => {
         const response = await getEventsPlates();
 
-        response.map((vehiculo: any) => {
+        const newVehiculos = response.map((vehiculo: any) => {
             let statusItinerary: EItenaryState = "NO DISPONIBLE"
             if (vehiculo.statusItinerary === "delay") statusItinerary = "ATRASADO"
             if (vehiculo.statusItinerary === "advance") statusItinerary = "ANTICIPADO"
@@ -64,8 +65,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 statusItinerary
             }
         })
-
-        setVehiculos(response);
+        if (vehiculosRef.current.length === 0) {
+            console.log("newVehiculos:: ", newVehiculos);
+            setVehiculosFiltered(newVehiculos)
+        }
+        setVehiculos(newVehiculos)
         if (itemSidebarRightRef.current != null && itemSidebarRightRef.current.item === "vehiculos" && mapConfigRef.current.fixed) {
             const vehiculo = response.find((vehiculo: any) => vehiculo.WTLT_PLACA === itemSidebarRightRef.current!.content.WTLT_PLACA)
 
@@ -137,6 +141,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        vehiculosRef.current = vehiculos;
+    }
+        , [vehiculos]);
 
     useEffect(() => {
         itemSidebarRightRef.current = itemSidebarRight;
