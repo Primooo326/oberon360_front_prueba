@@ -8,7 +8,7 @@ import { useSystemStore } from '@/states/System.state';
 export default function FiltrosComponent() {
     const { setMobileFiltro: setMobile, setProteccionFiltro: setProteccion, setTelemetriaFiltro: setTelemetria, mobileFiltro: mobile, proteccionFiltro: proteccion, telemetriaFiltro: telemetria } = useFiltrosMapa()
     const { clientes, setClienteSelected } = useClientesStore();
-    const { resetMapConfig, setShowSidebar } = useSystemStore()
+    const { resetMapConfig, setShowSidebar, showSidebar } = useSystemStore()
     const [clientesOptions, setClientesOptions] = useState<{ value: string, label: string }[]>([])
     const [selectedOption, setSelectedOption] = useState<{ value: string, label: string } | null>(null)
     const stylesSelect: StylesConfig = {
@@ -51,7 +51,8 @@ export default function FiltrosComponent() {
                     Mobile
                 </button> */}
                 <div>
-                    <button className='btn btn-sm btn-ghost text-gray-500 border-gray-400' onClick={() => setShowSidebar(true)}>
+                    <button className='btn btn-sm btn-ghost text-gray-500 border-gray-400'
+                        onClick={() => setShowSidebar(!showSidebar)}>
                         Filtros avanzados
                         <BiFilter className='text-gray-500 w-5 h-auto' />
                     </button>

@@ -1,6 +1,9 @@
 import type { IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
-
+interface ItemsSidebarRight {
+    item: "vehiculos" | "ubicaciones";
+    content: IVehiculo | any;
+}
 interface SystemState {
     theme: string;
     setTheme: (theme: string) => void;
@@ -11,7 +14,8 @@ interface SystemState {
         content: IVehiculo | any;
 
     } | null,
-    setItemSidebarRight: (itemSidebarRight: any) => void;
+    setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight | null) => void;
+
     mapExpand: boolean;
     setMapExpand: (mapExpand: boolean) => void;
     mapConfig: {

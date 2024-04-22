@@ -17,6 +17,7 @@ import Cookies from "js-cookie";
 import { useIndicadoresStore } from "@/states/Indicadores.state";
 import MainLayout from '../MainLayout';
 import { AnimatePresence, motion } from "framer-motion";
+import type { EItenaryState } from "@/models/vehiculos.model";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter()
     const { setUbicaciones } = useUbicaciones()
@@ -50,6 +51,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
     const getVehiculos = async () => {
         const response = await getEventsPlates();
+
+        response.map((vehiculo: any) => {
+            let statusItinerary: EItenaryState = "NO DISPONIBLE"
+            if (vehiculo.statusItinerary === "delay") statusItinerary = "ATRASADO"
+            if (vehiculo.statusItinerary === "advance") statusItinerary = "ANTICIPADO"
+            if (vehiculo.statusItinerary === "ontime") statusItinerary = "A TIEMPO"
+            if (vehiculo.statusItinerary === "inOperation") statusItinerary = "EN OPERACION"
+            if (vehiculo.statusItinerary === "available") statusItinerary = "DISPONIBLE"
+            return {
+                ...vehiculo,
+                statusItinerary
+            }
+        })
+
         setVehiculos(response);
         if (itemSidebarRightRef.current != null && itemSidebarRightRef.current.item === "vehiculos" && mapConfigRef.current.fixed) {
             const vehiculo = response.find((vehiculo: any) => vehiculo.WTLT_PLACA === itemSidebarRightRef.current!.content.WTLT_PLACA)
@@ -89,6 +104,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     CLIE_COMERCIAL: "ALPINA"
                 }, ...responseClient.data]
             }
+
+            //sort by name
+            clientes = clientes.sort((a: any, b: any) => {
+                if (a.CLIE_COMERCIAL < b.CLIE_COMERCIAL) {
+                    return -1;
+                }
+                if (a.CLIE_COMERCIAL > b.CLIE_COMERCIAL) {
+                    return 1;
+                }
+                return 0;
+            })
+
             setClientes(clientes);
         } catch (error: any) {
             console.log(error);

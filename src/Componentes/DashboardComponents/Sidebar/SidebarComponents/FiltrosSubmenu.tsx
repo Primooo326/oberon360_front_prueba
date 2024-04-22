@@ -1,36 +1,60 @@
 "use client"
 import type { IVehiculo } from '@/models/vehiculos.model'
+import { useSystemStore } from '@/states/System.state';
 import { useVehiculosStore } from '@/states/Vehiculos.state'
 import React, { useEffect, useState } from 'react'
 import Select, { type StylesConfig } from 'react-select';
 
 export default function FiltrosSubmenu() {
 
-    const { vehiculos } = useVehiculosStore()
-
-    //select placas
+    const { vehiculos, setVehiculoSearched, setVehiculosFiltered } = useVehiculosStore()
+    const { setItemSidebarRight } = useSystemStore()
     const [placasVehiculosOptions, setPlacasVehiculosOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [placasVehiculosSelected, setPlacasVehiculosSelected] = useState<{ value: IVehiculo, label: string } | null>(null)
-    //select conductores
 
     const [conductoresOptions, setConductoresOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [conductoresSelected, setConductoresSelected] = useState<{ value: IVehiculo, label: string } | null>(null)
 
+    const [showDropTipo, setShowDropTipo] = useState(true)
+    const [showDropEstado, setShowDropEstado] = useState(true)
+
+
 
     const handleSelectVehiculo = (selectedOption: { value: IVehiculo, label: string }) => {
-        setPlacasVehiculosSelected(selectedOption)
+        if (selectedOption) {
+
+            setPlacasVehiculosSelected(selectedOption)
+            setVehiculoSearched(selectedOption.value)
+            setItemSidebarRight({
+                item: "vehiculos",
+                content: selectedOption.value
+            })
+        } else {
+            setItemSidebarRight(null)
+        }
     }
 
     const handleSelectConductor = (selectedOption: { value: IVehiculo, label: string }) => {
-        setConductoresSelected(selectedOption)
+        if (selectedOption) {
+
+            setConductoresSelected(selectedOption)
+            setVehiculoSearched(selectedOption.value)
+            setItemSidebarRight({
+                item: "vehiculos",
+                content: selectedOption.value
+            })
+        } else {
+            setItemSidebarRight(null)
+        }
     }
+
+
 
     useEffect(() => {
         setPlacasVehiculosOptions(vehiculos.map(vehiculo => ({ value: vehiculo, label: vehiculo.WTLT_PLACA })))
         setConductoresOptions(vehiculos.map(vehiculo => ({ value: vehiculo, label: vehiculo.CONDUCTOR_NOM })))
     }, [vehiculos])
     const stylesSelect: StylesConfig = {
-        //border radius
         control: (styles) => ({ ...styles, borderRadius: '0.5rem', minHeight: 'auto', height: '2rem', fontSize: '0.875rem', alignContent: 'center' }),
     }
 
@@ -38,12 +62,12 @@ export default function FiltrosSubmenu() {
         <div className="mt-8 space-y-4" >
             <div className="divider" />
             <div className='px-5' >
-                <h1 className='text-lg font-semibold mb-5'>Telemetria</h1>
-                <div className='' >
-                    <h2 className='mb-3 font-semibold' >
+                <h1 className='text-xl font-semibold mb-5'>Telemetria</h1>
+                <div className='mb-5' >
+                    <h2 className='mb-2 font-semibold' >
                         Buscar vehiculo por
                     </h2>
-                    <div className='space-y-2' >
+                    <div className='space-y-2 ps-3' >
 
                         <div>
                             <label className='text-sm' >Placa vehiculo</label>
@@ -69,6 +93,75 @@ export default function FiltrosSubmenu() {
                                 isClearable
                             />
                         </div>
+
+                    </div>
+                </div>
+                <div>
+                    <h2 className='mb-2 font-semibold' >
+                        Filtrar vehiculos por
+                    </h2>
+                    <div className="space-y-2 ps-3">
+                        <ul className="menu  rounded-box">
+                            <li>
+                                <span className={`menu-dropdown-toggle ${showDropTipo && 'menu-dropdown-show'}`} onClick={() => setShowDropTipo(!showDropTipo)} >Tipo</span>
+                                <ul className={`menu-dropdown ${showDropTipo && 'menu-dropdown-show'}`}>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Primaria</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Secundaria</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Recolección de leches</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span className={`menu-dropdown-toggle ${showDropEstado && 'menu-dropdown-show'}`} onClick={() => setShowDropEstado(!showDropEstado)}>Estado</span>
+                                <ul className={`menu-dropdown ${showDropEstado && 'menu-dropdown-show'}`}>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Con Retraso</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Con Anticipo</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Sin Reportar</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">En Operación</span>
+                                            <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label className="label cursor-pointer">
+                                            <span className="label-text">Disponibles</span>
+                                            <input type="checkbox" defaultChecked={false} className="checkbox checkbox-primary" />
+                                        </label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
             </div>
