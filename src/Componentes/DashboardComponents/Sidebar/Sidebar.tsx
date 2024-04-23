@@ -10,6 +10,7 @@ import { FiSettings } from "react-icons/fi";
 import { useSystemStore } from "@/states/System.state";
 import { AnimatePresence, motion } from "framer-motion";
 import FiltrosSubmenu from "./SidebarComponents/FiltrosSubmenu";
+import Image from "next/image";
 
 interface SubMenu {
     title: string;
@@ -70,9 +71,8 @@ export default function Sidebar() {
             <div className="flex flex-col justify-between z-10 w-16 h-screen bg-base-100 py-8 dark:bg-gray-900 dark:border-gray-700 border-r">
                 <div className="flex flex-col items-center space-y-8" >
 
-                    <a href="#">
-                        <img className="w-auto h-6" src="https://merakiui.com/images/logo.svg" alt="" />
-                    </a>
+                    <Image src="/OBERON-DEGRADADO.png" alt="logo oberon" width={30} height={30} />
+
                     {subMenus.map((subMenu, index) => (
                         <button key={index} onClick={() => handleMenuChange(subMenu)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu}>
                             {subMenu.icon}

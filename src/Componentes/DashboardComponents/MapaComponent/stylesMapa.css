@@ -87,18 +87,22 @@ button.dark {
 }
 
 .clusterText div {
-  color: #000;
-  top: 0 !important;
-  right: 0 !important;
-  left: auto !important;
-  background-color: #ffffffb0 !important;
-  width: fit-content !important;
-  height: fit-content !important;
-  line-height: normal !important;
-  padding: 5px !important;
-  border-radius: 5px !important;
-  font-size: 14px !important;
-  /* transform: translate(50%, -50%) !important; */
+    color: #1b1464 !important;
+    top: -5px !important;
+    right: 0 !important;
+    left: auto !important;
+    background-color: #ffffffc7 !important;
+    width: -moz-fit-content !important;
+    width: 30px !important;
+    height: 30px !important;
+    line-height: normal !important;
+    padding: 5px !important;
+    border-radius: 50% !important;
+    font-size: 14px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    /* transform: translate(50%, -50%) !important; */
 }
 .botonExpandable {
   position: absolute;

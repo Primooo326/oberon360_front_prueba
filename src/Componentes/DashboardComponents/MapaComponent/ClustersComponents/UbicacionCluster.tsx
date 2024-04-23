@@ -11,13 +11,13 @@ export default function UbicacionCluster({ ubicaciones, showUbicaciones }: { ubi
     const clusterStylesUbicacion = [
 
 
-        {
-            url: Asistencia.url,
-            height: 40,
-            width: 40,
+        // {
+        //     url: Asistencia.url,
+        //     height: 40,
+        //     width: 40,
 
-            className: 'clusterText',
-        },
+        //     className: 'clusterText',
+        // },
         {
             url: Asistencia.url,
             height: 60,

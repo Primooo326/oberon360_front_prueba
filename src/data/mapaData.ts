@@ -352,7 +352,7 @@ export const darkMapStyles = [
     },
 ];
 export const Asistencia: any = {
-    url: '/assets/img/MapaIconos/nuevos/ASISTENCIA.svg',
+    url: '/assets/img/MapaIconos/nuevos/OBERÓN UBICACIÓN.svg',
     scaledSize: { width: 50, height: 50 },
 };
 export const Primaria: any = {
