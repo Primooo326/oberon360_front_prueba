@@ -1,13 +1,13 @@
 "use client"
 import DashboardLayout from '@/layouts/Dashboard/DashboardLayout'
 import './Dashboard.css'
-import IndicadoresComponent from '@/Componentes/DashboardComponents/IndicadoresComponent/IndicadoresComponent'
-import FiltrosComponent from '@/Componentes/DashboardComponents/FiltrosComponent/FiltrosComponent'
+import IndicadoresComponent from '@components/DashboardComponents/IndicadoresComponent/IndicadoresComponent'
+import FiltrosComponent from '@components/DashboardComponents/FiltrosComponent/FiltrosComponent'
 import { useEffect, useState } from 'react'
 import { useClientesStore } from '@/states/Clientes.state'
-import MapaGoogleComponent from '@/Componentes/DashboardComponents/MapaComponent/MapaGoogle'
+import MapaGoogleComponent from '@components/DashboardComponents/MapaComponent/MapaGoogle'
 import { useSystemStore } from '@/states/System.state'
-import SidebarRight from '@/Componentes/DashboardComponents/SidebarRight/SidebarRight'
+import SidebarRight from '@components/DashboardComponents/SidebarRight/SidebarRight'
 import { useFiltrosMapa } from '@/states/FiltrosMapa.state'
 import { AnimatePresence, motion } from 'framer-motion'
 

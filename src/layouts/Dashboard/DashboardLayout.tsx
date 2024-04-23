@@ -1,9 +1,9 @@
-import Sidebar from "@/Componentes/DashboardComponents/Sidebar/Sidebar"
+import Sidebar from "@components/DashboardComponents/Sidebar/Sidebar"
 import "./DashboardLayout.css"
-import SidebarRight from "@/Componentes/DashboardComponents/SidebarRight/SidebarRight"
+import SidebarRight from "@components/DashboardComponents/SidebarRight/SidebarRight"
 import { useSystemStore } from '../../states/System.state';
 import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon } from "@/api/mapa.api";
-import IconoCargando from "@/Componentes/IconoCargando/IconoCargando";
+import IconoCargando from "@components/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";

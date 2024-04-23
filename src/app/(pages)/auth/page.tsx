@@ -1,9 +1,9 @@
 "use client"
-import LoginCard from "@/Componentes/AuthComponents/LoginCard/LoginCard"
-import ResetCard from "@/Componentes/AuthComponents/ResetCard/ResetCard"
+import LoginCard from "@components/AuthComponents/LoginCard/LoginCard"
+import ResetCard from "@components/AuthComponents/ResetCard/ResetCard"
 import AuthLayout from "@/layouts/Auth/AuthLayout"
 import { useState } from "react";
-import IconoCargando from "@/Componentes/IconoCargando/IconoCargando";
+import IconoCargando from "@components/IconoCargando/IconoCargando";
 
 export default function page() {
     const [cargando, setCargando] = useState(false);
