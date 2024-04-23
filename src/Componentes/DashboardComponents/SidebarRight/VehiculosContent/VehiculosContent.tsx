@@ -31,7 +31,10 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
     }
 
     useEffect(() => {
-        getData()
+        if (content.statusItinerary !== "DISPONIBLE") {
+
+            getData()
+        }
     }, [content])
 
     const defineBgCheck = (itinerario: IItenaryEvaluated) => {

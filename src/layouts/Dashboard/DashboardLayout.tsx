@@ -2,7 +2,7 @@ import Sidebar from "@/Componentes/DashboardComponents/Sidebar/Sidebar"
 import "./DashboardLayout.css"
 import SidebarRight from "@/Componentes/DashboardComponents/SidebarRight/SidebarRight"
 import { useSystemStore } from '../../states/System.state';
-import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators } from "@/api/mapa.api";
+import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon } from "@/api/mapa.api";
 import IconoCargando from "@/Componentes/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
@@ -23,13 +23,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { setUbicaciones } = useUbicaciones()
     const { setClientes, clienteSelected } = useClientesStore()
     const { setToken, token } = useLoginStore.getState()
-    const { setVehiculos, vehiculos, setVehiculosFiltered } = useVehiculosStore()
+    const { setVehiculos, vehiculos, vehiculosFiltered } = useVehiculosStore()
     const { setMobiles } = useMobilesStore()
     const { setIndicadores } = useIndicadoresStore()
     const { theme, itemSidebarRight, setItemSidebarRight, showSidebar, setMapConfig, mapConfig, mapExpand } = useSystemStore()
     const itemSidebarRightRef = useRef(itemSidebarRight);
     const mapConfigRef = useRef(mapConfig);
-    const vehiculosRef = useRef(vehiculos);
+    const vehiculosFRef = useRef(vehiculosFiltered);
     const [load, setLoad] = useState(false)
     const verify = async () => {
         const token = Cookies.get("token")
@@ -50,8 +50,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             router.push("/auth")
         }
     }
+
     const getVehiculos = async () => {
-        const response = await getEventsPlates();
+        let response: any[] = await getEventsPlates();
+        if (vehiculosFRef.current.changeEstado.disponibles) {
+            const responseDispon = await getEventsPlatesDispon();
+            const newdispon = responseDispon.map((v: any) => {
+                v.statusItinerary = "DISPONIBLE"
+                return v
+            });
+            response = [...response, ...newdispon]
+        }
 
         const newVehiculos = response.map((vehiculo: any) => {
             let statusItinerary: EItenaryState = "NO DISPONIBLE"
@@ -60,15 +69,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             if (vehiculo.statusItinerary === "ontime") statusItinerary = "A TIEMPO"
             if (vehiculo.statusItinerary === "inOperation") statusItinerary = "EN OPERACION"
             if (vehiculo.statusItinerary === "available") statusItinerary = "DISPONIBLE"
+            if (vehiculo.statusItinerary === "DISPONIBLE") statusItinerary = "DISPONIBLE"
             return {
                 ...vehiculo,
                 statusItinerary
             }
         })
-        if (vehiculosRef.current.length === 0) {
-            console.log("newVehiculos:: ", newVehiculos);
-            setVehiculosFiltered(newVehiculos)
-        }
         setVehiculos(newVehiculos)
         if (itemSidebarRightRef.current != null && itemSidebarRightRef.current.item === "vehiculos" && mapConfigRef.current.fixed) {
             const vehiculo = response.find((vehiculo: any) => vehiculo.WTLT_PLACA === itemSidebarRightRef.current!.content.WTLT_PLACA)
@@ -143,9 +149,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
 
     useEffect(() => {
-        vehiculosRef.current = vehiculos;
-    }
-        , [vehiculos]);
+        vehiculosFRef.current = vehiculosFiltered;
+
+    }, [vehiculosFiltered]);
+
 
     useEffect(() => {
         itemSidebarRightRef.current = itemSidebarRight;

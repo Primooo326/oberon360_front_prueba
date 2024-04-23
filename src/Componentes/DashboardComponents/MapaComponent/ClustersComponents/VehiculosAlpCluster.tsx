@@ -1,12 +1,15 @@
 import { Primaria, Secundaria } from "@/data/mapaData";
 import type { IVehiculo } from "@/models/vehiculos.model";
 import { useSystemStore } from "@/states/System.state";
+import { useVehiculosStore } from "@/states/Vehiculos.state";
 import { InfoWindow, Marker, MarkerClusterer } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 
 export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehiculos: IVehiculo[]; showVehiculos: boolean }) {
+    const [vehiculosFiltrados, setVehiculosFiltrados] = useState<IVehiculo[]>([]);
     const [hoveredMarker, setHoveredMarker] = useState<null | IVehiculo>(null);
     const { setItemSidebarRight, setMapConfig } = useSystemStore()
+    const { vehiculosFiltered } = useVehiculosStore();
     const handleMarkerHoverVehiculo = (marker: any) => {
         setHoveredMarker(marker);
     }
@@ -39,8 +42,25 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
         }
     ]
     useEffect(() => {
+        const v = vehiculos.filter(vehiculo => {
+            // Evaluación de tipos de servicio
+            const tipoValido =
+                (vehiculosFiltered.changeTipos.primaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "PRIMARIA") ||
+                (vehiculosFiltered.changeTipos.secundaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "SECUNDARIA") ||
+                (vehiculosFiltered.changeTipos.recoleccion && vehiculo.TIPOSERVICIO_DESCRIPCION === "RECOLECCION DE LECHES");
 
-    }, [vehiculos])
+            // Evaluación de estados
+            const estadoValido =
+                (vehiculosFiltered.changeEstado.retraso && vehiculo.statusItinerary === "ATRASADO") ||
+                (vehiculosFiltered.changeEstado.anticipo && vehiculo.statusItinerary === "ANTICIPADO") ||
+                (vehiculosFiltered.changeEstado.sinReportar && vehiculo.statusItinerary === "NO DISPONIBLE") ||
+                // (vehiculosFiltered.changeEstado.enOperacion && vehiculo.statusItinerary === "EN OPERACION") ||
+                (vehiculosFiltered.changeEstado.disponibles && vehiculo.statusItinerary === "DISPONIBLE");
+
+            return tipoValido && estadoValido;
+        });
+        setVehiculosFiltrados(v);
+    }, [vehiculos, vehiculosFiltered]);
     return (
         <>
             {showVehiculos && (
@@ -55,7 +75,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
                 >
                     {(clusterer) => (
                         <>
-                            {vehiculos.map((vehiculo, index) => (
+                            {vehiculosFiltrados.map((vehiculo, index) => (
                                 <Marker
                                     key={index}
                                     position={{

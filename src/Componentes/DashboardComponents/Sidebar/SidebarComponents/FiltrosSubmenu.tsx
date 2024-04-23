@@ -9,7 +9,7 @@ import Select, { type StylesConfig } from 'react-select';
 
 export default function FiltrosSubmenu() {
 
-    const { vehiculos, setVehiculos, setVehiculosFiltered, setVehiculoSearched } = useVehiculosStore()
+    const { vehiculos, setVehiculos, setVehiculosFiltered, vehiculosFiltered, setVehiculoSearched } = useVehiculosStore()
     const { setItemSidebarRight } = useSystemStore()
     const [placasVehiculosOptions, setPlacasVehiculosOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [placasVehiculosSelected, setPlacasVehiculosSelected] = useState<{ value: IVehiculo, label: string } | null>(null)
@@ -20,23 +20,7 @@ export default function FiltrosSubmenu() {
     const [showDropTipo, setShowDropTipo] = useState(true)
     const [showDropEstado, setShowDropEstado] = useState(true)
 
-    const [changeTipos, setChangeTipos] = useState(
-        {
-            primaria: true,
-            secundaria: true,
-            recoleccion: true
-        }
-    )
 
-    const [changeEstado, setChangeEstado] = useState(
-        {
-            retraso: true,
-            anticipo: true,
-            sinReportar: true,
-            enOperacion: true,
-            disponibles: false
-        }
-    )
 
     const handleSelectVehiculo = (selectedOption: { value: IVehiculo, label: string }) => {
         if (selectedOption) {
@@ -66,102 +50,93 @@ export default function FiltrosSubmenu() {
         }
     }
 
-    const getDispon = async () => {
-        const response = await getEventsPlatesDispon();
-        console.log("response", response);
-        setVehiculos([...vehiculos, ...response])
-    }
+
 
     const changeTipoPrimaria = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeTipos({
-            ...changeTipos,
-            primaria: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeTipos: {
+                ...vehiculosFiltered.changeTipos,
+                primaria: e.target.checked
+            }
         })
     }
 
     const changeTipoSecundaria = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeTipos({
-            ...changeTipos,
-            secundaria: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeTipos: {
+                ...vehiculosFiltered.changeTipos,
+                secundaria: e.target.checked
+            }
         })
     }
 
     const changeTipoRecoleccion = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeTipos({
-            ...changeTipos,
-            recoleccion: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeTipos: {
+                ...vehiculosFiltered.changeTipos,
+                recoleccion: e.target.checked
+            }
         })
     }
 
     const changeEstadoRetraso = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeEstado({
-            ...changeEstado,
-            retraso: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeEstado: {
+                ...vehiculosFiltered.changeEstado,
+                retraso: e.target.checked
+            }
         })
     }
 
     const changeEstadoAnticipo = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeEstado({
-            ...changeEstado,
-            anticipo: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeEstado: {
+                ...vehiculosFiltered.changeEstado,
+                anticipo: e.target.checked
+            }
         })
     }
 
     const changeEstadoSinReportar = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeEstado({
-            ...changeEstado,
-            sinReportar: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeEstado: {
+                ...vehiculosFiltered.changeEstado,
+                sinReportar: e.target.checked
+            }
         })
     }
 
     const changeEstadoEnOperacion = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeEstado({
-            ...changeEstado,
-            enOperacion: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeEstado: {
+                ...vehiculosFiltered.changeEstado,
+                enOperacion: e.target.checked
+            }
         })
     }
 
     const changeEstadoDisponibles = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setChangeEstado({
-            ...changeEstado,
-            disponibles: e.target.checked
+        setVehiculosFiltered({
+            ...vehiculosFiltered,
+            changeEstado: {
+                ...vehiculosFiltered.changeEstado,
+                disponibles: e.target.checked
+            }
         })
-        if (e.target.checked) {
-            getDispon()
-        }
     }
-
-
-
-    useEffect(() => {
-        const vehiculosFiltered = vehiculos.filter(vehiculo => {
-            // Evaluación de tipos de servicio
-            const tipoValido =
-                (changeTipos.primaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "PRIMARIA") ||
-                (changeTipos.secundaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "SECUNDARIA") ||
-                (changeTipos.recoleccion && vehiculo.TIPOSERVICIO_DESCRIPCION === "RECOLECCION DE LECHES");
-
-            // Evaluación de estados
-            const estadoValido =
-                (changeEstado.retraso && vehiculo.statusItinerary === "ATRASADO") ||
-                (changeEstado.anticipo && vehiculo.statusItinerary === "ANTICIPADO") ||
-                (changeEstado.sinReportar && vehiculo.statusItinerary === "NO DISPONIBLE") ||
-                (changeEstado.enOperacion && vehiculo.statusItinerary === "EN OPERACION") ||
-                (changeEstado.disponibles && vehiculo.statusItinerary === "DISPONIBLE");
-
-            // Solo incluye vehículos que cumplan ambos criterios
-            return tipoValido && estadoValido;
-        });
-        console.log(vehiculosFiltered);
-        setVehiculosFiltered(vehiculosFiltered);
-    }, [changeTipos, changeEstado]);
-
-
 
     useEffect(() => {
         setPlacasVehiculosOptions(vehiculos.map(vehiculo => ({ value: vehiculo, label: vehiculo.WTLT_PLACA })))
         setConductoresOptions(vehiculos.map(vehiculo => ({ value: vehiculo, label: vehiculo.CONDUCTOR_NOM })))
     }, [vehiculos])
+    useEffect(() => { }, [vehiculosFiltered])
     const stylesSelect: StylesConfig = {
         control: (styles) => ({ ...styles, borderRadius: '0.5rem', minHeight: 'auto', height: '2rem', fontSize: '0.875rem', alignContent: 'center' }),
     }
@@ -216,19 +191,19 @@ export default function FiltrosSubmenu() {
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Primaria</span>
-                                            <input type="checkbox" defaultChecked={changeTipos.primaria} onChange={changeTipoPrimaria} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeTipos.primaria} onChange={changeTipoPrimaria} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Secundaria</span>
-                                            <input type="checkbox" defaultChecked={changeTipos.secundaria} onChange={changeTipoSecundaria} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeTipos.secundaria} onChange={changeTipoSecundaria} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Recolección de leches</span>
-                                            <input type="checkbox" defaultChecked={changeTipos.recoleccion} onChange={changeTipoRecoleccion} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeTipos.recoleccion} onChange={changeTipoRecoleccion} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
                                 </ul>
@@ -239,31 +214,31 @@ export default function FiltrosSubmenu() {
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Con Retraso</span>
-                                            <input type="checkbox" defaultChecked={changeEstado.retraso} onChange={changeEstadoRetraso} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.retraso} onChange={changeEstadoRetraso} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Con Anticipo</span>
-                                            <input type="checkbox" defaultChecked={changeEstado.anticipo} onChange={changeEstadoAnticipo} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.anticipo} onChange={changeEstadoAnticipo} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Sin Reportar</span>
-                                            <input type="checkbox" defaultChecked={changeEstado.sinReportar} onChange={changeEstadoSinReportar} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.sinReportar} onChange={changeEstadoSinReportar} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">En Operación</span>
-                                            <input type="checkbox" defaultChecked={changeEstado.enOperacion} onChange={changeEstadoEnOperacion} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.enOperacion} onChange={changeEstadoEnOperacion} className="checkbox checkbox-primary" />
                                         </label>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Disponibles</span>
-                                            <input type="checkbox" defaultChecked={changeEstado.disponibles} onChange={changeEstadoDisponibles} className="checkbox checkbox-primary" />
+                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.disponibles} onChange={changeEstadoDisponibles} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
                                 </ul>
