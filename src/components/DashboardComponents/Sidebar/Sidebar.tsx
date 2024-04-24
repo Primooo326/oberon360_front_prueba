@@ -1,16 +1,17 @@
 import { FaMoon, FaRegMap, FaSun } from "react-icons/fa6"
 import { CgHome } from "react-icons/cg";
 import HomeSubmenu from "./SidebarComponents/HomeSubmenu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { PiBell } from "react-icons/pi";
 import SubmenuContainer from "./SidebarComponents/SubmenuContainer";
-import { LuSettings } from "react-icons/lu";
 import { FiSettings } from "react-icons/fi";
 import { useSystemStore } from "@/states/System.state";
 import { AnimatePresence, motion } from "framer-motion";
 import FiltrosSubmenu from "./SidebarComponents/FiltrosSubmenu";
 import Image from "next/image";
+import { IoSearchOutline } from "react-icons/io5";
+import Link from "next/link";
 
 interface SubMenu {
     title: string;
@@ -24,6 +25,7 @@ export default function Sidebar() {
         {
             title: "Home",
             icon: <CgHome className="w-6 h-auto" />,
+            href: false,
             component:
                 <SubmenuContainer title='Home'>
 
@@ -33,6 +35,7 @@ export default function Sidebar() {
         {
             title: "Mapa",
             icon: <FaRegMap className="w-6 h-auto" />,
+            href: false,
             component:
                 <SubmenuContainer title='Mapa'>
 
@@ -43,6 +46,7 @@ export default function Sidebar() {
         {
             title: "Asistencia",
             icon: <HiOutlineUsers className="w-6 h-auto" />,
+            href: false,
             component:
                 <SubmenuContainer title='Asistencia'>
 
@@ -52,9 +56,18 @@ export default function Sidebar() {
         {
             title: "Novedades",
             icon: <PiBell className="w-6 h-auto" />,
+            href: false,
             component: <SubmenuContainer title='Novedades'>
-
                 <div>Novedades</div>
+            </SubmenuContainer>
+        },
+        {
+            title: "Investigación y Riesgos",
+            icon: <IoSearchOutline className="w-6 h-auto" />,
+            href: "/I+C/auth",
+            component: <SubmenuContainer title='Investigación y Riesgos'>
+
+                <div>Investigación y Riesgos</div>
             </SubmenuContainer>
         }
     ]
@@ -74,10 +87,16 @@ export default function Sidebar() {
                     <Image src="/OBERON-DEGRADADO.png" alt="logo oberon" width={48} height={48} />
 
                     {subMenus.map((subMenu, index) => (
-                        <div className="tooltip tooltip-right" data-tip={subMenu.title}>
-                            <button key={index} onClick={() => handleMenuChange(subMenu)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu}>
-                                {subMenu.icon}
-                            </button>
+                        <div key={index} className="tooltip tooltip-right" data-tip={subMenu.title}>
+                            {subMenu.href ? (
+                                <Link href={`${subMenu.href}`} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu} >
+                                    {subMenu.icon}
+                                </Link>
+                            ) : (
+                                <button onClick={() => handleMenuChange(subMenu)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu}>
+                                    {subMenu.icon}
+                                </button>
+                            )}
                         </div>
                     ))}
                 </div>
