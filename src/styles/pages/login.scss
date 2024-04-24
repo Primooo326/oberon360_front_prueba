@@ -1,0 +1,89 @@
+.login_container {
+  height: 100vh;
+  background-image: url('/assets/images/BACKGROUND.png');
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+}
+
+.logo_header {
+  width: 350px;
+  height: 120px;
+  position: absolute;
+  background-image: url('/assets/images/LOGO_THOMAS_BLANCO_2023.png');
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+}
+
+.main {
+  background-image: url('/assets/images/POWERED_BY.png');
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: 370px;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+
+  .container_box {
+    background-image: url('/assets/images/LOG-IN-BORDER.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 600px;
+    height: 440px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .login_box {
+    width: 60%;
+
+    .section_login {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      top: -40px;
+      position: relative;
+
+      .logo {
+        background-image: url('/assets/images/LOGO_OBERON_IC_BLANCO.png');
+        min-height: 130px;
+        background-size: 200px;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-bottom: 1rem;
+      }
+
+      .row_actions {
+        display: flex;
+        justify-content: space-between;
+        text-align: end;
+      }
+    }
+  }
+}
+
+.login_input {
+  background-color: #fff !important;
+}
+
+@media (max-width: 768px) {
+  .container {
+    align-items: center;
+
+    .container_box {
+      width: 440px;
+    }
+
+    .login_box {
+      width: 72%;
+    }
+  }
+}

@@ -7,7 +7,7 @@ import { IoIosSpeedometer } from "react-icons/io";
 import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import type { IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
-import { evaluarItinerario, formatFecha } from "@/tools";
+import { evaluarItinerario, formatFecha } from "@/utils/i+c/tools";
 import { IoWarning } from "react-icons/io5";
 import { getItinerary } from "@/api/mapa.api";
 import Image from "next/image";

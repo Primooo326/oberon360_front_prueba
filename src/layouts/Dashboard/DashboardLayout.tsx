@@ -9,7 +9,7 @@ import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";
 import { useUbicaciones } from "@/states/Ubicaciones.state";
 import { useVehiculosStore } from "@/states/Vehiculos.state";
-import { verifyJWT } from "@/tools";
+import { verifyJWT } from "@/utils/i+c/tools";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation"

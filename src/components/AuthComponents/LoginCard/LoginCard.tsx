@@ -2,7 +2,7 @@ import usuLogo from "@assets/img/login/ICONO-USUARIO-GRANDE.png";
 import "./LoginCard.css"
 import { login } from "@/api/auth.api";
 import { useLoginStore } from "@/states/Login.state";
-import { verifyJWT } from "@/tools";
+import { verifyJWT } from "@/utils/tools";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"
 import Image from "next/image";

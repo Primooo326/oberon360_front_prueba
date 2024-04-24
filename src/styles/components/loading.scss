@@ -1,0 +1,23 @@
+.loader_container {
+  height: 100vh;
+  background-color: #f1ebeb;
+  opacity: 0.5;
+}
+
+.loader_box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    color: #1132a4;
+  }
+}
+
+.loading_main_box {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}

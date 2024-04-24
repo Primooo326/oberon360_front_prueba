@@ -1,28 +1,39 @@
-import { API_BASE_URL, API_WEB_URL } from "@/config";
+import { API_BASE_URL, API_WEB_URL, API_IC_URL } from "@/config";
 import { useLoginStore } from "@/states/Login.state";
 import axios, { type AxiosResponse, type ResponseType } from 'axios';
 import { toast } from "react-toastify";
-const instance = (api: "base" | "web") => {
+import Cookies from 'js-cookie';
+
+const instance = (api: "base" | "web" | "i+c") => {
+
+    let baseURL = 'base';
+    if (api === 'web') {
+        baseURL = API_WEB_URL;
+    } else if (api === 'i+c') {
+        baseURL = API_IC_URL;
+    } else {
+        baseURL = API_BASE_URL;
+    }
+
     const instancia = axios.create({
-        baseURL: api === "base" ? API_BASE_URL : API_WEB_URL,
+        baseURL,
         headers: {
             "Content-Type": "application/json",
         },
     });
     instancia.interceptors.request.use(
         (config) => {
-            const { token } = useLoginStore.getState()
+            let token: any;
+            if (Cookies.get('token')) {
+                token = String(Cookies.get('token'));
+            }
             if (token) {
                 config.headers.Authorization = token ? `Bearer ${token}` : null;
             }
             return config;
         },
         (error) => {
-            const { setToken } = useLoginStore.getState()
             console.log(error);
-            if (error.response && Number(error.response.status) === 401) {
-                // setToken('');
-            }
             return Promise.reject(error);
         }
     );
@@ -30,15 +41,13 @@ const instance = (api: "base" | "web") => {
     instancia.interceptors.response.use(
         (response) => response,
         (error) => {
-            const { setToken } = useLoginStore.getState()
 
             if (error.response && Number(error.response.status) === 401) {
-                // setToken('');
             } else if (error.code === 'ERR_NETWORK') {
                 toast.error('Error de red, verifique su conexión a internet.');
             }
             else {
-                console.log("object");
+                console.log(error);
                 toast.error(error.response.data.message);
             }
             return Promise.reject(error);
@@ -80,4 +89,19 @@ export const fetchApiWeb = {
     patch: (url: string, body?: any) =>
         instance("web").patch(url, body).then(responseBody),
     delete: (url: string) => instance("web").delete(url).then(responseBody),
+};
+
+export const fetchApiIC = {
+    get: (url: string, responseType?: ResponseType) =>
+        instance("i+c")
+            .get(url, {
+                responseType,
+            })
+            .then(responseBody),
+    post: (url: string, body?: any) =>
+        instance("i+c").post(url, body).then(responseBody),
+    put: (url: string, body?: any) => instance("i+c").put(url, body).then(responseBody),
+    patch: (url: string, body?: any) =>
+        instance("i+c").patch(url, body).then(responseBody),
+    delete: (url: string) => instance("i+c").delete(url).then(responseBody),
 };

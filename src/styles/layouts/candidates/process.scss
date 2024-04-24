@@ -1,0 +1,177 @@
+.process_section {
+  display: flex;
+  height: 100%;
+
+  .process_container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90vh;
+
+    h3 {
+      font-size: 50px;
+      font-family: 'Gilroy-Bold';
+      color: #06336a;
+      margin-bottom: 0;
+    }
+
+    .captions {
+      margin-bottom: 90px;
+
+      table {
+        background-color: #fff;
+        border-radius: 20px;
+        border-collapse: collapse;
+        border-style: hidden;
+        width: 220px;
+
+        td {
+          padding: 0.5rem 0.3rem;
+          border: 2px solid #7c95b2;
+        }
+      }
+
+      .icon_caption {
+        width: 20px;
+        height: 20px;
+        border-radius: 50px;
+        margin-right: -12px;
+        margin-left: 5px;
+      }
+
+      #completed {
+        background-color: #bede9c;
+      }
+
+      #in_process {
+        background-color: #e7c826;
+      }
+
+      #pending {
+        background-color: #df373a;
+      }
+    }
+
+    .progess_bar {
+      display: flex;
+
+      .progess_content {
+        height: 180px;
+        width: 100%;
+        border-radius: 270px;
+        border: 10px solid #fff;
+        background-color: #df373a;
+        display: flex;
+
+        .progress_item {
+          width: 25%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-around;
+          border-left: 1px solid #000;
+          border-right: 1px solid #000;
+
+          h4 {
+            font-size: 15px;
+            font-family: 'Gilroy-Bold';
+            color: #fff;
+          }
+
+          &_start {
+            border-radius: 270px 0px 0px 270px;
+            border-left: none;
+          }
+
+          &_end {
+            border-radius: 0px 270px 270px 0px;
+            border-right: none;
+          }
+
+          .icon_desc {
+            width: 120px;
+            height: 120px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+
+          #register {
+            background-image: url('/assets/images/REGISTRO-DE-INFORMACION.png');
+          }
+
+          #referencing {
+            background-image: url('/assets/images/REFERENCIACION-HOJA-DE-VIDA.png');
+          }
+
+          #visit {
+            background-image: url('/assets/images/VISITA-DOMICILIARIA-.png');
+          }
+
+          #test {
+            background-image: url('/assets/images/PRUEBA-DE-POLIGRAFIA.png');
+          }
+        }
+      }
+    }
+  }
+}
+
+.status_completed {
+  background-color: #bede9c;
+}
+
+.status_in_process {
+  background-color: #e7c826;
+}
+
+.status_pending {
+  background-color: #df373a;
+}
+
+@media (max-width: 768px) {
+  .process_section {
+    .process_container {
+      align-items: center;
+
+      h3 {
+        font-size: 35px;
+        margin-bottom: 25px;
+      }
+
+      .progess_bar {
+        margin-bottom: 10px;
+
+        .progess_content {
+          height: auto;
+          width: 160px;
+          margin-bottom: 20px;
+          flex-direction: column;
+
+          .progress_item {
+            width: auto;
+            text-align: center;
+
+            &_start {
+              border-radius: 270px 270px 0px 0px;
+            }
+
+            &_end {
+              border-radius: 0px 0px 270px 270px;
+              h4 {
+                margin-top: 0;
+                margin-bottom: 70px;
+              }
+            }
+
+            .icon_desc {
+              width: 90px;
+              height: 120px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

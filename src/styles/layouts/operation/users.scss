@@ -1,0 +1,43 @@
+#new_user {
+  background-image: url('/assets/images/icons/operation/NUEVO-USUARIO.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#update_responsability {
+  background-image: url('/assets/images/icons/operation/CAMBIO-DE-RESPONSABLE.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#search_user {
+  background-image: url('/assets/images/icons/operation/BUSCAR.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#edit_user {
+  background-image: url('/assets/images/icons/operation/MODIFICAR.png');
+}
+
+#edit_password {
+  background-image: url('/assets/images/icons/operation/CAMBIO-CONTRASENA-BLANCO.png');
+}
+
+#delete_user {
+  background-image: url('/assets/images/icons/operation/BORRAR-BLANCO.png');
+}
+
+.operation_input_element .ant-input-affix-wrapper {
+  min-height: 32px !important;
+  background-color: #e4ecee !important;
+}
