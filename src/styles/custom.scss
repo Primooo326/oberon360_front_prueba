@@ -1,0 +1,78 @@
+@import './components/index.scss';
+@import './layouts/index.scss';
+@import './pages/index.scss';
+
+.ant-form-item {
+  margin-bottom: 1rem;
+}
+
+.ant-form-item-control {
+  min-width: 100% !important;
+}
+
+.ant-input-prefix {
+  .anticon {
+    color: #000 !important;
+  }
+}
+
+.ant-input-affix-wrapper {
+  min-height: 3rem;
+  border-radius: 0px;
+}
+
+.ant-btn-primary {
+  color: #052f77 !important;
+}
+
+.custom_button .ant-btn-primary {
+  background-color: #fff;
+  color: #052f77 !important;
+  font-family: 'Gilroy-bold' !important;
+  width: 100%;
+  min-height: 3rem !important;
+  padding: 1rem !important;
+  border-radius: 0px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.ant-btn-primary:hover {
+  color: #fff !important;
+}
+
+.remove_item_operator {
+  display: flex;
+  padding-top: 30px;
+}
+
+.button_upload_control {
+  padding: 0;
+
+  .loader_file_container {
+    display: flex;
+    align-items: center;
+
+    span {
+      padding: 0 5px;
+      margin-right: 3px;
+    }
+
+    .upload_action_button {
+      background-color: #e9ecef;
+      width: 50px;
+      height: 31px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-border-top-right-radius: 6px;
+      -webkit-border-bottom-right-radius: 6px;
+      -moz-border-radius-topright: 6px;
+      -moz-border-radius-bottomright: 6px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+  }
+}

@@ -1,0 +1,143 @@
+.flow_section_container {
+  padding: 10px 35px;
+  margin-top: 20px;
+
+  .flow_title_container {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+    font-family: 'Gilroy-Bold';
+
+    .flow_breadcrumb {
+      display: flex;
+      margin-bottom: 30px;
+    }
+
+    .flow_title_box {
+      width: auto;
+      width: 30%;
+      background-color: #f7f7f7;
+      padding: 10px;
+      border-bottom: 3px solid #eaeaea;
+
+      h3 {
+        font-family: 'Gilroy-Bold';
+        font-weight: 900;
+        text-transform: uppercase;
+        color: #043f4b;
+      }
+    }
+  }
+}
+
+.input_element_flow_operation .ant-picker {
+  border-radius: 5px !important;
+  border-color: #96abc1 !important;
+  min-width: 330px;
+}
+
+.input_element_flow_operation .ant-select-selector {
+  border-radius: 5px !important;
+  border-color: #96abc1;
+  min-width: 330px;
+}
+
+.input_element_flow_operation {
+  min-width: 120px;
+  width: 330px;
+  margin: 0 10px 0 0 !important;
+
+  &_double {
+    min-width: 120px;
+    width: 512px;
+    margin: 0 10px !important;
+
+    label {
+      font-family: 'Gilroy-Bold' !important;
+      color: #000 !important;
+    }
+
+    input {
+      border-radius: 5px !important;
+      border-color: #96abc1;
+      width: 512px !important;
+    }
+
+    textarea {
+      border-radius: 5px !important;
+      border-color: #96abc1;
+      background-color: #fff !important;
+      width: 512px !important;
+    }
+  }
+
+  label {
+    font-family: 'Gilroy-Bold' !important;
+    color: #000 !important;
+  }
+
+  input {
+    border-radius: 5px !important;
+    border-color: #96abc1;
+  }
+
+  textarea {
+    border-radius: 5px !important;
+    border-color: #96abc1;
+    background-color: #fff !important;
+  }
+}
+
+.list_backgrounds {
+  display: flex;
+  align-items: center;
+
+  .label_list {
+    width: 30%;
+    margin-right: 30px;
+  }
+}
+
+.total_label_finance {
+  margin-top: 30px;
+  font-family: 'Gilroy-Bold' !important;
+  color: #275380;
+}
+
+.submit_studie_button {
+  background-color: #0c366e;
+
+  span {
+    color: #fff;
+  }
+}
+
+.row_documents {
+  margin-top: 30px;
+  margin-left: 10px;
+}
+
+.doc_link {
+  color: #0c366e !important;
+  font-size: 16px;
+}
+
+.row-photo-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.photo-record-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+  height: 232px;
+  justify-content: space-between;
+}
+
+.photo-record-box {
+  width: 50%;
+  height: 50%;
+  border: 1px solid #003268;
+  background-color: #f7fbfc;
+}

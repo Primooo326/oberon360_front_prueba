@@ -1,0 +1,64 @@
+#new_parameter {
+  background-image: url('/assets/images/icons/operation/SOLICITUD-BLANCO.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#search_parameter {
+  background-image: url('/assets/images/icons/operation/BUSCAR.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#edit_parameter {
+  background-image: url('/assets/images/icons/operation/MODIFICAR.png');
+}
+
+#delete_parameter {
+  background-image: url('/assets/images/icons/operation/BORRAR-BLANCO.png');
+}
+
+.parameters_list {
+  background-color: #a9b7cb;
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    min-width: 210px;
+
+    span {
+      border-bottom: 2px solid #34607c;
+      font-family: 'Gilroy-Medium' !important;
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+
+  .search_box {
+    display: flex;
+    border-bottom: 2px solid #34607c;
+
+    span {
+      color: #fff;
+      font-size: 20px;
+    }
+  }
+
+  input {
+    color: #fff;
+    background-color: #a9b7cb;
+    border-color: #a9b7cb;
+  }
+
+  input:focus {
+    border-color: #a9b7cb !important;
+    box-shadow: none;
+  }
+}

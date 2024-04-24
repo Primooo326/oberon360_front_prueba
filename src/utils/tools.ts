@@ -1,6 +1,7 @@
 import { JWT_SECRET } from '@/config'
 import type { IItenary, IItenaryEvaluated } from '@/models/vehiculos.model'
 import * as jose from 'jose'
+
 export const verifyJWT = async (token: string) => {
     try {
         const secret = new TextEncoder().encode(JWT_SECRET)

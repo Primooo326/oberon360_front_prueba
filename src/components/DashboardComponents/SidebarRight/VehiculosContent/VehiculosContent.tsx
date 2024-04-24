@@ -6,15 +6,20 @@ import { FaTemperatureHigh } from "react-icons/fa6"
 import { IoIosSpeedometer } from "react-icons/io";
 import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import type { IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
-import { evaluarItinerario, formatFecha } from "@/tools";
+import type { IConductor, IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
+import { evaluarItinerario, formatFecha } from "@/utils/tools";
 import { IoWarning } from "react-icons/io5";
-import { getItinerary } from "@/api/mapa.api";
-import Image from "next/image";
+import { getInfoDriver, getItinerary } from "@/api/mapa.api";
+import iconUser from "@assets/img/login/ICONO-USUARIO-GRANDE.png"
+import Image from "next/image"; interface IConductorUI extends IConductor {
+    CONDUCTOR_NOMBRE_COMPLETO: string;
+}
+
 export default function VehiculosContent({ content }: { content: IVehiculo }) {
 
     const [chart, setChart] = useState("temp")
     const [itinerary, setItinerary] = useState<IItinerario[]>([])
+    const [conductor, setConductor] = useState<IConductorUI>({} as IConductorUI)
     const handleSetChart = (chart: string) => {
         setChart(chart)
     }
@@ -27,7 +32,16 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
                 itinerarioEvaluated: evaluarItinerario(itinerario)
             }
         })
-        setItinerary(itinerarioEvaluated)
+        setItinerary(itinerarioEvaluated.sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN))
+
+        const responseConductor = await getInfoDriver(content.CONDUCTOR_ID)
+        setConductor(
+            {
+                ...responseConductor,
+                CONDUCTOR_NOMBRE_COMPLETO: `${responseConductor.CONDUCTOR_PRIMERNOMBRE || ''} ${responseConductor.CONDUCTOR_SEGUNDONOMBRE || ''} ${responseConductor.CONDUCTOR_PRIMERAPELLIDO || ''} ${responseConductor.CONDUCTOR_SEGUNDOAPELLIDO || ''}`
+            }
+        )
+
     }
 
     useEffect(() => {
@@ -84,17 +98,35 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
                         }
                     </span>
                 </div>
-                <div className="flex items-center gap-2 mb-6" >
+                <div className="flex items-center gap-2 my-6" >
+
                     <div className="avatar">
-                        <div className="w-12 rounded-full">
-                            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="conductor" />
+                        <div className="w-20 rounded-full">
+                            {conductor?.CONDUCTOR_FOTO ? (
+
+                                <img src={`data:image/jpeg;base64,${conductor.CONDUCTOR_FOTO}`} alt="conductor" />
+                            ) : (
+                                <Image src={iconUser} alt="conductor" />
+                            )}
                         </div>
                     </div>
                     <span>
-                        <p className="text-gray-400">Conductor:</p>
-                        <h1 className="font-bold">{content.CONDUCTOR_NOM}</h1>
+                        {
+                            conductor?.CONDUCTOR_NOMBRE_COMPLETO ? (
+                                <>
+                                    <h1 className="font-bold ">{conductor.CONDUCTOR_NOMBRE_COMPLETO || "N/A"} - {conductor.CONDUCTOR_IDENTIFICACION || "N/A"}</h1>
+                                    <p className="font-semibold">{conductor.CONDUCTOR_TELCORPORATIVO || "N/A"} / {conductor.CONDUCTOR_TELPERSONAL || "N/A"}</p>
+                                    <a href={`mailto:${conductor.CONDUCTOR_CORREO}`} className="underline">{conductor.CONDUCTOR_CORREO || "N/A"}</a>
+                                </>
+                            ) : (
+                                <>
+                                    <h1 className="font-bold">(Sin conductor asignado).</h1>
+                                </>
+                            )
+                        }
                     </span>
                 </div>
+                <div className="divider" />
                 <div className="flex flex-col justify-between gap-3 mb-3">
                     <span>
                         <p className="text-gray-400">Tipo vehiculo</p>

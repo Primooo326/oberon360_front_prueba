@@ -9,7 +9,7 @@ import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";
 import { useUbicaciones } from "@/states/Ubicaciones.state";
 import { useVehiculosStore } from "@/states/Vehiculos.state";
-import { verifyJWT } from "@/tools";
+import { verifyJWT } from "@/utils/tools";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation"
@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { setUbicaciones } = useUbicaciones()
     const { setClientes, clienteSelected } = useClientesStore()
     const { setToken, token } = useLoginStore.getState()
-    const { setVehiculos, vehiculos, vehiculosFiltered } = useVehiculosStore()
+    const { setVehiculos, vehiculosFiltered } = useVehiculosStore()
     const { setMobiles } = useMobilesStore()
     const { setIndicadores } = useIndicadoresStore()
     const { theme, itemSidebarRight, setItemSidebarRight, showSidebar, setMapConfig, mapConfig, mapExpand } = useSystemStore()

@@ -1,0 +1,229 @@
+@import './request.scss';
+@import './clients.scss';
+@import './users.scss';
+@import './groups.scss';
+@import './lists.scss';
+@import './roles.scss';
+@import './parameters.scss';
+@import './qa.scss';
+@import './studies.scss';
+@import './search.scss';
+@import './historical.scss';
+
+.operation_layout {
+  background-image: url('/assets/images/BACKGROUND-OPERACION-CLARO.png');
+  background-repeat: no-repeat;
+  background-position: unset;
+  background-size: cover;
+  height: 100vh;
+
+  .center_logo {
+    width: 350px;
+    height: 120px;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    background-image: url('/assets/images/LOGO_OBERON_IC.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+  }
+}
+
+#operation_navbar_custom {
+  min-width: 70px !important;
+  width: 70px !important;
+  height: 100% !important;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(37, 51, 87, 1) 24%,
+    rgba(40, 104, 126, 1) 100%
+  );
+  padding: 12px 0;
+  border-right: 5px solid #cccccc;
+  position: fixed;
+  z-index: 1;
+}
+
+.sidebar_menu {
+  min-width: 70px;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(37, 51, 87, 1) 24%,
+    rgba(40, 104, 126, 1) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-right: 5px solid #fff;
+  height: 100%;
+
+  .top_menu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      height: 65px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50px;
+      background-image: url('/assets/images/LOGO-OBERON.png');
+    }
+
+    .items {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-top: 150px;
+
+      div[id^='request'],
+      div[id^='operation'],
+      div[id^='reports'],
+      div[id^='parameters'] {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        cursor: pointer;
+      }
+
+      .item_menu {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        span {
+          font-size: 12px;
+          color: #fff;
+          font-family: 'Gilroy-Bold';
+        }
+      }
+
+      #request {
+        background-image: url('/assets/images/icons/SOLICITUD-BLANCO.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50px;
+        width: 100%;
+      }
+
+      #operation {
+        background-image: url('/assets/images/icons/OPERACION-BLANCO.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50px;
+        width: 100%;
+      }
+
+      #operation.icon-dark {
+        background-image: url('/assets/images/icons/OPERACION-AZUL.png');
+      }
+
+      #reports {
+        background-image: url('/assets/images/icons/INFORME-BLANCO.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50px;
+        width: 100%;
+      }
+
+      #parameters {
+        background-image: url('/assets/images/icons/PARAMETROS-BLANCO.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50px;
+        width: 100%;
+      }
+
+      #parameters.icon-dark {
+        background-image: url('/assets/images/icons/PARAMETROS-AZUL.png');
+      }
+    }
+  }
+
+  .m_signout {
+    #signout {
+      display: flex;
+      align-items: center;
+      height: 30px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 30px;
+      background-image: url('/assets/images/icons/SALIR.png');
+      cursor: pointer;
+    }
+  }
+}
+
+.pop_items {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  min-width: 210px;
+
+  .pop_item_menu {
+    border-bottom: 1px solid #34607c;
+
+    span {
+      font-family: 'Gilroy-Medium' !important;
+      color: #20506f;
+      font-size: 15px;
+    }
+  }
+
+  .pop_item_menu:last-child {
+    border-bottom: none;
+  }
+}
+
+.ant-popover .ant-popover-inner {
+  padding: 0 !important;
+}
+
+.operation_module_content {
+  height: 80%;
+  background-color: #fff;
+  position: sticky;
+
+  &_all {
+    min-height: 92vh;
+    background-color: #fff;
+    position: relative;
+    overflow-y: auto;
+  }
+
+  .operation_logo_back {
+    width: 350px;
+    height: 120px;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    background-image: url('/assets/images/LOGO_OBERON_IC_GRIS.png');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.request_details {
+  background-color: #fff;
+  display: flex;
+  width: 100%;
+}
+
+@media (height > 768px) {
+  .operation_module_content {
+    height: 85%;
+  }
+}

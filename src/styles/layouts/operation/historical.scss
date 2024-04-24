@@ -1,0 +1,25 @@
+#new_parameter {
+  background-image: url('/assets/images/icons/operation/SOLICITUD-BLANCO.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#search_parameter {
+  background-image: url('/assets/images/icons/operation/BUSCAR.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#edit_parameter {
+  background-image: url('/assets/images/icons/operation/MODIFICAR.png');
+}
+
+#delete_parameter {
+  background-image: url('/assets/images/icons/operation/BORRAR-BLANCO.png');
+}

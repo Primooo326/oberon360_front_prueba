@@ -1,4 +1,4 @@
-import usuLogo from "@assets/img/login/ICONO-USUARIO-GRANDE.png";
+import usuLogo from "@assets/img/login/ICONO-CANDADO-GRANDE.png";
 import "./ResetCard.css"
 import { changePassword } from "@/api/auth.api";
 import { useState, useEffect } from "react";
@@ -61,11 +61,11 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
                 </label>
                 <div className="form-control">
                     <label className="label cursor-pointer">
-                        <span className="label-text">Mostrar contraseñas</span>
-                        <input onChange={MostrarPass} type="checkbox" className="checkbox checkbox-tertiary" />
+                        <span className="label-text text-white">Mostrar contraseñas</span>
+                        <input onChange={MostrarPass} type="checkbox" className="checkbox checkbox-secondary" />
                     </label>
                 </div>
-                <button onClick={onClickReset} className="btn btn-tertiary bordered text-white btn-block mt-5">Cambiar contraseña</button>
+                <button onClick={onClickReset} className="btn btn-accent bordered btn-block mt-5">Cambiar contraseña</button>
             </form>
         </div>
     )

@@ -1,5 +1,5 @@
 import { Mobile } from '@/data/mapaData';
-import { IMobile } from '@/models/mobile.model';
+import type { IMobile } from '@/models/mobile.model';
 import { MarkerClusterer, Marker } from '@react-google-maps/api';
 
 export default function MobileCluster({ mobiles, mobileShow }: { mobiles: IMobile[], mobileShow: boolean }) {
@@ -7,13 +7,13 @@ export default function MobileCluster({ mobiles, mobileShow }: { mobiles: IMobil
     const clusterStylesMobile = [
 
 
-        {
-            url: Mobile.url,
-            height: 40,
-            width: 40,
+        // {
+        //     url: Mobile.url,
+        //     height: 40,
+        //     width: 40,
 
-            className: 'clusterText',
-        },
+        //     className: 'clusterText',
+        // },
         {
             url: Mobile.url,
             height: 60,

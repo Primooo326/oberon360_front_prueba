@@ -1,0 +1,95 @@
+.operation_input_element {
+  max-width: 280px !important;
+  width: 280px;
+  margin: 0 10px !important;
+
+  label {
+    font-family: 'Gilroy-Bold' !important;
+    color: #023d49 !important;
+    text-transform: uppercase;
+  }
+
+  input {
+    border-radius: 0px !important;
+    border-color: #e4ecee !important;
+    background-color: #e4ecee !important;
+  }
+
+  textarea {
+    border-radius: 0px !important;
+    border-color: #e4ecee !important;
+    background-color: #e4ecee !important;
+  }
+}
+
+.operation_input_element .ant-select-selector {
+  border-radius: 0px !important;
+  border-color: #e4ecee !important;
+  background-color: #e4ecee !important;
+}
+
+.operation_input_element .ant-transfer {
+  justify-content: center !important;
+}
+
+.operation_input_element .ant-transfer-list-content-item-checked {
+  background-color: #e6f4ff !important;
+}
+
+.operation_input_element .ant-picker {
+  border-radius: 0px !important;
+  border-color: #e4ecee !important;
+  background-color: #e4ecee !important;
+}
+
+.w_100 {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.operation_upload_container {
+  width: 280px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.operation_upload_container .ant-upload-select {
+  width: 100% !important;
+}
+
+.operation_upload_container .ant-btn-icon-only {
+  width: 100%;
+  border-color: #e4ecee !important;
+  background-color: #e4ecee !important;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.operation_upload_container .ant-btn-icon {
+  display: flex !important;
+  width: 100% !important;
+  padding: 0 10px !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.operation_search_element {
+  margin-right: 10px;
+}
+
+.operation_search_element input {
+  border-color: #e4ecee !important;
+  background-color: #e4ecee !important;
+}
+
+.operation_search_element span {
+  border-color: #e4ecee !important;
+  background-color: #e4ecee !important;
+  border-radius: 10px !important;
+}
+
+.operation_search_element button {
+  border-color: #e4ecee !important;
+  background-color: #e4ecee !important;
+}

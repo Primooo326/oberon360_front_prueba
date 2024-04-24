@@ -1,0 +1,70 @@
+.operation_top_container {
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  background: rgb(0, 62, 75);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 62, 75, 1) 48%,
+    rgba(0, 57, 107, 1) 100%
+  );
+
+  .operation_header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    h4 {
+      margin: 5px 0 0 10px;
+      color: #fff;
+      font-family: 'Gilroy-Bold';
+      font-size: 20px;
+    }
+  }
+
+  .operation_actions {
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+  }
+
+  .operation_logo {
+    width: 50px;
+    height: 50px;
+    background-image: url('/assets/images/FORMA-OBERON.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    cursor: pointer;
+  }
+
+  .actions {
+    width: 270px;
+  }
+}
+
+.top_menu_actions {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+
+  .action_menu_item {
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    margin: 0px 20px 0 20px;
+    width: 45px;
+    text-align: center;
+
+    span {
+      font-size: 8px;
+      color: #fff;
+    }
+  }
+
+  .reverse {
+    flex-direction: column-reverse;
+    margin-top: 5px;
+  }
+}

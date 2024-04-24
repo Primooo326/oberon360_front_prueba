@@ -1,0 +1,301 @@
+.candidates_layout {
+  background-image: url('/assets/images/BACKGROUND-CLARO.png');
+  background-repeat: no-repeat;
+  background-position: unset;
+  background-size: cover;
+  min-height: 100vh;
+  margin-left: 70px;
+  padding: 25px;
+
+  .container_logo {
+    display: flex;
+    justify-content: flex-end;
+
+    .logo {
+      background-image: url('/assets/images/TOMAS-LOGO-RMS.png');
+      background-repeat: no-repeat;
+      background-position: unset;
+      background-size: cover;
+      width: 230px;
+      height: 50px;
+      position: absolute;
+      top: 22px;
+    }
+  }
+
+  .sidebar_container {
+    min-height: 100vh;
+    display: flex;
+  }
+}
+
+#navbar_custom {
+  min-width: 70px !important;
+  width: 70px !important;
+  height: 100% !important;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(37, 51, 87, 1) 24%,
+    rgba(40, 104, 126, 1) 100%
+  );
+  padding: 12px 0;
+  border-right: 5px solid #cccccc;
+  position: fixed;
+  z-index: 1;
+}
+
+.menu_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top_menu {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  justify-content: space-between;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-image: url('/assets/images/LOGO-OBERON.png');
+  }
+
+  .items {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .menu_item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
+    }
+
+    #information {
+      background-image: url('/assets/images/icons/INFO.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50px;
+    }
+
+    #calendar {
+      background-image: url('/assets/images/icons/CALENDARIO.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50px;
+    }
+
+    #process {
+      background-image: url('/assets/images/icons/PROCESO.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 50px;
+    }
+
+    .active_menu {
+      background-color: #b4cad2 !important;
+
+      #information {
+        background-image: url('/assets/images/icons/INFO-DARK.png');
+      }
+
+      #calendar {
+        background-image: url('/assets/images/icons/CALENDARIO-DARK.png');
+      }
+
+      #process {
+        background-image: url('/assets/images/icons/PROCESO-DARK.png');
+      }
+    }
+  }
+}
+
+.logout_container {
+  #logout {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-image: url('/assets/images/icons/SALIR.png');
+  }
+}
+
+.step {
+  h1 {
+    font-family: 'Gilroy-Heavy';
+    color: #00336a;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 32px;
+    letter-spacing: normal;
+    margin: 0 0 16px;
+  }
+}
+
+.step_2 {
+  margin-top: 50px;
+}
+
+.ant-space-item {
+  width: 100% !important;
+}
+
+.form_container {
+  margin-top: 20px;
+
+  .form_box {
+    display: flex;
+    flex-direction: column;
+    max-width: 100% !important;
+
+    .section {
+      display: flex;
+      flex-wrap: wrap !important;
+      margin-top: 10px;
+      row-gap: 10px;
+    }
+  }
+}
+
+.input_element {
+  max-width: 250px !important;
+  width: 250px !important;
+  margin: 0 10px !important;
+
+  &_auto {
+    max-width: 100% !important;
+    width: 100% !important;
+
+    label {
+      font-family: 'Gilroy-Bold' !important;
+    }
+
+    input {
+      max-width: 100%;
+      border-radius: 3px !important;
+      border-color: transparent;
+    }
+
+    select {
+      max-width: 100%;
+      border-radius: 3px !important;
+      border-color: transparent;
+    }
+  }
+
+  .w_100 {
+    width: 100% !important;
+  }
+
+  label {
+    font-family: 'Gilroy-Bold' !important;
+  }
+
+  input {
+    max-width: 100%;
+    border-radius: 3px !important;
+    border-color: transparent;
+  }
+
+  select {
+    max-width: 100%;
+    border-radius: 3px !important;
+    border-color: transparent;
+  }
+}
+
+.buttons_bottom_navigation {
+  display: flex;
+  margin-top: 20px;
+
+  &_simple {
+    justify-content: flex-end;
+  }
+
+  &_double {
+    justify-content: space-between;
+  }
+
+  .button_container {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      font-family: 'Gilroy-Heavy';
+      color: #00336a;
+      text-align: center;
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      border: none;
+    }
+
+    .prev {
+      background: url('/assets/images/icons/BOTON-DEVOLVER.png');
+      background-size: cover;
+    }
+
+    .next {
+      background: url('/assets/images/icons/BOTON-SIGUIENTE.png');
+      background-size: cover;
+    }
+  }
+}
+
+.row_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.list_actions_container {
+  margin: 10px 0 0 8px;
+
+  .button_add {
+    background-color: #00336a !important;
+    border-color: #00336a !important;
+    color: #fff !important;
+  }
+}
+
+.end_flow {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  .finish_button {
+    background-color: #00336a;
+    border-color: #80b3e0;
+    color: #fff;
+    height: 50px;
+    width: 150px;
+  }
+
+  .finish_button:hover {
+    border-color: #fff;
+    color: #fff !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .input_element {
+    &_auto {
+      max-width: 250px !important;
+      width: 250px !important;
+    }
+  }
+}
