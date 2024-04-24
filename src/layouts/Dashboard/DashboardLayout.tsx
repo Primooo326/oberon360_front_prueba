@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { setUbicaciones } = useUbicaciones()
     const { setClientes, clienteSelected } = useClientesStore()
     const { setToken, token } = useLoginStore.getState()
-    const { setVehiculos, vehiculos, vehiculosFiltered } = useVehiculosStore()
+    const { setVehiculos, vehiculosFiltered } = useVehiculosStore()
     const { setMobiles } = useMobilesStore()
     const { setIndicadores } = useIndicadoresStore()
     const { theme, itemSidebarRight, setItemSidebarRight, showSidebar, setMapConfig, mapConfig, mapExpand } = useSystemStore()

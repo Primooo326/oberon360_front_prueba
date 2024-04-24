@@ -82,7 +82,6 @@ export default function Dashboard() {
                                     exit={{ x: '100%' }}
                                     transition={{ type: 'linear', stiffness: 200 }}
                                 >
-
                                     <SidebarRight item={itemSidebarRight.item} content={itemSidebarRight.content} />
                                 </motion.div>
                             )}

@@ -1,9 +1,8 @@
 import { API_BASE_URL, API_WEB_URL, API_IC_URL } from "@/config";
-import { useLoginStore } from "@/states/Login.state";
 import axios, { type AxiosResponse, type ResponseType } from 'axios';
 import { toast } from "react-toastify";
 import Cookies from 'js-cookie';
-
+import { useRouter } from "next/navigation";
 const instance = (api: "base" | "web" | "i+c") => {
 
     let baseURL = 'base';
@@ -43,6 +42,9 @@ const instance = (api: "base" | "web" | "i+c") => {
         (error) => {
 
             if (error.response && Number(error.response.status) === 401) {
+                Cookies.remove('token');
+                const router = useRouter();
+                router.push('/auth');
             } else if (error.code === 'ERR_NETWORK') {
                 toast.error('Error de red, verifique su conexión a internet.');
             }
