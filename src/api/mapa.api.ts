@@ -32,3 +32,9 @@ export const reportsIndicators = async () => {
 export const getEventsPlatesDispon = async () => {
     return await fetchApiWeb.get("map/getEventsPlatesDispon");
 }
+
+// api/map/getInfoDriver/133
+
+export const getInfoDriver = async (id: string) => {
+    return await fetchApiWeb.get(`map/getInfoDriver/${id}`);
+}

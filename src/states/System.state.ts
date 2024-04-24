@@ -22,11 +22,13 @@ interface SystemState {
         zoom: number;
         fixed: boolean;
         center: { lat: number; lng: number; };
+        showLoadMap: boolean;
     }
     setMapConfig: (mapConfig: {
         zoom: number;
         fixed: boolean;
         center: { lat: number; lng: number; };
+        showLoadMap: boolean;
     }) => void;
     resetMapConfig: () => void;
 }
@@ -41,7 +43,8 @@ export const useSystemStore = create<SystemState>((set) => ({
     mapConfig: {
         zoom: 5,
         fixed: true,
-        center: { lat: 3.3345374, lng: -74.2701511, }
+        center: { lat: 3.3345374, lng: -74.2701511, },
+        showLoadMap: false
     },
     setMapConfig: (mapConfig) => set({ mapConfig }),
     itemSidebarRight: null,
@@ -53,7 +56,8 @@ export const useSystemStore = create<SystemState>((set) => ({
             mapConfig: {
                 zoom: 5,
                 fixed: true,
-                center: { lat: 3.3345374, lng: -74.2701511, }
+                center: { lat: 3.3345374, lng: -74.2701511, },
+                showLoadMap: false
             }
         })
         useSystemStore.setState({

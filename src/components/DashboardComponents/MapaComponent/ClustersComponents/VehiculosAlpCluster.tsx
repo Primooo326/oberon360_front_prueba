@@ -27,13 +27,13 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
 
     const clusterStylesVehiculos: any = [
 
-        {
-            url: Primaria.url,
-            height: 40,
-            width: 40,
+        // {
+        //     url: Primaria.url,
+        //     height: 40,
+        //     width: 40,
 
-            className: 'clusterText',
-        },
+        //     className: 'clusterText',
+        // },
         {
             url: Primaria.url,
             height: 60,

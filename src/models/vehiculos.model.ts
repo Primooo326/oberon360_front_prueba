@@ -91,3 +91,19 @@ export interface IVehiculo {
     PUN_LONGITUD: string;
     statusItinerary: EItenaryState
 }
+export interface IConductor {
+    CONDUCTOR_ID: string;
+    CONDUCTOR_ID_TIPOIDENTIFICACION: string;
+    CONDUCTOR_IDENTIFICACION: string;
+    CONDUCTOR_CODCONDUCTOR: string;
+    CONDUCTOR_PRIMERNOMBRE: string;
+    CONDUCTOR_SEGUNDONOMBRE: string;
+    CONDUCTOR_PRIMERAPELLIDO: string;
+    CONDUCTOR_SEGUNDOAPELLIDO: string;
+    CONDUCTOR_ID_RH: number;
+    CONDUCTOR_TELPERSONAL: string;
+    CONDUCTOR_TELCORPORATIVO: string;
+    CONDUCTOR_CORREO: string;
+    CONDUCTOR_FOTO: string;
+    CONDUCTOR_ESTADO: string;
+}

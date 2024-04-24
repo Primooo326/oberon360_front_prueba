@@ -1,0 +1,111 @@
+@import './studyFlows.scss';
+
+#edit_studie {
+  background-image: url('/assets/images/icons/operation/MODIFICAR.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#export_studie {
+  background-image: url('/assets/images/icons/operation/EXPORTAR-BLANCO.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#news_studie {
+  background-image: url('/assets/images/icons/operation/NOVEDADES.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#update_studie {
+  background-image: url('/assets/images/icons/operation/ACTUALIZAR.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#schedule_studie {
+  background-image: url('/assets/images/icons/operation/PROGRAMAR.png');
+}
+
+#execute_studie {
+  background-image: url('/assets/images/icons/operation/REALIZAR-ESTUDIO.png');
+}
+
+#report_studie {
+  background-image: url('/assets/images/icons/operation/INFORME-BLANCO.png');
+}
+
+#finish_studie {
+  background-image: url('/assets/images/icons/operation/ENVIAR-A-QA.png');
+}
+
+.breadcrumb_flow {
+  margin-left: 45px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+
+  .item_breadcrumb {
+    color: #000;
+    font-size: 12px;
+    font-family: 'Gilroy-Regular';
+    font-weight: 500;
+
+    &_active {
+      color: #00336a;
+      font-weight: 700;
+    }
+  }
+}
+
+.header_customer_info {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 20px;
+  margin-top: 50px;
+
+  .row_info {
+    display: flex;
+    align-items: center;
+
+    .label {
+      color: #000;
+      font-size: 16px;
+      font-family: 'Gilroy-Bold';
+      font-weight: bold;
+    }
+
+    .info_box_container {
+      width: 180px;
+      height: 30px;
+      border: 2px solid #7590ae;
+      margin-left: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header_customer_info {
+    flex-direction: column;
+
+    .row_info {
+      flex-direction: column;
+    }
+  }
+}

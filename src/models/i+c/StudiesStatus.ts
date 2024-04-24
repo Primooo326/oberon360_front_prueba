@@ -1,0 +1,24 @@
+export enum StudiesStatus {
+  UNASSIGNED = 'UNASSIGNED',
+  ASSIGNED = 'ASSIGNED',
+  IN_PROCESS = 'IN_PROCESS',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  RETURNING = 'RETURNING',
+  POSTED = 'POSTED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum StudiesStatusLabels {
+  UNASSIGNED = 'SIN ASIGNAR',
+  ASSIGNED = 'ASIGNADO',
+  IN_PROCESS = 'EN PROCESO',
+  UNDER_REVIEW = 'EN REVISIÓN',
+  RETURNING = 'DEVOLUCIÓN',
+  POSTED = 'PUBLICADO',
+  CANCELLED = 'CANCELADO',
+}
+
+export enum StudiesProgrammingStatus {
+  SCHEDULED = 'SCHEDULED',
+  DONE = 'DONE',
+}

@@ -1,0 +1,20 @@
+#filter_client {
+  background-image: url('/assets/images/icons/operation/NOVEDADES.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+#add_client {
+  background-image: url('/assets/images/icons/operation/AGREGAR.png');
+}
+
+#edit_client {
+  background-image: url('/assets/images/icons/operation/MODIFICAR.png');
+}
+
+#delete_client {
+  background-image: url('/assets/images/icons/operation/ELIMINAR.png');
+}

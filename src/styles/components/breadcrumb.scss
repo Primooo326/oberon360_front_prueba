@@ -1,0 +1,18 @@
+.breadcrum_container {
+  margin-top: 40px;
+
+  .breadcrum_item {
+    color: #fff !important;
+    background-color: transparent !important;
+    font-family: 'Gilroy-Bold' !important;
+    font-size: 14px !important;
+  }
+
+  .breadcrum_item:hover {
+    color: #134375 !important;
+  }
+
+  .active_breadcrumb {
+    color: #134375 !important;
+  }
+}
