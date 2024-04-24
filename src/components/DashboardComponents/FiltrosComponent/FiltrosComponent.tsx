@@ -15,7 +15,7 @@ export default function FiltrosComponent() {
         //border radius
         control: (styles) => ({ ...styles, borderRadius: '0.5rem', minHeight: 'auto', height: '2rem', maxHeight: "2rem", fontSize: '0.875rem', alignContent: 'center' }),
     }
-    const handleSelectCliente = (selectedOption: { value: string, label: string }) => {
+    const handleSelectCliente: any = (selectedOption: { value: string, label: string }) => {
         if (selectedOption === null) return setClienteSelected(null)
         setClienteSelected(clientes.find(cliente => cliente.CLIE_ID_REG === selectedOption.value) || null)
         setSelectedOption(selectedOption)

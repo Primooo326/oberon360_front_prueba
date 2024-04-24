@@ -22,7 +22,7 @@ export default function FiltrosSubmenu() {
 
 
 
-    const handleSelectVehiculo = (selectedOption: { value: IVehiculo, label: string }) => {
+    const handleSelectVehiculo: any = (selectedOption: { value: IVehiculo, label: string }) => {
         if (selectedOption) {
 
             setPlacasVehiculosSelected(selectedOption)
@@ -36,7 +36,7 @@ export default function FiltrosSubmenu() {
         }
     }
 
-    const handleSelectConductor = (selectedOption: { value: IVehiculo, label: string }) => {
+    const handleSelectConductor: any = (selectedOption: { value: IVehiculo, label: string }) => {
         if (selectedOption) {
 
             setConductoresSelected(selectedOption)

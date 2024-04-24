@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-
+import Image from "next/image";
 export default function ResetCard({ setCargando }: { setCargando: (b: boolean) => void }) {
     const router = useRouter()
 
@@ -21,7 +21,7 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
         setConfirmPassword(event.target.value);
     };
 
-    const onClickReset = async (e) => {
+    const onClickReset = async (e: any) => {
         e.preventDefault();
         setCargando(true);
         try {
@@ -48,7 +48,7 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
     }, [])
     return (
         <div className="card bg-primary p-[30px] flex flex-col items-center">
-            <img className="usuLogo" src={usuLogo} alt="Usuario Logo" />
+            <Image className="usuLogo" src={usuLogo} alt="Usuario Logo" />
             <h1 className="font-bold text-xl text-info mt-5 " >Cambia de contraseña</h1>
             <form className="mt-5" >
                 <label className="input  flex items-center gap-2 mt-3">

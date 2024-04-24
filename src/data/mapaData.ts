@@ -363,7 +363,7 @@ export const Secundaria: any = {
     url: "/assets/img/MapaIconos/nuevos/FLOTA SECUNDARIA.svg",
     scaledSize: { width: 50, height: 50 },
 };
-export const Mobile = {
+export const Mobile: any = {
     url: "/assets/img/MapaIconos/nuevos/MOBILE.svg",
     scaledSize: { width: 50, height: 50 },
 };
