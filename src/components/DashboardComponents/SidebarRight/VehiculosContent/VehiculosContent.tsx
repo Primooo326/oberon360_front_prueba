@@ -7,9 +7,9 @@ import { IoIosSpeedometer } from "react-icons/io";
 import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import type { IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
-import { evaluarItinerario, formatFecha } from "@/utils/i+c/tools";
+import { evaluarItinerario, formatFecha } from "@/utils/tools";
 import { IoWarning } from "react-icons/io5";
-import { getItinerary } from "@/api/mapa.api";
+import { getInfoDriver, getItinerary } from "@/api/mapa.api";
 import Image from "next/image";
 export default function VehiculosContent({ content }: { content: IVehiculo }) {
 
@@ -27,7 +27,10 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
                 itinerarioEvaluated: evaluarItinerario(itinerario)
             }
         })
-        setItinerary(itinerarioEvaluated)
+        setItinerary(itinerarioEvaluated.sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN))
+
+        // const responseConductor = await getInfoDriver(content.ITINE_ID)
+        // console.log(responseConductor);
     }
 
     useEffect(() => {

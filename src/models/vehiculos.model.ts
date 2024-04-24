@@ -91,3 +91,4 @@ export interface IVehiculo {
     PUN_LONGITUD: string;
     statusItinerary: EItenaryState
 }
+

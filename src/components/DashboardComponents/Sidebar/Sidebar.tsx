@@ -71,18 +71,30 @@ export default function Sidebar() {
             <div className="flex flex-col justify-between z-10 w-16 h-screen bg-base-100 py-8 dark:bg-gray-900 dark:border-gray-700 border-r">
                 <div className="flex flex-col items-center space-y-8" >
 
-                    <Image src="/OBERON-DEGRADADO.png" alt="logo oberon" width={30} height={30} />
+                    <Image src="/OBERON-DEGRADADO.png" alt="logo oberon" width={48} height={48} />
 
                     {subMenus.map((subMenu, index) => (
-                        <button key={index} onClick={() => handleMenuChange(subMenu)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu}>
-                            {subMenu.icon}
-                        </button>
+                        <div className="tooltip tooltip-right" data-tip={subMenu.title}>
+                            <button key={index} onClick={() => handleMenuChange(subMenu)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu}>
+                                {subMenu.icon}
+                            </button>
+                        </div>
                     ))}
                 </div>
                 <div className="flex flex-col items-center space-y-8" >
 
                     <button className={styleSubmenu} onClick={() => theme === "oberon" ? setTheme("dark") : setTheme("oberon")} >
-                        {theme === "oberon" ? <FaMoon className="w-6 h-auto text-blue-800" /> : <FaSun className="w-6 h-auto" />}
+                        {theme === "oberon" ?
+                            <div className="tooltip tooltip-right" data-tip="Modo oscuro">
+
+                                <FaMoon className="w-6 h-auto text-blue-800" />
+                            </div>
+                            :
+                            <div className="tooltip tooltip-right" data-tip="Modo claro">
+
+                                <FaSun className="w-6 h-auto" />
+                            </div>
+                        }
                     </button>
                     <button className={styleSubmenu}>
                         <FiSettings className="w-6 h-auto" />

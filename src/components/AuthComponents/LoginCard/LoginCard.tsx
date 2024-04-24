@@ -34,7 +34,8 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
             Cookies.set("token", respuesta.token);
             if (respuesta.resetPass) {
                 setReset(true);
-            } else {
+            }
+            else {
                 router.push("/dashboard")
             }
         } catch (error: any) {
@@ -51,7 +52,7 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
         const data = await verifyJWT(token)
         console.log(data);
         if (data !== false) {
-            // navigate("/mapa")
+            router.push("/dashboard")
         }
     }
 
@@ -65,7 +66,7 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
     return (
         <div className="card bg-primary px-[30px] lg:py-[20px] md:py-[20px] flex flex-col items-center">
             <Image className="usuLogo" src={usuLogo} alt="Usuario Logo" />
-            <h1 className="font-bold text-xl text-info mt-5 " >INGRESO</h1>
+            <h1 className="font-bold text-xl text-info mt-5" >INGRESO</h1>
             <form className="mt-5" >
                 <label className="input input-primary flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
