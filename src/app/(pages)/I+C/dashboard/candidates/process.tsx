@@ -1,11 +1,10 @@
 import React from 'react';
 import CandidatesLayoutComponent from '@/components/i+c/layout/Candidates';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
-import { useAppSelector } from '@/redux/hooks';
-import { selectFinishProcess } from '@/redux/slices/candidates';
+import { useICCandidatesStore } from '@/states/i+c/I+C-candidates.state';
 
 export default function CandidatesDashboardProcess() {
-  const submitDataProcess = useAppSelector(selectFinishProcess);
+  const { finishProcess } = useICCandidatesStore()
 
   return (
     <CandidatesLayoutComponent>
@@ -18,7 +17,7 @@ export default function CandidatesDashboardProcess() {
             <div className="progess_bar">
               <div className="progess_content">
                 <div
-                  className={`progress_item progress_item_start ${submitDataProcess === true
+                  className={`progress_item progress_item_start ${finishProcess === true
                     ? 'status_completed'
                     : 'status_in_process'
                     }`}
@@ -27,7 +26,7 @@ export default function CandidatesDashboardProcess() {
                   <h4>REGISTRO DE INFORMACIÓN</h4>
                 </div>
                 <div
-                  className={`progress_item ${submitDataProcess !== true
+                  className={`progress_item ${finishProcess !== true
                     ? 'status_completed'
                     : 'status_in_process'
                     }`}

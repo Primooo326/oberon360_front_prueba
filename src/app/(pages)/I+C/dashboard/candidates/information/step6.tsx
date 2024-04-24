@@ -13,13 +13,6 @@ import {
   notification,
 } from 'antd';
 import type { CandidatesStep6FieldType } from '@/models/i+c/FormTypes';
-import {
-  saveReferencesData,
-  selectFinishProcess,
-  selectReferencesData,
-  setFinishProcess,
-} from '@/redux/slices/candidates';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import ParameterList from '@/components/i+c/common/ParameterList';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
 import {
@@ -35,14 +28,14 @@ import type { UploadFile } from 'antd/lib';
 import Loading from '@/components/i+c/ui/Loading';
 import { CandidateModuleData } from '@/models/i+c/CandidateModuleData';
 import { beforeUpload } from '@/utils/i+c/helpers';
+import { useICCandidatesStore } from '@/states/i+c/I+C-candidates.state';
 
 export default function CandidatesInformationStep6() {
+  const { setFinishProcess, referencesData, finishProcess, saveReferencesData } = useICCandidatesStore()
+
   const [listFiles, setListFiles] = useState<any[]>([]);
   const [finishRetrieveData, setFinishRetrieveData] = useState(false);
-  const submitData = useAppSelector(selectFinishProcess);
-  const referencesData = useAppSelector(selectReferencesData);
   const [loadingSave, setloadingSave] = useState(false);
-  const dispatch = useAppDispatch();
   const [api, contextHolder] = notification.useNotification();
   const router = useRouter();
   const [form] = Form.useForm();
@@ -130,7 +123,7 @@ export default function CandidatesInformationStep6() {
                   completeCandidateProcess()
                     .then((response) => {
                       if (response) {
-                        dispatch(setFinishProcess(true));
+                        setFinishProcess(true)
                         router.push('/I+C/dashboard/candidates/calendar');
                         setloadingSave(false);
                       }
@@ -166,7 +159,7 @@ export default function CandidatesInformationStep6() {
         const updatedObject = { ...mapReferencesData[index], [key]: value };
         mapReferencesData[index] = updatedObject;
       }
-      dispatch(saveReferencesData(mapReferencesData));
+      saveReferencesData(mapReferencesData)
     }
   }
 
@@ -310,7 +303,7 @@ export default function CandidatesInformationStep6() {
                           >
                             <Input
                               placeholder="Nombres Completos"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -321,7 +314,7 @@ export default function CandidatesInformationStep6() {
                             placeHolder="Parentesco"
                             requiredMessage="Selecciona un Parentesco!"
                             fieldProps={restField}
-                            disabled={submitData}
+                            disabled={finishProcess}
                           />
 
                           <Form.Item
@@ -332,7 +325,7 @@ export default function CandidatesInformationStep6() {
                           >
                             <Input
                               placeholder="Telefono"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -352,7 +345,7 @@ export default function CandidatesInformationStep6() {
                               className="w_100"
                               placeholder="Tiempo de Conocidos (Años)"
                               type="number"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -371,7 +364,7 @@ export default function CandidatesInformationStep6() {
                           >
                             <Input
                               placeholder="Ámbito en el que se conocieron"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -382,7 +375,7 @@ export default function CandidatesInformationStep6() {
                             fieldProps={restField}
                             placeHolder="Profesión"
                             requiredMessage="Selecciona un Profesión!"
-                            disabled={submitData}
+                            disabled={finishProcess}
                           />
 
                           <Form.Item
@@ -397,7 +390,7 @@ export default function CandidatesInformationStep6() {
                               className="w_100"
                               defaultFileList={defaultFiles(name)}
                               maxCount={1}
-                              disabled={submitData}
+                              disabled={finishProcess}
                             >
                               <Button className="button_upload_control">
                                 <div className="loader_file_container">

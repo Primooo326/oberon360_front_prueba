@@ -1,9 +1,9 @@
-import React, { type ReactElement } from 'react';
+import type React from 'react';
 
 export default function OperationFooter({
   children,
 }: {
-  children: ReactElement;
+  children: React.ReactNode;
 }) {
   return (
     <div className="operation_bottom_container">

@@ -90,7 +90,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 center: {
                     lat: Number.parseFloat(`${vehiculo.WTLT_LAT}`),
                     lng: Number.parseFloat(`${vehiculo.WTLT_LON}`)
-                }
+                },
+                showLoadMap: false
             })
 
         }

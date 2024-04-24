@@ -4,26 +4,19 @@ import CandidatesLayoutComponent from '@/components/i+c/layout/Candidates';
 import BreadcrumbComponent from '@/components/i+c/ui/Breadcrumb';
 import { Button, Form, Input, InputNumber, Select, Space } from 'antd';
 import { MinusCircleOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import {
-  saveParentsAndSiblingsData,
-  selectFinishProcess,
-  selectParentSiblingsData,
-} from '@/redux/slices/candidates';
 import type { CandidatesStep3FieldType } from '@/models/i+c/FormTypes';
 import YesOrNot from '@/components/i+c/common/YesOrNot';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
 import ParameterList from '@/components/i+c/common/ParameterList';
 import { loadParentsAndSiblingsData } from '@/api/i+c/Candidates';
 import { showError, showSuccess } from '@/components/i+c/ui/Toast';
+import { useICCandidatesStore } from '@/states/i+c/I+C-candidates.state';
 
 export default function CandidatesInformationStep3() {
-  const parentSiblingsData = useAppSelector(selectParentSiblingsData);
-  const submitData = useAppSelector(selectFinishProcess);
   const [loadingSave, setloadingSave] = useState(false);
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
+  const { saveParentsAndSiblingsData, parentSiblingsData, finishProcess } = useICCandidatesStore()
 
   function changeData(event: any) {
     const value: any = Object.values(event)[0];
@@ -34,7 +27,7 @@ export default function CandidatesInformationStep3() {
     if (key === 'numberOfSiblings') {
       const siblingInfo = form.getFieldValue('siblingInformation');
       const currentItemCount = siblingInfo?.length;
-      let newSiblings;
+      let newSiblings: any;
       if (value > currentItemCount) {
         const itemsToAdd = value - currentItemCount;
         newSiblings = [...siblingInfo];
@@ -68,7 +61,7 @@ export default function CandidatesInformationStep3() {
     } else {
       mapParentSiblingsData[key] = value;
     }
-    dispatch(saveParentsAndSiblingsData(mapParentSiblingsData));
+    saveParentsAndSiblingsData(mapParentSiblingsData)
   }
 
   function onFinish(values: any) {
@@ -215,7 +208,7 @@ export default function CandidatesInformationStep3() {
                 >
                   <Input
                     placeholder="Nombres Completos"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -223,7 +216,7 @@ export default function CandidatesInformationStep3() {
                   label="¿Vive?"
                   name="motherLives"
                   requiredMessage="Selecciona una opción"
-                  disabled={submitData}
+                  disabled={finishProcess}
                 />
 
                 {parentSiblingsData.motherLives && (
@@ -239,7 +232,7 @@ export default function CandidatesInformationStep3() {
                         },
                       ]}
                     >
-                      <Input placeholder="Dirección" disabled={submitData} />
+                      <Input placeholder="Dirección" disabled={finishProcess} />
                     </Form.Item>
 
                     <Form.Item<CandidatesStep3FieldType>
@@ -257,7 +250,7 @@ export default function CandidatesInformationStep3() {
                         className="w_100"
                         placeholder="Edad"
                         type="number"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </Form.Item>
 
@@ -270,7 +263,7 @@ export default function CandidatesInformationStep3() {
                         className="w_100"
                         placeholder="Telefono"
                         type="number"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </Form.Item>
 
@@ -278,7 +271,7 @@ export default function CandidatesInformationStep3() {
                       label="¿Vive con ella?"
                       name="motherLivesWith"
                       requiredMessage="Selecciona una opción"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
 
                     <ParameterList
@@ -287,7 +280,7 @@ export default function CandidatesInformationStep3() {
                       name="motherProfession"
                       placeHolder="Profesión"
                       requiredMessage="Selecciona un Profesión!"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
 
                     <Form.Item<CandidatesStep3FieldType>
@@ -305,7 +298,7 @@ export default function CandidatesInformationStep3() {
                         className="w_100"
                         placeholder="Celular"
                         type="number"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </Form.Item>
                   </>
@@ -326,7 +319,7 @@ export default function CandidatesInformationStep3() {
                 >
                   <Input
                     placeholder="Nombres Completos"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -334,7 +327,7 @@ export default function CandidatesInformationStep3() {
                   label="¿Vive?"
                   name="fatherLives"
                   requiredMessage="Selecciona una opción"
-                  disabled={submitData}
+                  disabled={finishProcess}
                 />
 
                 {parentSiblingsData.fatherLives && (
@@ -350,7 +343,7 @@ export default function CandidatesInformationStep3() {
                         },
                       ]}
                     >
-                      <Input placeholder="Dirección" disabled={submitData} />
+                      <Input placeholder="Dirección" disabled={finishProcess} />
                     </Form.Item>
 
                     <Form.Item<CandidatesStep3FieldType>
@@ -368,7 +361,7 @@ export default function CandidatesInformationStep3() {
                         className="w_100"
                         placeholder="Edad"
                         type="number"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </Form.Item>
 
@@ -381,7 +374,7 @@ export default function CandidatesInformationStep3() {
                         className="w_100"
                         placeholder="Telefono"
                         type="number"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </Form.Item>
 
@@ -389,7 +382,7 @@ export default function CandidatesInformationStep3() {
                       label="¿Vive con el?"
                       name="fatherLivesWith"
                       requiredMessage="Selecciona una opción"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
 
                     <ParameterList
@@ -398,7 +391,7 @@ export default function CandidatesInformationStep3() {
                       name="fatherProfession"
                       placeHolder="Profesión"
                       requiredMessage="Selecciona un Profesión!"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
 
                     <Form.Item<CandidatesStep3FieldType>
@@ -416,7 +409,7 @@ export default function CandidatesInformationStep3() {
                         className="w_100"
                         placeholder="Celular"
                         type="number"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </Form.Item>
                   </>
@@ -441,7 +434,7 @@ export default function CandidatesInformationStep3() {
                     <Select
                       className="w_100"
                       placeholder="No. de Hermanos"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     >
                       <Select.Option value="0">0</Select.Option>
                       <Select.Option value="1">1</Select.Option>
@@ -485,7 +478,7 @@ export default function CandidatesInformationStep3() {
                             >
                               <Input
                                 placeholder="Nombres Completos"
-                                disabled={submitData}
+                                disabled={finishProcess}
                               />
                             </Form.Item>
 
@@ -496,7 +489,7 @@ export default function CandidatesInformationStep3() {
                               name={[name, 'profession']}
                               placeHolder="Profesión"
                               requiredMessage="Selecciona un Profesión!"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
 
                             <Form.Item
@@ -513,7 +506,7 @@ export default function CandidatesInformationStep3() {
                             >
                               <Input
                                 placeholder="Dirección/Barrio"
-                                disabled={submitData}
+                                disabled={finishProcess}
                               />
                             </Form.Item>
 
@@ -525,7 +518,7 @@ export default function CandidatesInformationStep3() {
                             >
                               <Input
                                 placeholder="Telefono"
-                                disabled={submitData}
+                                disabled={finishProcess}
                               />
                             </Form.Item>
 

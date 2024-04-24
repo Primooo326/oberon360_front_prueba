@@ -1,12 +1,11 @@
-import React, { type ReactElement } from 'react';
+import type React from 'react';
 import PrivateRoute from './PrivateRoute';
 
-type LayoutProps = {
-  children: ReactElement;
-};
 
-function DashboardLayout({ children }: LayoutProps) {
-  return <>{children}</>;
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return <PrivateRoute>
+    {children}
+  </PrivateRoute>
 }
 
-export default PrivateRoute(DashboardLayout);

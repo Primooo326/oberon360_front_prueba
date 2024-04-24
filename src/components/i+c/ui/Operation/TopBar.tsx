@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { type ReactElement } from 'react';
+import type React from 'react';
 import UserAvatar from '../UserAvatar';
 
 export default function OperationTopBar({
@@ -8,7 +8,7 @@ export default function OperationTopBar({
   path = '/',
 }: {
   title: string;
-  children: ReactElement;
+  children?: React.ReactNode;
   path?: string;
 }) {
   return (

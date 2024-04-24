@@ -5,13 +5,6 @@ import CandidatesLayoutComponent from '@/components/i+c/layout/Candidates';
 import BreadcrumbComponent from '@/components/i+c/ui/Breadcrumb';
 import { Button, DatePicker, Form, Input, Space, Upload } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  saveWorkAcademicData,
-  selectBasicData,
-  selectFinishProcess,
-  selectWorkAcademicData,
-} from '@/redux/slices/candidates';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import ParameterList from '@/components/i+c/common/ParameterList';
 import YesOrNot from '@/components/i+c/common/YesOrNot';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
@@ -27,15 +20,14 @@ import Loading from '@/components/i+c/ui/Loading';
 import { FileTypes } from '@/models/i+c/FileTypes';
 import type { UploadFile } from 'antd/lib';
 import { beforeUpload } from '@/utils/i+c/helpers';
+import { useICCandidatesStore } from '@/states/i+c/I+C-candidates.state';
 
 export default function CandidatesInformationStep2() {
-  const workAcademicData = useAppSelector(selectWorkAcademicData);
   const [callLists, setCallLists] = useState(false);
   const [loadingSave, setloadingSave] = useState(false);
-  const submitData = useAppSelector(selectFinishProcess);
   const [listFiles, setListFiles] = useState<any[]>([]);
-  const basicData = useAppSelector(selectBasicData);
-  const dispatch = useAppDispatch();
+  const { basicData, finishProcess, workAcademicData, saveWorkAcademicData } = useICCandidatesStore()
+
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -90,7 +82,7 @@ export default function CandidatesInformationStep2() {
       const key = Object.keys(event)[0];
       mapWorkAcademicData[key] = value;
     }
-    dispatch(saveWorkAcademicData(mapWorkAcademicData));
+    saveWorkAcademicData(mapWorkAcademicData)
   }
 
   function onFinish(values: any) {
@@ -328,7 +320,7 @@ export default function CandidatesInformationStep2() {
                             >
                               <Input
                                 placeholder="Título"
-                                disabled={submitData}
+                                disabled={finishProcess}
                               />
                             </Form.Item>
 
@@ -340,7 +332,7 @@ export default function CandidatesInformationStep2() {
                               placeHolder="Institución Educativa"
                               requiredMessage="Selecciona la Academia!"
                               fieldProps={restField}
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
 
                             <Form.Item
@@ -358,7 +350,7 @@ export default function CandidatesInformationStep2() {
                                 format="YYYY/MM/DD"
                                 className="w_100"
                                 placeholder="Fecha de Grado"
-                                disabled={submitData}
+                                disabled={finishProcess}
                               />
                             </Form.Item>
 
@@ -369,7 +361,7 @@ export default function CandidatesInformationStep2() {
                               placeHolder="Tipo de Estudio"
                               requiredMessage="Selecciona un Tipo de Estudio!"
                               fieldProps={restField}
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
 
                             <Form.Item
@@ -394,7 +386,7 @@ export default function CandidatesInformationStep2() {
                                   FileTypes.CANDIDATE_ACADEMIC_DIPLOMA
                                 )}
                                 maxCount={1}
-                                disabled={submitData}
+                                disabled={finishProcess}
                               >
                                 <Button className="button_upload_control">
                                   <div className="loader_file_container">
@@ -429,7 +421,7 @@ export default function CandidatesInformationStep2() {
                                   FileTypes.CANDIDATE_ACADEMIC_CERTIFICATE
                                 )}
                                 maxCount={1}
-                                disabled={submitData}
+                                disabled={finishProcess}
                               >
                                 <Button className="button_upload_control">
                                   <div className="loader_file_container">
@@ -472,7 +464,7 @@ export default function CandidatesInformationStep2() {
                     label="¿Cuenta con experiencia Laboral?"
                     name="needWorkExperience"
                     requiredMessage="Selecciona una opción"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </div>
 
@@ -508,7 +500,7 @@ export default function CandidatesInformationStep2() {
                                   >
                                     <Input
                                       placeholder="Cargo"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -527,7 +519,7 @@ export default function CandidatesInformationStep2() {
                                   >
                                     <Input
                                       placeholder="Nombre de la Empresa"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -547,7 +539,7 @@ export default function CandidatesInformationStep2() {
                                       format="YYYY/MM/DD"
                                       className="w_100"
                                       placeholder="Fecha de Ingreso"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -567,7 +559,7 @@ export default function CandidatesInformationStep2() {
                                       format="YYYY/MM/DD"
                                       className="w_100"
                                       placeholder="Fecha de Egreso"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -579,7 +571,7 @@ export default function CandidatesInformationStep2() {
                                   >
                                     <Input
                                       placeholder="Nombre Jefe Directo"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -591,7 +583,7 @@ export default function CandidatesInformationStep2() {
                                   >
                                     <Input
                                       placeholder="Telefono Jefe Directo"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -603,7 +595,7 @@ export default function CandidatesInformationStep2() {
                                   >
                                     <Input
                                       placeholder="Cargo Jefe Directo"
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     />
                                   </Form.Item>
 
@@ -629,7 +621,7 @@ export default function CandidatesInformationStep2() {
                                         FileTypes.CANDIDATE_EMPLOYMENT_CERTIFICATE
                                       )}
                                       maxCount={1}
-                                      disabled={submitData}
+                                      disabled={finishProcess}
                                     >
                                       <Button className="button_upload_control">
                                         <div className="loader_file_container">

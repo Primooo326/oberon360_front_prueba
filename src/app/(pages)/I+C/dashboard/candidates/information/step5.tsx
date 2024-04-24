@@ -17,27 +17,17 @@ import ParameterList from '@/components/i+c/common/ParameterList';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
 import { optionConfig } from '@/data/constants';
 import { getDistrictsByMunicipality } from '@/api/i+c/Parameters';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import {
-  savePeopleWithlivesAndHousingData,
-  selectBasicData,
-  selectFinishProcess,
-  selectPeopleWithlivesAndHousingData,
-} from '@/redux/slices/candidates';
 import { showError, showSuccess } from '@/components/i+c/ui/Toast';
 import type { CandidatesStep5FieldType } from '@/models/i+c/FormTypes';
 import { loadPeopleWithlivesAndHousingData } from '@/api/i+c/Candidates';
+import { useICCandidatesStore } from '@/states/i+c/I+C-candidates.state';
 
 export default function CandidatesInformationStep5() {
-  const peopleWithlivesAndHousingData = useAppSelector(
-    selectPeopleWithlivesAndHousingData
-  );
-  const basicData = useAppSelector(selectBasicData);
+  const { basicData, savePeopleWithlivesAndHousingData, finishProcess, peopleWithlivesAndHousingData } = useICCandidatesStore()
+
   const [districts, setDistricts] = useState([]);
-  const submitData = useAppSelector(selectFinishProcess);
   const [finishCallCatalogs, setfinishCallCatalogs] = useState(false);
   const [loadingSave, setloadingSave] = useState(false);
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -102,7 +92,7 @@ export default function CandidatesInformationStep5() {
     if (key === 'peopleNumber') {
       const peopleInfo = form.getFieldValue('peopleInformation');
       const currentItemCount = peopleInfo?.length;
-      let newPeoples;
+      let newPeoples: any;
       if (value > currentItemCount) {
         const itemsToAdd = value - currentItemCount;
         newPeoples = [...peopleInfo];
@@ -138,9 +128,7 @@ export default function CandidatesInformationStep5() {
     } else {
       mapPeopleWithlivesAndHousingData[key] = value;
     }
-    dispatch(
-      savePeopleWithlivesAndHousingData(mapPeopleWithlivesAndHousingData)
-    );
+    savePeopleWithlivesAndHousingData(mapPeopleWithlivesAndHousingData)
   }
 
   return (
@@ -215,7 +203,7 @@ export default function CandidatesInformationStep5() {
                   <Select
                     className="w_100"
                     placeholder="No. de Personas con las que vive"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   >
                     <Select.Option value="0">0</Select.Option>
                     <Select.Option value="1">1</Select.Option>
@@ -259,7 +247,7 @@ export default function CandidatesInformationStep5() {
                           >
                             <Input
                               placeholder="Nombres Completos"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -279,7 +267,7 @@ export default function CandidatesInformationStep5() {
                               className="w_100"
                               placeholder="Edad"
                               type="number"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -292,7 +280,7 @@ export default function CandidatesInformationStep5() {
                             <InputNumber
                               className="w_100"
                               placeholder="Telefono"
-                              disabled={submitData}
+                              disabled={finishProcess}
                             />
                           </Form.Item>
 
@@ -303,7 +291,7 @@ export default function CandidatesInformationStep5() {
                             name={[name, 'relationship']}
                             placeHolder="Parentesco"
                             requiredMessage="Selecciona el Parentesco!"
-                            disabled={submitData}
+                            disabled={finishProcess}
                           />
 
                           <ParameterList
@@ -313,7 +301,7 @@ export default function CandidatesInformationStep5() {
                             name={[name, 'maritalStatus']}
                             placeHolder="Estado Civil"
                             requiredMessage="Selecciona el Estado Civil!"
-                            disabled={submitData}
+                            disabled={finishProcess}
                           />
 
                           <ParameterList
@@ -323,7 +311,7 @@ export default function CandidatesInformationStep5() {
                             name={[name, 'profession']}
                             placeHolder="Profesión"
                             requiredMessage="Selecciona un Profesión!"
-                            disabled={submitData}
+                            disabled={finishProcess}
                           />
 
                           <MinusCircleOutlined
@@ -348,7 +336,7 @@ export default function CandidatesInformationStep5() {
                     name="houseType"
                     placeHolder="Tipo de Vivienda"
                     requiredMessage="Selecciona un Tipo de Vivienda!"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
 
                   <Form.Item
@@ -366,7 +354,7 @@ export default function CandidatesInformationStep5() {
                       format="YYYY/MM/DD"
                       className="w_100"
                       placeholder="Desde"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
                   </Form.Item>
 
@@ -389,7 +377,7 @@ export default function CandidatesInformationStep5() {
                       className="w_100"
                       placeholder="Barrio"
                       options={districts}
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
                   </Form.Item>
 
@@ -406,7 +394,7 @@ export default function CandidatesInformationStep5() {
                   >
                     <Input
                       placeholder="Nombre Propietario"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
                   </Form.Item>
 
@@ -421,7 +409,7 @@ export default function CandidatesInformationStep5() {
                       },
                     ]}
                   >
-                    <Select placeholder="Estrato" disabled={submitData}>
+                    <Select placeholder="Estrato" disabled={finishProcess}>
                       <Select.Option value="1">1</Select.Option>
                       <Select.Option value="2">2</Select.Option>
                       <Select.Option value="3">3</Select.Option>
@@ -447,7 +435,7 @@ export default function CandidatesInformationStep5() {
                     <Input
                       className="w_100"
                       placeholder="Dirección"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
                   </Form.Item>
                 </div>

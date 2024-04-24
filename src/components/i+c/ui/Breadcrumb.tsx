@@ -1,14 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Breadcrumb } from 'antd';
 
 export default function BreadcrumbComponent() {
-  const router = useRouter();
 
   const setActiveParam = (step: string) => {
     return (
-      router.pathname.split('/I+C/dashboard/candidates/information/')[1] === step
+      usePathname().split('/I+C/dashboard/candidates/information/')[1] === step
     );
   };
 

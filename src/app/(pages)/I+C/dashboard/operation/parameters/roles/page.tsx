@@ -139,7 +139,7 @@ export default function OperationParametersRolesPage() {
     setSelectedRow(value);
   };
 
-  const handleChangeModulesTransfer = (newTargetKeys: string[]) => {
+  const handleChangeModulesTransfer: any = (newTargetKeys: string[]) => {
     form.setFieldValue('modules', newTargetKeys);
     setTargetKeys(newTargetKeys);
   };

@@ -4,13 +4,7 @@ import dayjs from 'dayjs';
 import { Button, DatePicker, Form, Input, InputNumber, Select } from 'antd';
 import CandidatesLayoutComponent from '@/components/i+c/layout/Candidates';
 import BreadcrumbComponent from '@/components/i+c/ui/Breadcrumb';
-import {
-  saveSpouseAndInlawData,
-  selectBasicData,
-  selectFinishProcess,
-  selectSpouseAndInlawData,
-} from '@/redux/slices/candidates';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+
 import type { CandidatesStep4FieldType } from '@/models/i+c/FormTypes';
 import { optionConfig } from '@/data/constants';
 import {
@@ -24,18 +18,17 @@ import { loadSpouseAndParentsInlawData } from '@/api/i+c/Candidates';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
 import ParameterList from '@/components/i+c/common/ParameterList';
 import Loading from '@/components/i+c/ui/Loading';
+import { useICCandidatesStore } from '@/states/i+c/I+C-candidates.state';
 
 export default function CandidatesInformationStep4() {
+  const { basicData, spouseAndInlawData, finishProcess, saveSpouseAndInlawData } = useICCandidatesStore()
+
   const [loadView, setLoadView] = useState(false);
-  const spouseAndInlawData = useAppSelector(selectSpouseAndInlawData);
-  const basicData = useAppSelector(selectBasicData);
-  const submitData = useAppSelector(selectFinishProcess);
   const [countries, setCountries] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [municipalities, setMunicipalities] = useState([]);
   const [callLists, setCallLists] = useState(false);
   const [loadingSave, setloadingSave] = useState(false);
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -106,7 +99,7 @@ export default function CandidatesInformationStep4() {
     }
     if (key === 'birthDepartment') onChangeDepartment(value);
     mapSpouseAndInlawData[key] = value;
-    dispatch(saveSpouseAndInlawData(mapSpouseAndInlawData));
+    saveSpouseAndInlawData(mapSpouseAndInlawData)
   }
 
   function onFinish() {
@@ -263,7 +256,7 @@ export default function CandidatesInformationStep4() {
                 >
                   <Input
                     placeholder="Nombres Completos"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -282,7 +275,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="No. de Identificación"
                     type="text"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -301,7 +294,7 @@ export default function CandidatesInformationStep4() {
                     format="YYYY/MM/DD"
                     className="w_100"
                     placeholder="Fecha de Nacimiento"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -324,7 +317,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="País de Nacimiento"
                     options={countries}
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -347,7 +340,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="Departamento de Nacimiento"
                     options={departments}
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -370,7 +363,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="Municipio de Nacimiento"
                     options={municipalities}
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -380,7 +373,7 @@ export default function CandidatesInformationStep4() {
                   name="profession"
                   placeHolder="Profesión"
                   requiredMessage="Selecciona un Profesión!"
-                  disabled={submitData}
+                  disabled={finishProcess}
                 />
               </div>
 
@@ -400,7 +393,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="Tiempo de Conocidos (Años)"
                     type="number"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -419,7 +412,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="Edad"
                     type="number"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -432,7 +425,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="Telefono Fijo"
                     type="text"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
 
@@ -451,7 +444,7 @@ export default function CandidatesInformationStep4() {
                     className="w_100"
                     placeholder="Telefono Celular"
                     type="text"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
                 </Form.Item>
               </div>
@@ -473,7 +466,7 @@ export default function CandidatesInformationStep4() {
                   >
                     <Input
                       placeholder="Nombres Completos de la suegra"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
                   </Form.Item>
 
@@ -481,7 +474,7 @@ export default function CandidatesInformationStep4() {
                     label="¿Vive?"
                     name="motherInLawLives"
                     requiredMessage="Selecciona una opción"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
 
                   {spouseAndInlawData?.motherInLawLives && (
@@ -501,7 +494,7 @@ export default function CandidatesInformationStep4() {
                           className="w_100"
                           type="number"
                           placeholder="Edad"
-                          disabled={submitData}
+                          disabled={finishProcess}
                         />
                       </Form.Item>
 
@@ -518,7 +511,7 @@ export default function CandidatesInformationStep4() {
                       >
                         <Input
                           placeholder="Dirección de Residencia"
-                          disabled={submitData}
+                          disabled={finishProcess}
                         />
                       </Form.Item>
 
@@ -537,7 +530,7 @@ export default function CandidatesInformationStep4() {
                           className="w_100"
                           placeholder="Tiempo de Conocidos (Años)"
                           type="number"
-                          disabled={submitData}
+                          disabled={finishProcess}
                         />
                       </Form.Item>
 
@@ -547,7 +540,7 @@ export default function CandidatesInformationStep4() {
                         name="motherInLawProfession"
                         placeHolder="Profesión"
                         requiredMessage="Selecciona un Profesión!"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </>
                   )}
@@ -567,7 +560,7 @@ export default function CandidatesInformationStep4() {
                   >
                     <Input
                       placeholder="Nombres Completos del suegro"
-                      disabled={submitData}
+                      disabled={finishProcess}
                     />
                   </Form.Item>
 
@@ -575,7 +568,7 @@ export default function CandidatesInformationStep4() {
                     label="¿Vive?"
                     name="fatherInLawLives"
                     requiredMessage="Selecciona una opción"
-                    disabled={submitData}
+                    disabled={finishProcess}
                   />
 
                   {spouseAndInlawData?.fatherInLawLives && (
@@ -595,7 +588,7 @@ export default function CandidatesInformationStep4() {
                           className="w_100"
                           type="number"
                           placeholder="Edad"
-                          disabled={submitData}
+                          disabled={finishProcess}
                         />
                       </Form.Item>
 
@@ -612,7 +605,7 @@ export default function CandidatesInformationStep4() {
                       >
                         <Input
                           placeholder="Dirección de Residencia"
-                          disabled={submitData}
+                          disabled={finishProcess}
                         />
                       </Form.Item>
 
@@ -631,7 +624,7 @@ export default function CandidatesInformationStep4() {
                           className="w_100"
                           placeholder="Tiempo de Conocidos (Años)"
                           type="number"
-                          disabled={submitData}
+                          disabled={finishProcess}
                         />
                       </Form.Item>
 
@@ -641,7 +634,7 @@ export default function CandidatesInformationStep4() {
                         name="fatherInLawProfession"
                         placeHolder="Profesión"
                         requiredMessage="Selecciona un Profesión!"
-                        disabled={submitData}
+                        disabled={finishProcess}
                       />
                     </>
                   )}

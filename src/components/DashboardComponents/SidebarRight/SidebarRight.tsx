@@ -18,7 +18,9 @@ export default function SidebarRight({ item, content }: SidebarRightProps) {
             center: {
                 lat: Number.parseFloat(`${(content as IVehiculo).WTLT_LAT}`),
                 lng: Number.parseFloat(`${(content as IVehiculo).WTLT_LON}`)
-            }
+            },
+            showLoadMap: false
+
         })
     }
 

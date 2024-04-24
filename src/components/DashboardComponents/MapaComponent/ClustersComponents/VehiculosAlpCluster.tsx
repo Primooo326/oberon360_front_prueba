@@ -20,7 +20,8 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
             center: {
                 lat: Number.parseFloat(`${marker.WTLT_LAT}`),
                 lng: Number.parseFloat(`${marker.WTLT_LON}`)
-            }
+            },
+            showLoadMap: false
         })
         setItemSidebarRight({ item: "vehiculos", content: marker })
     }

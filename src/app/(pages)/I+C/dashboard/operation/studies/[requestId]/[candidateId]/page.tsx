@@ -1,5 +1,6 @@
+"use client"
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import HelmetTitle from '@/components/i+c/ui/HelmetTitle';
 import OperationLayoutComponent from '@/components/i+c/layout/Operation';
 import OperationTopBar from '@/components/i+c/ui/Operation/TopBar';
@@ -19,19 +20,12 @@ import { Tabs } from 'antd';
 import ACLModules from '@/components/i+c/auth/AccessModule';
 import { EModules } from '@/models/i+c/Modules';
 
-export async function getServerSideProps() {
-  return {
-    props: {},
-  };
-}
-
 export default function OperationStudiesTransactionPage() {
   const [finishLoadInfo, setfinishLoadInfo] = useState(false);
   const [finishRetrieveStudyInfo, setFinishRetrieveStudyInfo] = useState(false);
   const [studyTypesInfo, setStudyTypesInfo] = useState<any[]>([]);
   const [studyInfo, setStudyInfo] = useState<any>(null);
-  const router = useRouter();
-  const { requestId, candidateId } = router.query;
+  const { requestId, candidateId } = useParams();
 
   const renderStudy = (study: any) => {
     const studyType = studyTypesInfo.find(
