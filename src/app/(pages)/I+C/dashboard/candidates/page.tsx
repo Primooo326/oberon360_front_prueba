@@ -1,4 +1,4 @@
-import React from 'react';
+"use client"
 import Link from 'next/link';
 import Image from 'next/image';
 import DashboardLayout from '@/components/i+c/layout/DashboardLayout';
