@@ -1,5 +1,6 @@
 import type { IClienteResponse } from "@/models/ubicaciones.model";
 import { create } from "zustand";
+import { useSystemStore } from "./System.state";
 
 interface ClientesState {
     clientes: IClienteResponse[];
@@ -12,5 +13,8 @@ export const useClientesStore = create<ClientesState>((set) => ({
     clientes: [],
     setClientes: (clientes) => set({ clientes }),
     clienteSelected: null,
-    setClienteSelected: (clienteSelected) => set({ clienteSelected }),
+    setClienteSelected: (clienteSelected) => {
+        useSystemStore.getState().resetMapConfig()
+        set({ clienteSelected })
+    },
 }));

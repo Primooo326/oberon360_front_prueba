@@ -1,5 +1,6 @@
 import type { IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
+import { useSystemStore } from "./System.state";
 
 interface VehiculosFilteredState {
     changeTipos: {
@@ -44,5 +45,19 @@ export const useVehiculosStore = create<VehiculosState>((set) => ({
             disponibles: false
         }
     },
-    setVehiculosFiltered: (vehiculosFiltered) => set({ vehiculosFiltered })
+    setVehiculosFiltered: (vehiculosFiltered) => {
+        useSystemStore.setState((state) => {
+            return {
+                ...state,
+                mapConfig: {
+                    ...state.mapConfig,
+                    zoom: 5,
+                    fixed: true,
+                    center: { lat: 3.3345374, lng: -74.2701511, },
+                    showLoadMap: false
+                }
+            }
+        })
+        set({ vehiculosFiltered })
+    }
 }));

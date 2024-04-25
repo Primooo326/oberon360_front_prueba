@@ -1,3 +1,4 @@
+"use client"
 import { BiExport, BiFilter } from 'react-icons/bi'
 import Select, { type StylesConfig } from 'react-select';
 import { useEffect, useState } from 'react'

@@ -57,9 +57,19 @@ export const useSystemStore = create<SystemState>((set) => ({
                 zoom: 5,
                 fixed: true,
                 center: { lat: 3.3345374, lng: -74.2701511, },
-                showLoadMap: false
+                showLoadMap: true
             }
         })
+        setTimeout(() => {
+            set({
+                mapConfig: {
+                    zoom: 5,
+                    fixed: true,
+                    center: { lat: 3.3345374, lng: -74.2701511, },
+                    showLoadMap: false
+                }
+            })
+        }, 1500);
         useSystemStore.setState({
             itemSidebarRight: null
         });

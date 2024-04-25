@@ -1,3 +1,4 @@
+"use client"
 import PRIMARIA from "@assets/img/MapaIconos/utilities/FLOTA-PRIMARIA.png";
 import SECUNDARIA from "@assets/img/MapaIconos/utilities/FLOTA-SECUNDARI.png";
 import { LineChart } from "@mui/x-charts/LineChart"

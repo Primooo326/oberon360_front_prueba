@@ -1,3 +1,4 @@
+"use client"
 import Sidebar from "@components/DashboardComponents/Sidebar/Sidebar"
 import "./DashboardLayout.css"
 import SidebarRight from "@components/DashboardComponents/SidebarRight/SidebarRight"
@@ -85,7 +86,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             })
 
             setMapConfig({
-                zoom: 15,
+                ...mapConfigRef.current,
                 fixed: true,
                 center: {
                     lat: Number.parseFloat(`${vehiculo.WTLT_LAT}`),

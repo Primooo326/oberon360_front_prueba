@@ -1,3 +1,4 @@
+"use client"
 import React, {
   useState,
   useEffect,
@@ -93,6 +94,11 @@ function MapaGoogle() {
         onUnmount={onUnmount}
         zoom={mapConfig.zoom}
         clickableIcons={false}
+        onZoomChanged={() => {
+          if (map) {
+            setMapConfig({ ...mapConfig, zoom: map.getZoom(), fixed: false })
+          }
+        }}
         onDragStart={() => { setMapConfig({ ...mapConfig, fixed: false }) }}
         options={{
           styles: theme === "oberon" ? mapaDefecto : darkMapStyles,

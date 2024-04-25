@@ -9,7 +9,7 @@ import Select, { type StylesConfig } from 'react-select';
 
 export default function FiltrosSubmenu() {
 
-    const { vehiculos, setVehiculos, setVehiculosFiltered, vehiculosFiltered, setVehiculoSearched } = useVehiculosStore()
+    const { vehiculos, setVehiculosFiltered, vehiculosFiltered, setVehiculoSearched } = useVehiculosStore()
     const { setItemSidebarRight } = useSystemStore()
     const [placasVehiculosOptions, setPlacasVehiculosOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [placasVehiculosSelected, setPlacasVehiculosSelected] = useState<{ value: IVehiculo, label: string } | null>(null)

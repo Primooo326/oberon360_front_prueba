@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useSystemStore } from "./System.state";
 
 interface FiltrosMapaState {
     proteccionFiltro: boolean;
@@ -13,7 +14,16 @@ export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
     proteccionFiltro: true,
     telemetriaFiltro: true,
     mobileFiltro: false,
-    setProteccionFiltro: (value) => set({ proteccionFiltro: value }),
-    setTelemetriaFiltro: (value) => set({ telemetriaFiltro: value }),
-    setMobileFiltro: (value) => set({ mobileFiltro: value }),
+    setProteccionFiltro: (value) => {
+        useSystemStore.getState().resetMapConfig()
+        set({ proteccionFiltro: value })
+    },
+    setTelemetriaFiltro: (value) => {
+        useSystemStore.getState().resetMapConfig()
+        set({ telemetriaFiltro: value })
+    },
+    setMobileFiltro: (value) => {
+        useSystemStore.getState().resetMapConfig()
+        set({ mobileFiltro: value })
+    },
 }));
