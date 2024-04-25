@@ -7,19 +7,16 @@ import { IoIosSpeedometer } from "react-icons/io";
 import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import type { IConductor, IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
-import { evaluarItinerario, formatFecha } from "@/utils/tools";
+import { defineSiglTipDoc, evaluarItinerario, formatFecha } from "@/utils/tools";
 import { IoWarning } from "react-icons/io5";
 import { getInfoDriver, getItinerary } from "@/api/mapa.api";
 import iconUser from "@assets/img/login/ICONO-USUARIO-GRANDE.png"
-import Image from "next/image"; interface IConductorUI extends IConductor {
-    CONDUCTOR_NOMBRE_COMPLETO: string;
-}
-
+import Image from "next/image";
 export default function VehiculosContent({ content }: { content: IVehiculo }) {
 
     const [chart, setChart] = useState("temp")
     const [itinerary, setItinerary] = useState<IItinerario[]>([])
-    const [conductor, setConductor] = useState<IConductorUI>({} as IConductorUI)
+    const [conductor, setConductor] = useState<IConductor>({} as IConductor)
     const handleSetChart = (chart: string) => {
         setChart(chart)
     }
@@ -38,7 +35,12 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
         setConductor(
             {
                 ...responseConductor,
-                CONDUCTOR_NOMBRE_COMPLETO: `${responseConductor.CONDUCTOR_PRIMERNOMBRE || ''} ${responseConductor.CONDUCTOR_SEGUNDONOMBRE || ''} ${responseConductor.CONDUCTOR_PRIMERAPELLIDO || ''} ${responseConductor.CONDUCTOR_SEGUNDOAPELLIDO || ''}`
+                CONDUCTOR_NOMBRE_COMPLETO: `${responseConductor.CONDUCTOR_PRIMERNOMBRE || ''} ${responseConductor.CONDUCTOR_SEGUNDONOMBRE || ''} ${responseConductor.CONDUCTOR_PRIMERAPELLIDO || ''} ${responseConductor.CONDUCTOR_SEGUNDOAPELLIDO || ''}`,
+                typeIdentification: {
+                    ...responseConductor.typeIdentification,
+                    TIP_IDEN_SIGLAS: defineSiglTipDoc(responseConductor.typeIdentification.TIP_IDEN_DESCRIPCION)
+                },
+
             }
         )
 

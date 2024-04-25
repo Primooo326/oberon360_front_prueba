@@ -12,7 +12,7 @@ import FiltrosSubmenu from "./SidebarComponents/FiltrosSubmenu";
 import Image from "next/image";
 import { IoSearchOutline } from "react-icons/io5";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 interface SubMenu {
     title: string;
     icon: JSX.Element;
@@ -21,6 +21,7 @@ interface SubMenu {
 
 export default function Sidebar() {
     const { theme, setTheme, showSidebar, setShowSidebar } = useSystemStore()
+    const router = useRouter()
     const subMenus = [
         {
             title: "Home",
@@ -89,9 +90,11 @@ export default function Sidebar() {
                     {subMenus.map((subMenu, index) => (
                         <div key={index} className="tooltip tooltip-right" data-tip={subMenu.title}>
                             {subMenu.href ? (
-                                <Link href={`${subMenu.href}`} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu} >
+                                <button onClick={() => router.push(`${subMenu.href}`)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu} >
+
                                     {subMenu.icon}
-                                </Link>
+
+                                </button>
                             ) : (
                                 <button onClick={() => handleMenuChange(subMenu)} className={currentMenu && currentMenu.title === subMenu.title ? styleSubmenuHover : styleSubmenu}>
                                     {subMenu.icon}

@@ -1,5 +1,5 @@
 import { JWT_SECRET } from '@/config'
-import type { IItenary, IItenaryEvaluated } from '@/models/vehiculos.model'
+import type { IItenary, IItenaryEvaluated, TipDocSiglas, TipoDocumento } from '@/models/vehiculos.model'
 import * as jose from 'jose'
 
 export const verifyJWT = async (token: string) => {
@@ -91,4 +91,30 @@ export function evaluarItinerario(itinerario: IItenary) {
     }
 
     return resultado;
+}
+
+export const defineSiglTipDoc = (tipDoc: TipoDocumento): TipDocSiglas => {
+
+
+    switch (tipDoc) {
+        case "CEDULA_DE_CIUDADANIA":
+            return "CC"
+        case "NIT":
+            return "NIT"
+        case "CEDULA_DE_EXTRANJERIA":
+            return "CE"
+        case "PEP":
+            return "PEP"
+        case "PASAPORTE":
+            return "PAS"
+        case "SIN_IDENTIFICACION":
+            return "SIN"
+        case "DOCUMENTO_EXTRANJERO":
+            return "DE"
+        case "TARJETA_DE_IDENTIDAD":
+            return "TI"
+        default:
+            return "SIN"
+    }
+
 }

@@ -100,10 +100,30 @@ export interface IConductor {
     CONDUCTOR_SEGUNDONOMBRE: string;
     CONDUCTOR_PRIMERAPELLIDO: string;
     CONDUCTOR_SEGUNDOAPELLIDO: string;
+    CONDUCTOR_NOMBRE_COMPLETO: string;
     CONDUCTOR_ID_RH: number;
     CONDUCTOR_TELPERSONAL: string;
     CONDUCTOR_TELCORPORATIVO: string;
     CONDUCTOR_CORREO: string;
     CONDUCTOR_FOTO: string;
-    CONDUCTOR_ESTADO: string;
+    CONDUCTOR_ESTADO: "1" | "0";
+    typeIdentification: {
+        TIP_IDEN_ID: string,
+        TIP_IDEN_DESCRIPCION: TipoDocumento,
+        TIP_IDEN_SIGLAS: TipDocSiglas
+    },
+    factorRh: {
+        FACTOR_RH_ID_REG: 2,
+        FACTOR_RH_CODIGO: "2",
+        FACTOR_RH_DESCRIPCION: "A +",
+        FACTOR_RH_SIGLA: null
+    }
 }
+export type TipoDocumento = "CEDULA_DE_CIUDADANIA" | "NIT" | "CEDULA_DE_EXTRANJERIA" | "PEP" | "PASAPORTE" | "SIN_IDENTIFICACION" | "DOCUMENTO_EXTRANJERO" | "TARJETA_DE_IDENTIDAD"
+
+export type TipDocSiglas = "CC" | "NIT" | "CE" | "PEP" | "PAS" | "SIN" | "DE" | "TI"
+
+
+
+
+
