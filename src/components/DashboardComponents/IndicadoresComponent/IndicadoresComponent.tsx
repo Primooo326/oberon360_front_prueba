@@ -9,16 +9,16 @@ export default function IndicadoresComponent() {
 
     return (
         <div className="indicadores">
-            <div className='flex flex-col rounded-xl border p-5 bg-base-100 bg-base-100' >
+            <div className='flex flex-col rounded-xl border p-5 bg-base-100' >
                 <div className='flex justify-between' >
 
                     <h1 className='text-lg'>Con Retraso</h1>
-                    <BiSolidError className='text-3xl text-error' />
+                    <BiSolidError className='text-2xl text-error' />
                 </div>
                 <div className="divider mt-0 mb-4" />
                 <div className="flex flex-col">
                     <div>
-                        <h1 className='text-3xl font-bold mb-2' >
+                        <h1 className='text-2xl font-bold mb-2' >
                             {indicadores.delay.total} unidades
                         </h1>
                         <p  >
@@ -31,12 +31,12 @@ export default function IndicadoresComponent() {
                 <div className='flex justify-between' >
 
                     <h1 className='text-lg'>Con Anticipo</h1>
-                    <BiTimer className='text-3xl text-success' />
+                    <BiTimer className='text-2xl text-success' />
                 </div>
                 <div className="divider mt-0 mb-4" />
                 <div className="flex flex-col">
                     <div>
-                        <h1 className='text-3xl font-bold mb-2' >
+                        <h1 className='text-2xl font-bold mb-2' >
                             {indicadores.advance.total} unidades
                         </h1>
                         <p  >
@@ -49,12 +49,12 @@ export default function IndicadoresComponent() {
                 <div className='flex justify-between' >
 
                     <h1 className='text-lg'>Sin Reportar</h1>
-                    <MdSignalWifiStatusbarNotConnected className='text-3xl text-tertiary' />
+                    <MdSignalWifiStatusbarNotConnected className='text-2xl text-tertiary' />
                 </div>
                 <div className="divider mt-0 mb-4" />
                 <div className="flex flex-col">
                     <div>
-                        <h1 className='text-3xl font-bold mb-2' >
+                        <h1 className='text-2xl font-bold mb-2' >
                             {indicadores.notReported.total} unidades
                         </h1>
                         <p  >
@@ -67,12 +67,12 @@ export default function IndicadoresComponent() {
                 <div className='flex justify-between' >
 
                     <h1 className='text-lg'>En Operación</h1>
-                    <BiSolidZap className='text-3xl text-warning' />
+                    <BiSolidZap className='text-2xl text-warning' />
                 </div>
                 <div className="divider mt-0 mb-4" />
                 <div className="flex flex-col">
                     <div>
-                        <h1 className='text-3xl font-bold mb-2' >
+                        <h1 className='text-2xl font-bold mb-2' >
                             {indicadores.inOperation.total} unidades
                         </h1>
                         <p  >
@@ -85,12 +85,12 @@ export default function IndicadoresComponent() {
                 <div className='flex justify-between' >
 
                     <h1 className='text-lg'>Disponibles</h1>
-                    <LuBadgeInfo className='text-3xl text-info' />
+                    <LuBadgeInfo className='text-2xl text-info' />
                 </div>
                 <div className="divider mt-0 mb-4" />
                 <div className="flex flex-col">
                     <div>
-                        <h1 className='text-3xl font-bold mb-2' >
+                        <h1 className='text-2xl font-bold mb-2' >
                             {indicadores.available.total} unidades
                         </h1>
                         <p  >

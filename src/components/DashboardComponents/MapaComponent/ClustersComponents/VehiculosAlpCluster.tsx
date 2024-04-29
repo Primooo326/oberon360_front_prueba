@@ -15,7 +15,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
     }
     const handleMarkerClickVehiculo = (marker: any) => {
         setMapConfig({
-            zoom: 15,
+            zoom: 8,
             fixed: true,
             center: {
                 lat: Number.parseFloat(`${marker.WTLT_LAT}`),
@@ -23,7 +23,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
             },
             showLoadMap: false
         })
-        setItemSidebarRight({ item: "vehiculos", content: marker })
+        setItemSidebarRight({ item: "vehiculos", content: marker, itinerario: null })
     }
 
     const clusterStylesVehiculos: any = [

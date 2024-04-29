@@ -23,6 +23,7 @@ import { FaExpand, FaCompress } from "react-icons/fa6";
 import MobileCluster from "./ClustersComponents/MobileCluster";
 import { useMobilesStore } from "@/states/Mobiles.state";
 import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
+import DirectionComponent from "./DirectionsComponent/DirectionComponent";
 
 function MapaGoogle() {
   const { mobileFiltro, proteccionFiltro, telemetriaFiltro } = useFiltrosMapa()
@@ -85,6 +86,9 @@ function MapaGoogle() {
     border: "1px"
 
   };
+
+
+
   return isLoaded ? (
     <>
       <GoogleMap
@@ -111,7 +115,7 @@ function MapaGoogle() {
           fullscreenControl: false
         }}
       >
-
+        <DirectionComponent />
         <UbicacionCluster ubicaciones={ubicacionesShow} showUbicaciones={proteccionFiltro} />
         <VehiculosAlpCluster vehiculos={vehiculos} showVehiculos={showVehiculos && telemetriaFiltro} />
         <MobileCluster mobiles={mobiles} mobileShow={mobileFiltro} />

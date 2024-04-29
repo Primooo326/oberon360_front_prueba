@@ -13,7 +13,7 @@ export default function SidebarRight({ item, content }: SidebarRightProps) {
 
     const handleSetMapConfig = () => {
         setMapConfig({
-            zoom: 15,
+            zoom: 8,
             fixed: true,
             center: {
                 lat: Number.parseFloat(`${(content as IVehiculo).WTLT_LAT}`),
@@ -38,8 +38,7 @@ export default function SidebarRight({ item, content }: SidebarRightProps) {
 
                     {item === "vehiculos" ? (
 
-                        <VehiculosContent
-                            content={content as IVehiculo} />
+                        <VehiculosContent content={content as IVehiculo} />
                     ) : (
                         <VehiculosContent content={content as IVehiculo} />
                     )}

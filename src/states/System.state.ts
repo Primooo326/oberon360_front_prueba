@@ -1,8 +1,9 @@
-import type { IVehiculo } from "@/models/vehiculos.model";
+import type { IItenary, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
 interface ItemsSidebarRight {
     item: "vehiculos" | "ubicaciones";
     content: IVehiculo | any;
+    itinerario: IItenary[] | null
 }
 interface SystemState {
     theme: string;
@@ -12,6 +13,7 @@ interface SystemState {
     itemSidebarRight: {
         item: "vehiculos" | "ubicaciones";
         content: IVehiculo | any;
+        itinerario: IItenary[] | null
 
     } | null,
     setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight | null) => void;
@@ -48,9 +50,7 @@ export const useSystemStore = create<SystemState>((set) => ({
     },
     setMapConfig: (mapConfig) => set({ mapConfig }),
     itemSidebarRight: null,
-    setItemSidebarRight: (itemSidebarRight) => {
-        return set({ itemSidebarRight })
-    },
+    setItemSidebarRight: (itemSidebarRight) => set({ itemSidebarRight }),
     resetMapConfig: () => {
         set({
             mapConfig: {

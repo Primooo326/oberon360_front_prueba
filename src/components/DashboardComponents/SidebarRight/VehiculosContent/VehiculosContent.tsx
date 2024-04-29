@@ -13,7 +13,10 @@ import { IoWarning } from "react-icons/io5";
 import { getInfoDriver, getItinerary } from "@/api/mapa.api";
 import iconUser from "@assets/img/login/ICONO-USUARIO-GRANDE.png"
 import Image from "next/image";
+import { useSystemStore } from "@/states/System.state";
 export default function VehiculosContent({ content }: { content: IVehiculo }) {
+
+    const { itemSidebarRight, setItemSidebarRight } = useSystemStore()
 
     const [chart, setChart] = useState("temp")
     const [itinerary, setItinerary] = useState<IItinerario[]>([])
@@ -30,6 +33,16 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
                 itinerarioEvaluated: evaluarItinerario(itinerario)
             }
         })
+        if (response) {
+
+            setItemSidebarRight(
+                {
+                    ...itemSidebarRight!,
+                    itinerario: response
+                }
+            )
+
+        }
         setItinerary(itinerarioEvaluated.sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN))
 
         const responseConductor = await getInfoDriver(content.CONDUCTOR_ID)
@@ -48,7 +61,7 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
     }
 
     useEffect(() => {
-        if (content.statusItinerary !== "DISPONIBLE") {
+        if (itemSidebarRight?.content.statusItinerary !== "DISPONIBLE") {
 
             getData()
         }
