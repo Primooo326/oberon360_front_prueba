@@ -1,12 +1,12 @@
 import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
 
-import type { IItenary, IVehiculo } from "@/models/vehiculos.model";
+import type { IItinerario, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
 import { useVehiculosStore } from "./Vehiculos.state";
 interface ItemsSidebarRight {
     item: "vehiculos" | "ubicaciones";
     content: IVehiculo | any;
-    itinerario: IItenary[] | null
+    itinerario: IItinerario[] | null
 }
 interface SystemState {
     theme: string;
@@ -16,7 +16,7 @@ interface SystemState {
     itemSidebarRight: {
         item: "vehiculos" | "ubicaciones";
         content: IVehiculo | any;
-        itinerario: IItenary[] | null
+        itinerario: IItinerario[] | null
 
     } | null,
     setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight | null) => void;

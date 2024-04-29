@@ -1,13 +1,16 @@
-import type { IItenary } from "@/models/vehiculos.model"
+import type { IItenary, IItinerario } from "@/models/vehiculos.model"
 import { useSystemStore } from "@/states/System.state"
+import { useVehiculosStore } from "@/states/Vehiculos.state"
 import { DirectionsRenderer, Marker } from "@react-google-maps/api"
 import { useEffect, useState } from "react"
 export default function DirectionComponent() {
 
     const { itemSidebarRight } = useSystemStore()
+    const { vehiculos } = useVehiculosStore();
 
 
     const [directionsResponse, setDirectionsResponse] = useState<any[] | null>(null)
+    const [directionTrazado, setDirectionTrazado] = useState<any>(null)
     const [distance, setDistance] = useState<any>('')
     const [duration, setDuration] = useState<any>('')
     const [waypoints, setWaypoints] = useState<any>([])
@@ -39,9 +42,15 @@ export default function DirectionComponent() {
             return
         }
 
-        const waypoints: IItenary[] = itemSidebarRight!.itinerario!.sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN)
+        const waypoints: IItinerario[] = itemSidebarRight!.itinerario!.sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN)
+        const waypointsTrazados = waypoints.filter((waypoint) => waypoint.itinerarioEvaluated.estado !== "NO DISPONIBLE")
+
         const origin = waypoints[0]
         const destination = waypoints[waypoints.length - 1]
+        const currentUbication = {
+            lat: Number.parseFloat(`${itemSidebarRight!.content.WTLT_LAT}`),
+            lng: Number.parseFloat(`${itemSidebarRight!.content.WTLT_LON}`)
+        }
 
         // divide los waypoints en grupos de 23
         const waypointsGroups = [];
@@ -53,7 +62,8 @@ export default function DirectionComponent() {
             }
             waypointsGroups.push(group);
         }
-        console.log(waypointsGroups);
+
+
 
 
         const directionsService = new google.maps.DirectionsService()
@@ -84,6 +94,27 @@ export default function DirectionComponent() {
             return results2
         })
         )
+        const restulTrazado = await directionsService.route(
+            {
+                origin: {
+                    lat: Number.parseFloat(`${waypointsTrazados[0].point.PUN_LATITUD}`),
+                    lng: Number.parseFloat(`${waypointsTrazados[0].point.PUN_LONGITUD}`)
+                },
+                destination: currentUbication,
+                travelMode: google.maps.TravelMode.DRIVING,
+                waypoints: waypointsTrazados.map((waypoint: any) => {
+                    return {
+                        location: {
+                            lat: Number.parseFloat(`${waypoint.point.PUN_LATITUD}`),
+                            lng: Number.parseFloat(`${waypoint.point.PUN_LONGITUD}`)
+                        },
+                        stopover: true
+                    }
+                }),
+            }
+        )
+
+        setDirectionTrazado(restulTrazado)
 
         setDirectionsResponse(results)
         setOriginRef({
@@ -127,12 +158,13 @@ export default function DirectionComponent() {
         })
     }
     useEffect(() => {
+        // console.log(vehiculos);
         if (itemSidebarRight?.itinerario) {
             calculateRoute()
         } else {
             clearRoute()
         }
-    }, [itemSidebarRight])
+    }, [itemSidebarRight, vehiculos])
 
     return (
         <>
@@ -145,7 +177,7 @@ export default function DirectionComponent() {
                                 key={index}
                                 options={{
                                     directions,
-                                    draggable: true,
+                                    draggable: false,
                                     panel: document.getElementById('panel'),
                                     polylineOptions: {
                                         strokeColor: '#461788',
@@ -159,6 +191,20 @@ export default function DirectionComponent() {
 
 
                         ))}
+                        <DirectionsRenderer
+                            options={{
+                                directions: directionTrazado,
+                                draggable: false,
+                                panel: document.getElementById('panel'),
+                                polylineOptions: {
+                                    strokeColor: 'red',
+                                    strokeOpacity: 0.8,
+                                    strokeWeight: 6
+                                },
+                                preserveViewport: true,
+                                suppressMarkers: true
+                            }}
+                        />
                     </>
                 )
             }

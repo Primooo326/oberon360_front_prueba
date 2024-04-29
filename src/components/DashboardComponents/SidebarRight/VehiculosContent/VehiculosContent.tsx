@@ -27,7 +27,7 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
 
     const getData = async () => {
         const response: IItenary[] = await getItinerary(content.ITNE_ID)
-        const itinerarioEvaluated = response.map(itinerario => {
+        const itinerarioEvaluated: IItinerario[] = response.map(itinerario => {
             return {
                 ...itinerario,
                 itinerarioEvaluated: evaluarItinerario(itinerario)
@@ -38,7 +38,7 @@ export default function VehiculosContent({ content }: { content: IVehiculo }) {
             setItemSidebarRight(
                 {
                     ...itemSidebarRight!,
-                    itinerario: response
+                    itinerario: itinerarioEvaluated
                 }
             )
 
