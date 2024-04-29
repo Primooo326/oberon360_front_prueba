@@ -82,7 +82,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             setItemSidebarRight({
                 item: "vehiculos",
-                content: vehiculo
+                content: vehiculo,
+                itinerario: null
             })
 
             setMapConfig({
@@ -197,16 +198,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                         <motion.section
                             initial={{ position: "relative", width: showSidebar ? "calc(100% - 464px)" : "calc(100% - 64px)" }}
-                            animate={{ right: 0, position: "absolute", width: showSidebar ? "calc(100% - 464px)" : "calc(100% - 64px)" }}
+                            animate={{ right: 0, position: "relative", width: showSidebar ? "calc(100% - 464px)" : "calc(100% - 64px)" }}
                             exit={{ width: showSidebar ? "calc(100% - 464px)" : "100%" }}
                             transition={{ type: 'linear', stiffness: 200 }}
-                            style={{ overflow: 'hidden', position: "absolute" }}
+                            style={{ overflow: 'hidden', position: "relative" }}
                             className="w-full h-full scroll"
                         >
                             {children}
                         </motion.section>
 
                     </AnimatePresence>
+
                     <AnimatePresence>
                         {(itemSidebarRight && mapExpand) && (
 
@@ -221,7 +223,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             </motion.div>
                         )}
                     </AnimatePresence>
-
                 </main>
                 :
                 <IconoCargando />

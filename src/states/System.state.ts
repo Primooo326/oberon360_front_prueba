@@ -1,5 +1,8 @@
+import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
+
 import type { IItenary, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
+import { useVehiculosStore } from "./Vehiculos.state";
 interface ItemsSidebarRight {
     item: "vehiculos" | "ubicaciones";
     content: IVehiculo | any;
@@ -50,7 +53,19 @@ export const useSystemStore = create<SystemState>((set) => ({
     },
     setMapConfig: (mapConfig) => set({ mapConfig }),
     itemSidebarRight: null,
-    setItemSidebarRight: (itemSidebarRight) => set({ itemSidebarRight }),
+    setItemSidebarRight: (itemSidebarRight) => {
+
+        useFiltrosMapa.setState({
+            proteccionFiltro: false,
+            telemetriaFiltro: true,
+            mobileFiltro: false
+        })
+
+        if (itemSidebarRight) useVehiculosStore.getState().setVehiculoSearched(itemSidebarRight.content)
+
+
+        return set({ itemSidebarRight })
+    },
     resetMapConfig: () => {
         set({
             mapConfig: {

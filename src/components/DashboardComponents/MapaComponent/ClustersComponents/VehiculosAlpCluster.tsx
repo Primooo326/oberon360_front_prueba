@@ -8,14 +8,14 @@ import { useEffect, useState } from "react";
 export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehiculos: IVehiculo[]; showVehiculos: boolean }) {
     const [vehiculosFiltrados, setVehiculosFiltrados] = useState<IVehiculo[]>([]);
     const [hoveredMarker, setHoveredMarker] = useState<null | IVehiculo>(null);
-    const { setItemSidebarRight, setMapConfig } = useSystemStore()
+    const { setItemSidebarRight, setMapConfig, itemSidebarRight } = useSystemStore()
     const { vehiculosFiltered } = useVehiculosStore();
     const handleMarkerHoverVehiculo = (marker: any) => {
         setHoveredMarker(marker);
     }
     const handleMarkerClickVehiculo = (marker: any) => {
         setMapConfig({
-            zoom: 8,
+            zoom: 15,
             fixed: true,
             center: {
                 lat: Number.parseFloat(`${marker.WTLT_LAT}`),
@@ -23,18 +23,11 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
             },
             showLoadMap: false
         })
+
         setItemSidebarRight({ item: "vehiculos", content: marker, itinerario: null })
     }
 
     const clusterStylesVehiculos: any = [
-
-        // {
-        //     url: Primaria.url,
-        //     height: 40,
-        //     width: 40,
-
-        //     className: 'clusterText',
-        // },
         {
             url: Primaria.url,
             height: 60,
@@ -43,25 +36,33 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
         }
     ]
     useEffect(() => {
-        const v = vehiculos.filter(vehiculo => {
-            // Evaluación de tipos de servicio
-            const tipoValido =
-                (vehiculosFiltered.changeTipos.primaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "PRIMARIA") ||
-                (vehiculosFiltered.changeTipos.secundaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "SECUNDARIA") ||
-                (vehiculosFiltered.changeTipos.recoleccion && vehiculo.TIPOSERVICIO_DESCRIPCION === "RECOLECCION DE LECHES");
+        let v = vehiculos;
+        if (itemSidebarRight) {
+            v = vehiculos.filter(vehiculo => {
+                return vehiculo.WTLT_PLACA === itemSidebarRight.content.WTLT_PLACA
+            })
 
-            // Evaluación de estados
-            const estadoValido =
-                (vehiculosFiltered.changeEstado.retraso && vehiculo.statusItinerary === "ATRASADO") ||
-                (vehiculosFiltered.changeEstado.anticipo && vehiculo.statusItinerary === "ANTICIPADO") ||
-                (vehiculosFiltered.changeEstado.sinReportar && vehiculo.statusItinerary === "NO DISPONIBLE") ||
-                // (vehiculosFiltered.changeEstado.enOperacion && vehiculo.statusItinerary === "EN OPERACION") ||
-                (vehiculosFiltered.changeEstado.disponibles && vehiculo.statusItinerary === "DISPONIBLE");
+        } else {
+            v = vehiculos.filter(vehiculo => {
+                // Evaluación de tipos de servicio
+                const tipoValido =
+                    (vehiculosFiltered.changeTipos.primaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "PRIMARIA") ||
+                    (vehiculosFiltered.changeTipos.secundaria && vehiculo.TIPOSERVICIO_DESCRIPCION === "SECUNDARIA") ||
+                    (vehiculosFiltered.changeTipos.recoleccion && vehiculo.TIPOSERVICIO_DESCRIPCION === "RECOLECCION DE LECHES");
 
-            return tipoValido && estadoValido;
-        });
+                // Evaluación de estados
+                const estadoValido =
+                    (vehiculosFiltered.changeEstado.retraso && vehiculo.statusItinerary === "ATRASADO") ||
+                    (vehiculosFiltered.changeEstado.anticipo && vehiculo.statusItinerary === "ANTICIPADO") ||
+                    (vehiculosFiltered.changeEstado.sinReportar && vehiculo.statusItinerary === "NO DISPONIBLE") ||
+                    // (vehiculosFiltered.changeEstado.enOperacion && vehiculo.statusItinerary === "EN OPERACION") ||
+                    (vehiculosFiltered.changeEstado.disponibles && vehiculo.statusItinerary === "DISPONIBLE");
+
+                return tipoValido && estadoValido;
+            });
+        }
         setVehiculosFiltrados(v);
-    }, [vehiculos, vehiculosFiltered]);
+    }, [vehiculos, vehiculosFiltered, itemSidebarRight]);
     return (
         <>
             {showVehiculos && (

@@ -9,7 +9,7 @@ import Select, { type StylesConfig } from 'react-select';
 
 export default function FiltrosSubmenu() {
 
-    const { vehiculos, setVehiculosFiltered, vehiculosFiltered, setVehiculoSearched } = useVehiculosStore()
+    const { vehiculos, setVehiculosFiltered, vehiculosFiltered } = useVehiculosStore()
     const { setItemSidebarRight } = useSystemStore()
     const [placasVehiculosOptions, setPlacasVehiculosOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [placasVehiculosSelected, setPlacasVehiculosSelected] = useState<{ value: IVehiculo, label: string } | null>(null)
@@ -26,10 +26,10 @@ export default function FiltrosSubmenu() {
         if (selectedOption) {
 
             setPlacasVehiculosSelected(selectedOption)
-            setVehiculoSearched(selectedOption.value)
             setItemSidebarRight({
                 item: "vehiculos",
-                content: selectedOption.value
+                content: selectedOption.value,
+                itinerario: null
             })
         } else {
             setItemSidebarRight(null)
@@ -40,10 +40,10 @@ export default function FiltrosSubmenu() {
         if (selectedOption) {
 
             setConductoresSelected(selectedOption)
-            setVehiculoSearched(selectedOption.value)
             setItemSidebarRight({
                 item: "vehiculos",
-                content: selectedOption.value
+                content: selectedOption.value,
+                itinerario: null
             })
         } else {
             setItemSidebarRight(null)

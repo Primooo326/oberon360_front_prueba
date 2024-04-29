@@ -13,7 +13,7 @@ export default function SidebarRight({ item, content }: SidebarRightProps) {
 
     const handleSetMapConfig = () => {
         setMapConfig({
-            zoom: 8,
+            zoom: 15,
             fixed: true,
             center: {
                 lat: Number.parseFloat(`${(content as IVehiculo).WTLT_LAT}`),
