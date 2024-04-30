@@ -182,7 +182,8 @@ export default function DirectionComponent() {
                                     polylineOptions: {
                                         strokeColor: '#461788',
                                         strokeOpacity: 0.8,
-                                        strokeWeight: 6
+                                        strokeWeight: 6,
+                                        zIndex: 1
                                     },
                                     preserveViewport: true
 
@@ -199,7 +200,8 @@ export default function DirectionComponent() {
                                 polylineOptions: {
                                     strokeColor: 'red',
                                     strokeOpacity: 0.8,
-                                    strokeWeight: 6
+                                    strokeWeight: 6,
+                                    zIndex: 2
                                 },
                                 preserveViewport: true,
                                 suppressMarkers: true
