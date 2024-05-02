@@ -4,7 +4,7 @@ import MainLayout from "@/layouts/MainLayout";
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <MainLayout>
-            <main className="mainLayout" >
+            <main className="w-screen mainLayout max-w-screen" >
                 <Sidebar />
 
                 {children}
