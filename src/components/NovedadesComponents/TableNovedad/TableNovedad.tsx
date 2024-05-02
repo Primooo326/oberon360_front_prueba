@@ -1,4 +1,5 @@
 "use client"
+import { useNovedadesStore } from '@/states/novedades.state';
 import DataTable, { defaultThemes } from 'react-data-table-component';
 
 interface NovedadConductor {
@@ -43,6 +44,9 @@ const listaPasoProtocolo: PasoProtocolo[] = [
 
 
 export default function TableNovedad() {
+
+  const { setNovedadSelected } = useNovedadesStore()
+
   const data = [
     {
       id: "1",
@@ -63,7 +67,7 @@ export default function TableNovedad() {
         dni: "48274658",
         telefono: "987654321",
         email: "carlos.gomez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=carlos.gomez@example.com"
       }
     },
     {
@@ -85,7 +89,7 @@ export default function TableNovedad() {
         dni: "47281924",
         telefono: "923456789",
         email: "ana.martinez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=ana.martinez@example.com"
       }
     },
     {
@@ -107,7 +111,7 @@ export default function TableNovedad() {
         dni: "48905631",
         telefono: "912345678",
         email: "miguel.ruiz@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=miguel.ruiz@example.com"
       }
     },
     {
@@ -129,7 +133,7 @@ export default function TableNovedad() {
         dni: "48274658",
         telefono: "987654321",
         email: "laura.garcia@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=laura.garcia@example.com"
 
       },
     },
@@ -152,7 +156,7 @@ export default function TableNovedad() {
         dni: "47281924",
         telefono: "923456789",
         email: "javi.herna@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=javi.herna@example.com+Doe"
 
       },
     },
@@ -176,7 +180,7 @@ export default function TableNovedad() {
         dni: "48274658",
         telefono: "987654321",
         email: "carlos.gomez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=carlos.gomez@example.com"
       }
     },
     {
@@ -198,7 +202,7 @@ export default function TableNovedad() {
         dni: "47281924",
         telefono: "923456789",
         email: "ana.martinez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=ana.martinez@example.com"
       }
     },
     {
@@ -220,7 +224,7 @@ export default function TableNovedad() {
         dni: "48905631",
         telefono: "912345678",
         email: "miguel.ruiz@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=miguel.ruiz@example.com+Doe"
       }
     },
     {
@@ -242,7 +246,7 @@ export default function TableNovedad() {
         dni: "45789123",
         telefono: "954321678",
         email: "sofia.lopez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=sofia.lopez@example.com+Doe"
       }
     },
     {
@@ -264,7 +268,7 @@ export default function TableNovedad() {
         dni: "47382910",
         telefono: "968574123",
         email: "jorge.navarro@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=jorge.navarro@example.com"
       }
     },
     {
@@ -286,7 +290,7 @@ export default function TableNovedad() {
         dni: "46851029",
         telefono: "976543218",
         email: "laura.vidal@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=laura.vidal@example.com+Doe"
       }
     },
     {
@@ -308,7 +312,7 @@ export default function TableNovedad() {
         dni: "48273645",
         telefono: "934567890",
         email: "elena.gutierrez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=elena.gutierrez@example.c"
       }
     },
     {
@@ -330,7 +334,7 @@ export default function TableNovedad() {
         dni: "49283756",
         telefono: "945678123",
         email: "antonio.moreno@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=antonio.moreno@example.co"
       }
     },
     {
@@ -352,7 +356,7 @@ export default function TableNovedad() {
         dni: "47819245",
         telefono: "912348567",
         email: "isabel.fernandez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=isabel.fernandez@example."
       }
     },
     {
@@ -374,7 +378,7 @@ export default function TableNovedad() {
         dni: "48021359",
         telefono: "915673489",
         email: "roberto.diaz@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=roberto.diaz@example.com"
       }
     },
     {
@@ -396,7 +400,7 @@ export default function TableNovedad() {
         dni: "47123985",
         telefono: "947821634",
         email: "patricia.lara@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=patricia.lara@example.com"
       }
     },
     {
@@ -418,7 +422,7 @@ export default function TableNovedad() {
         dni: "46271890",
         telefono: "917834256",
         email: "lucia.morales@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=lucia.morales@example.com"
       }
     },
     {
@@ -440,7 +444,7 @@ export default function TableNovedad() {
         dni: "46791283",
         telefono: "943562781",
         email: "fernando.sanchez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=fernando.sanchez@example.com"
       }
     },
     {
@@ -462,7 +466,7 @@ export default function TableNovedad() {
         dni: "47851236",
         telefono: "921478563",
         email: "carmen.jimenez@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=carmen.jimenez@example.co"
       }
     },
     {
@@ -484,18 +488,18 @@ export default function TableNovedad() {
         dni: "46928517",
         telefono: "934265789",
         email: "oscar.torres@example.com",
-        foto: "https://ui-avatars.com/api/?name=John+Doe"
+        foto: "https://ui-avatars.com/api/?name=oscar.torres@example.com"
       }
     }
   ];
 
 
-  const columns = [
+  const columns: any = [
     {
       name: 'Conductor',
-      cell: (row: NovedadConductor) => <div className='flex items-center gap-2' >
+      cell: (row: NovedadConductor) => <div className='flex items-center gap-2 cursor-pointer' >
         <img src={row.conductor.foto} alt={row.conductor.nombre} className="rounded-full h-10 w-10" />
-        <span>{row.conductor.nombre} {row.conductor.apellido}</span>
+        <span className='underline text-primary' >{row.conductor.nombre} {row.conductor.apellido}</span>
       </div>,
     },
     {
@@ -506,7 +510,7 @@ export default function TableNovedad() {
     {
       name: 'Estado',
       selector: row => row.estado,
-      cell: (row: NovedadConductor) => <span className={`px-2 py-1 rounded-full ${row.estado === 'Pendiente' ? 'bg-yellow-500' : row.estado === 'En Proceso' ? 'bg-blue-500' : 'bg-green-500'} text-white`} >{row.estado}</span>,
+      cell: (row: NovedadConductor) => <span className={`px-2 py-1 rounded-full ${row.estado === 'Pendiente' ? 'bg-red-500' : row.estado === 'En Proceso' ? 'bg-yellow-500' : 'bg-green-500'} text-white`} >{row.estado}</span>,
       sortable: true,
     },
     {
@@ -520,11 +524,11 @@ export default function TableNovedad() {
 
     {
       name: 'Acciones',
-      cell: (row: NovedadConductor) => <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver Protocolo</button>,
+      cell: (row: NovedadConductor) => <button onClick={() => setNovedadSelected(row)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver Protocolo</button>,
     },
   ];
 
-  const customStyles = {
+  const customStyles: any = {
     header: {
       style: {
         minHeight: '56px',
