@@ -5,7 +5,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
     return (
         <html lang="en">
-            <body>
+            <body data-theme="oberon">
                 {children}
                 <ToastContainer />
             </body>

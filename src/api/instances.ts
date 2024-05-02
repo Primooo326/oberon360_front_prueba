@@ -22,7 +22,7 @@ const instance = (api: "base" | "web" | "i+c") => {
     });
     instancia.interceptors.request.use(
         (config) => {
-            let token: any;
+            let token = ""
             if (Cookies.get('token')) {
                 token = String(Cookies.get('token'));
             }
@@ -50,7 +50,7 @@ const instance = (api: "base" | "web" | "i+c") => {
             }
             else {
                 console.log(error);
-                toast.error(error.response.data.message);
+                toast.error('Error inesperado, por favor intente nuevamente.');
             }
             return Promise.reject(error);
         }

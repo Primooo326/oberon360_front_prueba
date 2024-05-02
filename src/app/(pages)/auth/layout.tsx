@@ -1,10 +1,10 @@
-import "./AuthLayout.css"
 import logo360 from '@assets/img/login/Oberon-360-LOGOV2.png';
 import Pwdrms from '@assets/img/login/POWERED-BY-RMS.png';
 import Image from "next/image";
-import MainLayout from "../MainLayout";
+import "./AuthLayout.css"
+import MainLayout from '@/layouts/MainLayout';
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <MainLayout>
             <main className='mainAuth' >
@@ -16,5 +16,5 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <Image className='LogoRms' src={Pwdrms} alt="Powered by RMS" />
             </main>
         </MainLayout>
-    )
+    );
 }
