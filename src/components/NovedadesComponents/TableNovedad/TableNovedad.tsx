@@ -576,7 +576,7 @@ export default function TableNovedad() {
       columns={columns}
       data={data}
       pagination
-      paginationPerPage={5}
+      paginationPerPage={10}
       paginationRowsPerPageOptions={[5, 10, 15, 20]}
       customStyles={customStyles}
       dense
