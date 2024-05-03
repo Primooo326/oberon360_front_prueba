@@ -88,12 +88,12 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
                                             `${vehiculo.WTLT_LON}`,
                                         ),
                                     }}
-                                    onMouseOver={() =>
-                                        handleMarkerHoverVehiculo(vehiculo)
-                                    }
-                                    onMouseOut={() =>
-                                        setHoveredMarker(null)
-                                    }
+                                    // onMouseOver={() =>
+                                    //     handleMarkerHoverVehiculo(vehiculo)
+                                    // }
+                                    // onMouseOut={() =>
+                                    //     setHoveredMarker(null)
+                                    // }
                                     onClick={() =>
                                         handleMarkerClickVehiculo(vehiculo)
                                     }

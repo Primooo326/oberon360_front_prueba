@@ -28,7 +28,22 @@ interface VehiculosState {
 
 export const useVehiculosStore = create<VehiculosState>((set) => ({
     vehiculos: [],
-    setVehiculos: (vehiculos) => set({ vehiculos }),
+    setVehiculos: (vehiculos) => {
+        set({ vehiculos })
+        if (useSystemStore.getState().itemSidebarRight) {
+            const vehiculo = vehiculos.find((vehiculo) => vehiculo.WTLT_PLACA === useSystemStore.getState().itemSidebarRight!.content.WTLT_PLACA)
+            useSystemStore.setState((state) => {
+                return {
+                    ...state,
+                    itemSidebarRight: {
+                        item: "vehiculos",
+                        content: vehiculo,
+                        itinerario: null
+                    }
+                }
+            })
+        }
+    },
     vehiculoSearched: null,
     setVehiculoSearched: (vehiculoSelected) => set({ vehiculoSearched: vehiculoSelected }),
     vehiculosFiltered: {

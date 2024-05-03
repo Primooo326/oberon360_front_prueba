@@ -120,7 +120,7 @@ function MapaGoogle() {
         <VehiculosAlpCluster vehiculos={vehiculos} showVehiculos={showVehiculos && telemetriaFiltro} />
         <MobileCluster mobiles={mobiles} mobileShow={mobileFiltro} />
       </GoogleMap>
-      <button className="btn btn-light botonExpandable" onClick={() => setMapExpand(!mapExpand)} >
+      <button className="btn bg-white botonExpandable" onClick={() => setMapExpand(!mapExpand)} >
         {mapExpand ? (<FaCompress />) : (<FaExpand />)}
       </button>
     </>

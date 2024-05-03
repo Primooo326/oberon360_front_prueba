@@ -1,25 +1,24 @@
 "use client"
 import Sidebar from "@components/Sidebar/Sidebar"
-import SidebarRight from "@components/DashboardComponents/SidebarRight/SidebarRight"
 import { useSystemStore } from '@/states/System.state';
-import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon } from "@/api/mapa.api";
+import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary } from "@/api/mapa.api";
 import IconoCargando from "@components/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";
 import { useUbicaciones } from "@/states/Ubicaciones.state";
 import { useVehiculosStore } from "@/states/Vehiculos.state";
-import { verifyJWT } from "@/utils/tools";
+import { evaluarItinerario, verifyJWT } from "@/utils/tools";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie";
 import { useIndicadoresStore } from "@/states/Indicadores.state";
-import { AnimatePresence, motion } from "framer-motion";
-import type { EItenaryState } from "@/models/vehiculos.model";
+import type { EItenaryState, IItenary, IItinerario } from "@/models/vehiculos.model";
 import "@/app/globals.css"
 import MainLayout from "@/layouts/MainLayout"
 import "./Dashboard.css"
+import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
 
 export default function RootLayout({
   children,
@@ -34,14 +33,15 @@ export default function RootLayout({
   const { setVehiculos, vehiculosFiltered } = useVehiculosStore()
   const { setMobiles } = useMobilesStore()
   const { setIndicadores } = useIndicadoresStore()
-  const { itemSidebarRight, setItemSidebarRight, showSidebar, setMapConfig, mapConfig, mapExpand } = useSystemStore()
-  const itemSidebarRightRef = useRef(itemSidebarRight);
-  const mapConfigRef = useRef(mapConfig);
+  const { mapExpand, itemSidebarRight, setItemSidebarRight } = useSystemStore()
+  const itemSidebarRightRef = useRef(itemSidebarRight)
+  const mapExpandRef = useRef(mapExpand)
+  const filtrosMapa = useFiltrosMapa()
+  const filtrosMapaRef = useRef(filtrosMapa)
   const vehiculosFRef = useRef(vehiculosFiltered);
   const [load, setLoad] = useState(false)
   const verify = async () => {
     const token = Cookies.get("token")
-    console.log(token);
     if (token) {
       const tokenValid = await verifyJWT(token)
       if (tokenValid) {
@@ -84,26 +84,29 @@ export default function RootLayout({
       }
     })
     setVehiculos(newVehiculos)
-    if (itemSidebarRightRef.current != null && itemSidebarRightRef.current.item === "vehiculos" && mapConfigRef.current.fixed) {
-      const vehiculo = response.find((vehiculo: any) => vehiculo.WTLT_PLACA === itemSidebarRightRef.current!.content.WTLT_PLACA)
 
-      setItemSidebarRight({
-        item: "vehiculos",
-        content: vehiculo,
-        itinerario: null
-      })
+    if (itemSidebarRightRef.current && itemSidebarRightRef.current.item === "vehiculos") {
+      const vehiculo = newVehiculos.find((v) => v.VEHICULO_ID === itemSidebarRightRef.current!.content.VEHICULO_ID)
+      const response: IItenary[] = await getItinerary(vehiculo.ITNE_ID)
+      const itinerarioEvaluated: IItinerario[] = response.map(itinerario => {
+        return {
+          ...itinerario,
+          itinerarioEvaluated: evaluarItinerario(itinerario)
+        }
+      }).sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN)
+      if (response) {
 
-      setMapConfig({
-        ...mapConfigRef.current,
-        fixed: true,
-        center: {
-          lat: Number.parseFloat(`${vehiculo.WTLT_LAT}`),
-          lng: Number.parseFloat(`${vehiculo.WTLT_LON}`)
-        },
-        showLoadMap: false
-      })
+        setItemSidebarRight(
+          {
+            item: "vehiculos",
+            content: vehiculo,
+            itinerario: itinerarioEvaluated
+          }
+        )
 
+      }
     }
+
   }
   const getMobiles = async () => {
     const response = await getEventsMotorcycle()
@@ -125,7 +128,6 @@ export default function RootLayout({
         }, ...responseClient.data]
       }
 
-      //sort by name
       clientes = clientes.sort((a: any, b: any) => {
         if (a.CLIE_COMERCIAL < b.CLIE_COMERCIAL) {
           return -1;
@@ -159,80 +161,73 @@ export default function RootLayout({
   }
 
   useEffect(() => {
+    itemSidebarRightRef.current = itemSidebarRight;
+  }, [itemSidebarRight])
+
+  useEffect(() => {
     vehiculosFRef.current = vehiculosFiltered;
 
   }, [vehiculosFiltered]);
 
-
   useEffect(() => {
-    itemSidebarRightRef.current = itemSidebarRight;
-  }, [itemSidebarRight]);
-
-  useEffect(() => {
-    mapConfigRef.current = mapConfig;
-  }, [mapConfig]);
+    filtrosMapaRef.current = filtrosMapa;
+  }, [filtrosMapa]);
 
   useEffect(() => {
     verify().finally(() => setLoad(true))
   }, [])
 
   useEffect(() => {
+    mapExpandRef.current = mapExpand;
+  }, [mapExpand])
+
+  useEffect(() => {
 
     const interval = setInterval(() => {
-      getVehiculos();
-      getMobiles();
-      getIndicadores();
-    }, 5000);
-    if (token) {
-      if (!clienteSelected) {
-        getData();
-        getVehiculos();
+      if (!mapExpandRef.current) {
         getIndicadores();
-        return () => clearInterval(interval);
       }
-    } else {
+      if (filtrosMapaRef.current.mobileFiltro) {
+        getMobiles();
+      }
+      if (filtrosMapaRef.current.telemetriaFiltro) {
+        getVehiculos();
+      }
+      if (filtrosMapaRef.current.proteccionFiltro) {
+        getData();
+      }
+    }, 5000);
+
+
+    if (!token) {
       clearInterval(interval);
     }
+
   }, [token])
+
+  useEffect(() => {
+    if (!mapExpandRef.current) {
+      getIndicadores();
+    }
+    if (filtrosMapaRef.current.mobileFiltro) {
+      getMobiles();
+    }
+    if (filtrosMapaRef.current.telemetriaFiltro) {
+      getVehiculos();
+    }
+    if (filtrosMapaRef.current.proteccionFiltro) {
+      getData();
+    }
+  }, [])
 
   return (
 
     <MainLayout>
       {load ?
-        <main className="mainLayout relative">
+        <section className="mainLayout relative">
           <Sidebar />
-
-
-          <AnimatePresence>
-
-            <motion.section
-              initial={{ position: "relative", width: showSidebar ? "calc(100% - 464px)" : "calc(100% - 64px)" }}
-              animate={{ right: 0, position: "relative", width: showSidebar ? "calc(100% - 464px)" : "calc(100% - 64px)" }}
-              exit={{ width: showSidebar ? "calc(100% - 464px)" : "100%" }}
-              transition={{ type: 'linear', stiffness: 200 }}
-              style={{ overflow: 'hidden', position: "relative" }}
-              className="w-full h-full scroll"
-            >
-              {children}
-            </motion.section>
-
-          </AnimatePresence>
-
-          <AnimatePresence>
-            {(itemSidebarRight && mapExpand) && (
-
-              <motion.div
-                initial={{ position: 'relative', x: '100%' }}
-                animate={{ position: 'absolute', right: 0, x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'linear', stiffness: 200 }}
-                className="h-full z-10">
-
-                <SidebarRight item={itemSidebarRight.item} content={itemSidebarRight.content} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </main>
+          {children}
+        </section>
         :
         <IconoCargando />
       }

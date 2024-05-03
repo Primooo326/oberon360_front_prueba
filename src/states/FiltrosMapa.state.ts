@@ -11,7 +11,7 @@ interface FiltrosMapaState {
 }
 
 export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
-    proteccionFiltro: true,
+    proteccionFiltro: false,
     telemetriaFiltro: true,
     mobileFiltro: false,
     setProteccionFiltro: (value) => {

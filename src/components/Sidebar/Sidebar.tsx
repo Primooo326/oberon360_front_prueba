@@ -1,9 +1,6 @@
-"use client"
-import { FaMoon, FaRegMap, FaSun } from "react-icons/fa6"
+import { FaMoon, FaSun } from "react-icons/fa6"
 import { CgHome } from "react-icons/cg";
 import HomeSubmenu from "./SidebarComponents/HomeSubmenu";
-import { useEffect, useState } from "react";
-import { HiOutlineUsers } from "react-icons/hi2";
 import { PiBell } from "react-icons/pi";
 import SubmenuContainer from "./SidebarComponents/SubmenuContainer";
 import { FiSettings } from "react-icons/fi";
@@ -12,7 +9,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import FiltrosSubmenu from "./SidebarComponents/FiltrosSubmenu";
 import Image from "next/image";
 import { IoSearchOutline } from "react-icons/io5";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 interface SubMenu {
     title: string;
@@ -54,14 +50,7 @@ export default function Sidebar() {
             </SubmenuContainer>
         }
     ]
-    const [currentMenu, setCurrentMenu] = useState<SubMenu>(subMenus[0])
-    const handleMenuChange = (menu: SubMenu) => {
-        setCurrentMenu(menu)
-    }
 
-    useEffect(() => {
-        console.log(pathname);
-    }, [pathname])
 
     const styleSubmenu = "p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100"
     const styleSubmenuHover = "p-1.5 text-blue-500 transition-colors duration-200 bg-blue-100 rounded-lg"
@@ -79,9 +68,8 @@ export default function Sidebar() {
                     {subMenus.map((subMenu, index) => (
                         <div key={index} className="tooltip tooltip-right" data-tip={subMenu.title}>
                             <button onClick={() => {
-                                handleMenuChange(subMenu)
                                 router.push(`${subMenu.href}`)
-                            }} className={currentMenu && pathname === subMenu.href ? styleSubmenuHover : styleSubmenu} >
+                            }} className={pathname === subMenu.href ? styleSubmenuHover : styleSubmenu} >
 
                                 {subMenu.icon}
 

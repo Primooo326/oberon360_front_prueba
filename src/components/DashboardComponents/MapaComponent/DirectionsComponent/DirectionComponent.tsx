@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 export default function DirectionComponent() {
 
     const { itemSidebarRight } = useSystemStore()
-    const { vehiculos } = useVehiculosStore();
 
 
     const [directionsResponse, setDirectionsResponse] = useState<any[] | null>(null)
@@ -38,12 +37,13 @@ export default function DirectionComponent() {
 
 
     async function calculateRoute() {
+
         if (originRef.current.value === '' || destiantionRef.current.value === '') {
             return
         }
 
-        const waypoints: IItinerario[] = itemSidebarRight!.itinerario!.sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN)
-        const waypointsTrazados = waypoints.filter((waypoint) => waypoint.itinerarioEvaluated.estado !== "NO DISPONIBLE")
+        const waypoints: IItinerario[] = itemSidebarRight!.itinerario!
+        const waypointsTrazados = itemSidebarRight!.itinerario!.filter((waypoint) => waypoint.itinerarioEvaluated.estado !== "NO DISPONIBLE")
 
         const origin = waypoints[0]
         const destination = waypoints[waypoints.length - 1]
@@ -63,12 +63,9 @@ export default function DirectionComponent() {
             waypointsGroups.push(group);
         }
 
-
-
-
         const directionsService = new google.maps.DirectionsService()
 
-        const results = await Promise.all(waypointsGroups.map(async (waypointsGroup, index) => {
+        const results: any = await Promise.all(waypointsGroups.map(async (waypointsGroup) => {
             const results2 = await directionsService.route(
                 {
                     origin: {
@@ -94,28 +91,35 @@ export default function DirectionComponent() {
             return results2
         })
         )
-        const restulTrazado = await directionsService.route(
-            {
+        if (waypointsTrazados.length !== 0) {
+            const restulTrazado = await directionsService.route({
                 origin: {
-                    lat: Number.parseFloat(`${waypointsTrazados[0].point.PUN_LATITUD}`),
-                    lng: Number.parseFloat(`${waypointsTrazados[0].point.PUN_LONGITUD}`)
+                    lat: Number.parseFloat(
+                        `${waypointsTrazados[0].point.PUN_LATITUD}`,
+                    ),
+                    lng: Number.parseFloat(
+                        `${waypointsTrazados[0].point.PUN_LONGITUD}`,
+                    ),
                 },
                 destination: currentUbication,
                 travelMode: google.maps.TravelMode.DRIVING,
                 waypoints: waypointsTrazados.map((waypoint: any) => {
                     return {
                         location: {
-                            lat: Number.parseFloat(`${waypoint.point.PUN_LATITUD}`),
-                            lng: Number.parseFloat(`${waypoint.point.PUN_LONGITUD}`)
+                            lat: Number.parseFloat(
+                                `${waypoint.point.PUN_LATITUD}`,
+                            ),
+                            lng: Number.parseFloat(
+                                `${waypoint.point.PUN_LONGITUD}`,
+                            ),
                         },
-                        stopover: true
-                    }
+                        stopover: true,
+                    };
                 }),
-            }
-        )
+            });
 
-        setDirectionTrazado(restulTrazado)
-
+            setDirectionTrazado(restulTrazado);
+        }
         setDirectionsResponse(results)
         setOriginRef({
             current: {
@@ -158,13 +162,11 @@ export default function DirectionComponent() {
         })
     }
     useEffect(() => {
-        // console.log(vehiculos);
+
         if (itemSidebarRight?.itinerario) {
             calculateRoute()
-        } else {
-            clearRoute()
         }
-    }, [itemSidebarRight, vehiculos])
+    }, [itemSidebarRight])
 
     return (
         <>
@@ -180,8 +182,8 @@ export default function DirectionComponent() {
                                     draggable: false,
                                     panel: document.getElementById('panel'),
                                     polylineOptions: {
-                                        strokeColor: '#461788',
-                                        strokeOpacity: 0.8,
+                                        strokeColor: '#a6a6a6',
+                                        strokeOpacity: 1,
                                         strokeWeight: 6,
                                         zIndex: 1
                                     },
@@ -192,21 +194,27 @@ export default function DirectionComponent() {
 
 
                         ))}
-                        <DirectionsRenderer
-                            options={{
-                                directions: directionTrazado,
-                                draggable: false,
-                                panel: document.getElementById('panel'),
-                                polylineOptions: {
-                                    strokeColor: 'red',
-                                    strokeOpacity: 0.8,
-                                    strokeWeight: 6,
-                                    zIndex: 2
-                                },
-                                preserveViewport: true,
-                                suppressMarkers: true
-                            }}
-                        />
+                        {
+                            directionTrazado && (
+
+                                <DirectionsRenderer
+                                    options={{
+                                        directions: directionTrazado,
+                                        draggable: false,
+                                        panel: document.getElementById('panel'),
+                                        polylineOptions: {
+                                            strokeColor: '#6931ba',
+                                            strokeOpacity: 1,
+                                            strokeWeight: 6,
+                                            zIndex: 2
+                                        },
+                                        preserveViewport: true,
+                                        suppressMarkers: true
+                                    }}
+                                />
+                            )
+                        }
+
                     </>
                 )
             }

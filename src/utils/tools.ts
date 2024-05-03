@@ -90,7 +90,7 @@ export function evaluarItinerario(itinerario: IItenary) {
         resultado.tiempoDiferenciaStr = `${diferenciaSegundos}seg`;
     }
 
-    return resultado;
+    return resultado
 }
 
 export const defineSiglTipDoc = (tipDoc: TipoDocumento): TipDocSiglas => {

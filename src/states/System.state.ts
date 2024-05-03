@@ -55,13 +55,14 @@ export const useSystemStore = create<SystemState>((set) => ({
     itemSidebarRight: null,
     setItemSidebarRight: (itemSidebarRight) => {
 
-        useFiltrosMapa.setState({
-            proteccionFiltro: false,
-            telemetriaFiltro: true,
-            mobileFiltro: false
-        })
 
-        if (itemSidebarRight) useVehiculosStore.getState().setVehiculoSearched(itemSidebarRight.content)
+        if (itemSidebarRight) {
+            useFiltrosMapa.setState({
+                proteccionFiltro: false,
+                telemetriaFiltro: true,
+                mobileFiltro: false
+            })
+        }
 
 
         return set({ itemSidebarRight })
