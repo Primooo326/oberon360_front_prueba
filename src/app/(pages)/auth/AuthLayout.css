@@ -1,5 +1,5 @@
 .mainAuth {
-  background-image: url(../../../assets/img/login/BACKGROUND-WEB.png);
+  background-image: url(../../../../public/assets/Recursos/login/BACKGROUND-WEB.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .img360 {
   margin-bottom: 50px;
   margin-left: 50px;
@@ -14,6 +15,7 @@
   height: auto;
   /* margin-top: 50px; */
 }
+
 .LogoRms {
   position: absolute;
   bottom: 20px;

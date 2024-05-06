@@ -5,21 +5,21 @@
 @font-face {
   font-family: "Montserrat-Bold";
   src: local("Montserrat"),
-    url(../assets/Fonts/Montserrat-Bold.ttf) format("truetype");
+    url(../../public/assets/Fonts/Montserrat-Bold.ttf) format("truetype");
   font-weight: bold;
 }
 
 @font-face {
   font-family: "Montserrat-Medium";
   src: local("Montserrat"),
-    url(../assets/Fonts/Montserrat-Medium.ttf) format("truetype");
+    url(../../public/assets/Fonts/Montserrat-Medium.ttf) format("truetype");
   font-weight: regular;
 }
 
 @font-face {
   font-family: "Montserrat-Light";
   src: local("Montserrat"),
-    url(../assets/Fonts/Montserrat-Light.ttf) format("truetype");
+    url(../../public/assets/Fonts/Montserrat-Light.ttf) format("truetype");
   font-weight: semibold;
 }
 
@@ -50,7 +50,7 @@ main {
 }
 
 .mainbg {
-  background-image: url(../assets/img/img-asistencia/backgroundAsis.png);
+  background-image: url(../../public/assets/Recursos/backgroundAsis.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

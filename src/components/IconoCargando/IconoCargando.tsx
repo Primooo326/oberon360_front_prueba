@@ -1,4 +1,3 @@
-import LogoCarga from '@assets/img/login/gif/OBERON BLANCO RESPONSIVE.gif';
 import Image from 'next/image';
 import './IconoCargando.css'
 
@@ -7,7 +6,10 @@ export default function IconoCargando() {
     <div className='contenedorImagen'>
       <Image
         className='logoCarga'
-        src={LogoCarga}
+        width={900}
+        height={1080}
+        src="/assets/Recursos/login/gif/OBERON BLANCO RESPONSIVE.gif"
+
         alt="Icono de Cargando"
       />
     </div>

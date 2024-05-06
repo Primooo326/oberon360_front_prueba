@@ -58,10 +58,7 @@ export default function Sidebar() {
         <section className="flex">
             <div className="flex flex-col justify-between z-10 w-16 h-screen bg-base-100 py-8 border-r">
                 <div className="flex flex-col items-center space-y-8" >
-                    {/* 
-                    {
-                        theme === "oberon" ? <Image src="/OBERON-DEGRADADO.png" alt="logo oberon" width={48} height={48} /> : <Image src="/OBERON-BLANCO.png" alt="logo oberon" width={48} height={48} />
-                    } */}
+
                     <Image src="/OBERON-DEGRADADO.png" alt="logo oberon" width={48} height={48} />
 
 

@@ -5,15 +5,6 @@ import { MarkerClusterer, Marker } from '@react-google-maps/api';
 export default function MobileCluster({ mobiles, mobileShow }: { mobiles: IMobile[], mobileShow: boolean }) {
 
     const clusterStylesMobile = [
-
-
-        // {
-        //     url: Mobile.url,
-        //     height: 40,
-        //     width: 40,
-
-        //     className: 'clusterText',
-        // },
         {
             url: Mobile.url,
             height: 60,

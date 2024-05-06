@@ -1,6 +1,4 @@
 "use client"
-import PRIMARIA from "@assets/img/MapaIconos/utilities/FLOTA-PRIMARIA.png";
-import SECUNDARIA from "@assets/img/MapaIconos/utilities/FLOTA-SECUNDARI.png";
 import { LineChart } from "@mui/x-charts/LineChart"
 import { BarChart } from "@mui/x-charts/BarChart"
 import { FaTemperatureHigh } from "react-icons/fa6"
@@ -11,7 +9,6 @@ import type { IConductor, IItenary, IItenaryEvaluated, IItinerario, IVehiculo } 
 import { defineSiglTipDoc, evaluarItinerario, formatFecha } from "@/utils/tools";
 import { IoWarning } from "react-icons/io5";
 import { getInfoDriver, getItinerary } from "@/api/mapa.api";
-import iconUser from "@assets/img/login/ICONO-USUARIO-GRANDE.png"
 import Image from "next/image";
 import { useSystemStore } from "@/states/System.state";
 export default function VehiculosContent() {
@@ -82,9 +79,9 @@ export default function VehiculosContent() {
                     <div className="w-full">
                         <div className="flex justify-center items-center" >
                             {itemSidebarRight!.content.TIPOSERVICIO_DESCRIPCION === "PRIMARIA" ? (
-                                <Image src={PRIMARIA} alt="PRIMARIA" className="w-[250px]" />
+                                <Image src="/assets/Recursos/mapa/utilities/FLOTA-PRIMARIA.png" width={300} height={300} alt="PRIMARIA" className="w-[250px]" />
                             ) : (
-                                <Image src={SECUNDARIA} alt="SECUNDARIA" className="w-[250px]" />
+                                <Image src="/assets/Recursos/mapa/utilities/FLOTA-SECUNDARI.png" width={300} height={300} alt="SECUNDARIA" className="w-[250px]" />
                             )}
                         </div>
                         <div className="w-full">
@@ -112,7 +109,7 @@ export default function VehiculosContent() {
 
                                             <img src={`data:image/jpeg;base64,${conductor.CONDUCTOR_FOTO}`} alt="conductor" />
                                         ) : (
-                                            <Image src={iconUser} alt="conductor" />
+                                            <Image src="/assets/Recursos/login/ICONO-USUARIO-GRANDE.png" width={126} height={128} alt="conductor" />
                                         )}
                                     </div>
                                 </div>

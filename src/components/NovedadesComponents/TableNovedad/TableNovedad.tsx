@@ -504,19 +504,19 @@ export default function TableNovedad() {
     },
     {
       name: 'Tipo de Alerta',
-      selector: row => row.tipoAlerta,
+      selector: (row: any) => row.tipoAlerta,
       sortable: true,
     },
     {
       name: 'Estado',
-      selector: row => row.estado,
+      selector: (row: any) => row.estado,
       cell: (row: NovedadConductor) => <span className={`px-2 py-1 rounded-full ${row.estado === 'Pendiente' ? 'bg-red-500' : row.estado === 'En Proceso' ? 'bg-yellow-500' : 'bg-green-500'} text-white`} >{row.estado}</span>,
       sortable: true,
     },
     {
 
       name: 'Fecha',
-      selector: row => row.fecha,
+      selector: (row: any) => row.fecha,
       sortable: true,
     },
 

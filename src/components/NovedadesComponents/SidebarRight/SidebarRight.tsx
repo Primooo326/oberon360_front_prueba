@@ -1,6 +1,4 @@
 import { useNovedadesStore } from "@/states/novedades.state"
-import PRIMARIA from "@assets/img/MapaIconos/utilities/FLOTA-PRIMARIA.png";
-import SECUNDARIA from "@assets/img/MapaIconos/utilities/FLOTA-SECUNDARI.png";
 import Image from "next/image";
 interface NovedadConductor {
     id: string;
@@ -63,7 +61,7 @@ export default function SidebarRight() {
                                 <div className="w-full">
                                     <div className="flex justify-center items-center" >
 
-                                        <Image src={SECUNDARIA} alt="SECUNDARIA" className="w-[250px]" />
+                                        <Image src="/assets/Recursos/mapa/utilities/FLOTA-SECUNDARI.png" width={300} height={300} alt="SECUNDARIA" className="w-[250px]" />
                                     </div>
                                     <div className="flex justify-between mb-3" >
                                         <span>

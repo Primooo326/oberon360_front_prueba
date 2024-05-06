@@ -9,15 +9,6 @@ export default function UbicacionCluster({ ubicaciones, showUbicaciones }: { ubi
         setSelectedMarker(marker);
     };
     const clusterStylesUbicacion = [
-
-
-        // {
-        //     url: Asistencia.url,
-        //     height: 40,
-        //     width: 40,
-
-        //     className: 'clusterText',
-        // },
         {
             url: Asistencia.url,
             height: 60,

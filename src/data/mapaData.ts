@@ -1,9 +1,3 @@
-import FincaVerde from "@assets/img/MapaIconos/FINCA-VERDE.png";
-import FincaVIPVerde from "@assets/img/MapaIconos/FINCA-VIP-VERDE.png";
-import MobileVerde from "@assets/img/MapaIconos/nuevos/MOBILE.svg";
-import TicketRojo from "@assets/img/MapaIconos/DAVIVIENDA-ROJO.png";
-import TicketVerde from "@assets/img/MapaIconos/DAVIVIENDA-VERDE.png";
-import ZonaCalor from "@assets/img/MapaIconos/CIRCULO-RIESGOS.gif";
 import type { TRiesgo } from "@/models/ubicaciones.model";
 
 export const heatmapData = [
@@ -352,36 +346,22 @@ export const darkMapStyles = [
     },
 ];
 export const Asistencia: any = {
-    url: '/assets/img/MapaIconos/nuevos/OBERÓN UBICACIÓN.svg',
+    url: '/assets/Recursos/mapa/clusters/OBERÓN-UBICACIÓN.svg',
     scaledSize: { width: 50, height: 50 },
 };
 export const Primaria: any = {
-    url: "/assets/img/MapaIconos/nuevos/FLOTA PRIMARIA.svg",
+    url: "/assets/Recursos/mapa/clusters/FLOTA-PRIMARIA.svg",
     scaledSize: { width: 50, height: 50 },
 };
 export const Secundaria: any = {
-    url: "/assets/img/MapaIconos/nuevos/FLOTA SECUNDARIA.svg",
+    url: "/assets/Recursos/mapa/clusters/FLOTA-SECUNDARIA.svg",
     scaledSize: { width: 50, height: 50 },
 };
 export const Mobile: any = {
-    url: "/assets/img/MapaIconos/nuevos/MOBILE.svg",
+    url: "/assets/Recursos/mapa/clusters/MOBILE.svg",
     scaledSize: { width: 50, height: 50 },
 };
-export const Finca = {
-    url: FincaVerde,
-};
-export const FincaVIP = {
-    url: FincaVIPVerde,
-};
-export const Ticket = [
-    {
-        url: TicketVerde,
-    },
-    {
-        url: TicketRojo,
-    },
-];
 export const ZonaRoja = {
-    url: ZonaCalor,
+    url: "/assets/Recursos/mapa/clusters/CIRCULO-RIESGOS.gif",
 };
 export const riesgosData: TRiesgo[] = ["vial"]
