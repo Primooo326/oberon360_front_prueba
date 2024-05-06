@@ -37,7 +37,6 @@ import { EModules } from '@/models/i+c/Modules';
 import ACLModules from '@components/i+c/auth/AccessModule';
 import { FilterMatchMode } from 'primereact/api';
 import { useICAuthStore } from '@/states/i+c/I+C-auth.state';
-
 export default function OperationStudiesPage() {
   const [finishRetrieveData, setFinishRetrieveData] = useState(false);
   const [openProgrammingModal, setOpenProgrammingModal] = useState(false);
@@ -64,17 +63,22 @@ export default function OperationStudiesPage() {
   useEffect(() => {
     if (!finishCallCatalogs) {
       console.log(userInfo);
-      getCustomerOperationalGroupByUser(String(userInfo!.id))
-        .then((res) => {
-          if (res) {
-            setOperationalGroup(res.data);
-            setStaff(res.data.team);
-            setFinishCallCatalogs(true);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (userInfo) {
+
+        getCustomerOperationalGroupByUser(String(userInfo!.id))
+          .then((res) => {
+            if (res) {
+              setOperationalGroup(res.data);
+              setStaff(res.data.team);
+              setFinishCallCatalogs(true);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        router.push('/I+C/auth')
+      }
     }
   }, [finishCallCatalogs]);
 

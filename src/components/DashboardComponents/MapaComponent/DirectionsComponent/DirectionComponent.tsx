@@ -186,11 +186,10 @@ export default function DirectionComponent() {
                                     key={`${routeIndex}-${waypointIndex}`}
                                     position={{ lat: location.lat(), lng: location.lng() }}
                                     label={{
-                                        text: `Waypoint ${routeIndex + 1}`,  // Aquí puedes personalizar el texto
+                                        text: `${routeIndex + 1}`,  // Aquí puedes personalizar el texto
                                         color: "#000000",
-                                        fontSize: "18px",
+                                        fontSize: "14px",
                                         fontWeight: "bold",
-                                        className: "mb-4"
                                     }}
                                 />
                             ));
