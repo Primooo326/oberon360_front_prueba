@@ -10,7 +10,7 @@ export default function VistaMin() {
     const { mapConfig, itemSidebarRight } = useSystemStore()
 
     return (
-        <div className='flex flex-col p-8 h-screen' >
+        <div className='flex flex-col p-8 h-screen w-full' >
 
             <div className=' mb-8' >
                 <IndicadoresComponent />
@@ -45,7 +45,7 @@ export default function VistaMin() {
                             exit={{ x: '100%' }}
                             transition={{ type: 'linear', stiffness: 200 }}
                         >
-                            <SidebarRight item={itemSidebarRight.item} content={itemSidebarRight.content} />
+                            <SidebarRight />
                         </motion.div>
                     )}
                 </AnimatePresence>

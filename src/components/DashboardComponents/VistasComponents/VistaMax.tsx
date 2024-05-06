@@ -44,7 +44,7 @@ export default function VistaMax() {
                                 transition={{ type: 'linear', stiffness: 200 }}
                                 className="h-full z-10">
 
-                                <SidebarRight item={itemSidebarRight.item} content={itemSidebarRight.content} />
+                                <SidebarRight />
                             </motion.div>
                         )}
                     </AnimatePresence>

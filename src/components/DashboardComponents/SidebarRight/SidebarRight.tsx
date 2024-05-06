@@ -11,6 +11,8 @@ import { MdOutlineLocationSearching } from "react-icons/md";
 export default function SidebarRight() {
     const { setItemSidebarRight, mapExpand, mapConfig, setMapConfig, itemSidebarRight } = useSystemStore();
 
+
+
     const handleSetMapConfig = () => {
         setMapConfig({
             zoom: 15,

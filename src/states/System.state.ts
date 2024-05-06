@@ -62,7 +62,18 @@ export const useSystemStore = create<SystemState>((set) => ({
                 telemetriaFiltro: true,
                 mobileFiltro: false
             })
+        } else {
+            //reset map config
+            useSystemStore.setState({
+                mapConfig: {
+                    zoom: 5,
+                    fixed: true,
+                    center: { lat: 3.3345374, lng: -74.2701511, },
+                    showLoadMap: false
+                }
+            });
         }
+
 
 
         return set({ itemSidebarRight })
@@ -85,7 +96,7 @@ export const useSystemStore = create<SystemState>((set) => ({
                     showLoadMap: false
                 }
             })
-        }, 1500);
+        }, 1000);
         useSystemStore.setState({
             itemSidebarRight: null
         });
