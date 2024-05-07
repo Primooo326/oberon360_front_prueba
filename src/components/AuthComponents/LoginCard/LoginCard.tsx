@@ -27,7 +27,6 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
         e.preventDefault();
         try {
             const respuesta = await login({ user: userForm, password });
-            console.log(respuesta);
 
             setUser(userForm);
             setToken(respuesta.token);
@@ -50,7 +49,6 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
 
     const verifyToken = async (token: string) => {
         const data = await verifyJWT(token)
-        console.log(data);
         if (data !== false) {
             router.push("/dashboard")
         }

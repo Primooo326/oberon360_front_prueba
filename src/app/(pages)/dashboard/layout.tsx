@@ -33,7 +33,8 @@ export default function RootLayout({
   const { setVehiculos, vehiculosFiltered } = useVehiculosStore()
   const { setMobiles } = useMobilesStore()
   const { setIndicadores } = useIndicadoresStore()
-  const { mapExpand, itemSidebarRight, setItemSidebarRight } = useSystemStore()
+  const { mapExpand, itemSidebarRight, showSidebarRight, setItemSidebarRight } = useSystemStore()
+  const showSidebarRightRef = useRef(showSidebarRight)
   const itemSidebarRightRef = useRef(itemSidebarRight)
   const mapExpandRef = useRef(mapExpand)
   const filtrosMapa = useFiltrosMapa()
@@ -85,10 +86,10 @@ export default function RootLayout({
     })
     setVehiculos(newVehiculos)
 
-    if (itemSidebarRightRef.current && itemSidebarRightRef.current.item === "vehiculos") {
+    if (showSidebarRightRef.current) {
       const vehiculo = newVehiculos.find((v) => v.VEHICULO_ID === itemSidebarRightRef.current!.content.VEHICULO_ID)
       const response: IItenary[] = await getItinerary(vehiculo.ITNE_ID)
-      const itinerarioEvaluated: IItinerario[] = response.map(itinerario => {
+      const itinerarioEvaluatedGroup: IItinerario[] = response.map(itinerario => {
         return {
           ...itinerario,
           itinerarioEvaluated: evaluarItinerario(itinerario)
@@ -100,7 +101,7 @@ export default function RootLayout({
           {
             item: "vehiculos",
             content: vehiculo,
-            itinerario: itinerarioEvaluated
+            itinerario: itinerarioEvaluatedGroup
           }
         )
 
@@ -159,6 +160,10 @@ export default function RootLayout({
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    showSidebarRightRef.current = showSidebarRight;
+  }, [showSidebarRight])
 
   useEffect(() => {
     itemSidebarRightRef.current = itemSidebarRight;

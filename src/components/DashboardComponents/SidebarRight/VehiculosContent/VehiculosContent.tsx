@@ -5,15 +5,15 @@ import { FaTemperatureHigh } from "react-icons/fa6"
 import { IoIosSpeedometer } from "react-icons/io";
 import { FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import type { IConductor, IItenary, IItenaryEvaluated, IItinerario, IVehiculo } from "@/models/vehiculos.model";
-import { defineSiglTipDoc, evaluarItinerario, formatFecha } from "@/utils/tools";
+import type { IConductor, IItenaryEvaluated, IItinerario } from "@/models/vehiculos.model";
+import { defineSiglTipDoc, formatFecha } from "@/utils/tools";
 import { IoWarning } from "react-icons/io5";
-import { getInfoDriver, getItinerary } from "@/api/mapa.api";
+import { getInfoDriver } from "@/api/mapa.api";
 import Image from "next/image";
 import { useSystemStore } from "@/states/System.state";
 export default function VehiculosContent() {
 
-    const { itemSidebarRight, setItemSidebarRight } = useSystemStore()
+    const { itemSidebarRight, showSidebarRight } = useSystemStore()
 
     const [chart, setChart] = useState("temp")
     const [itinerary, setItinerary] = useState<IItinerario[]>([])
@@ -43,13 +43,13 @@ export default function VehiculosContent() {
     }
 
     useEffect(() => {
-        if (itemSidebarRight) {
+        if (showSidebarRight) {
 
             if (itemSidebarRight!.content.statusItinerary !== "DISPONIBLE" && itemSidebarRight?.itinerario) {
                 getData()
             }
         }
-    }, [itemSidebarRight])
+    }, [itemSidebarRight, showSidebarRight])
 
     const defineBgCheck = (itinerario: IItenaryEvaluated) => {
         let bg = "text-secondary"
@@ -75,7 +75,7 @@ export default function VehiculosContent() {
     return (
         <>
             {
-                itemSidebarRight ? (
+                showSidebarRight ? (
                     <div className="w-full">
                         <div className="flex justify-center items-center" >
                             {itemSidebarRight!.content.TIPOSERVICIO_DESCRIPCION === "PRIMARIA" ? (

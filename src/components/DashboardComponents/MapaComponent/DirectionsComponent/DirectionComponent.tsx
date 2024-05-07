@@ -5,7 +5,7 @@ import { DirectionsRenderer, Marker } from "@react-google-maps/api"
 import { useEffect, useState } from "react"
 export default function DirectionComponent() {
 
-    const { itemSidebarRight } = useSystemStore()
+    const { itemSidebarRight, showSidebarRight } = useSystemStore()
 
 
     const [directionsResponse, setDirectionsResponse] = useState<any[] | null>(null)
@@ -46,7 +46,7 @@ export default function DirectionComponent() {
                     }),
                 }
             )
-            return { directions: results2, waypoints: waypointsGroup, color: defineColor(waypointsGroup[1].itinerarioEvaluated.estado) }
+            return { directions: results2, waypoints: waypointsGroup, color: defineColor(waypointsGroup[waypointsGroup.length - 1].itinerarioEvaluated.estado) }
         })
         )
 
@@ -132,9 +132,17 @@ export default function DirectionComponent() {
 
     useEffect(() => {
 
-        if (itemSidebarRight?.itinerario) {
-            calculateRoute()
+        if (showSidebarRight) {
+
+            if (itemSidebarRight?.itinerario) {
+                DirectionComponent
+                calculateRoute()
+            }
+        } else {
+            setDirectionsResponse(null)
+            setMarkers([])
         }
+
 
     }, [itemSidebarRight])
 
@@ -143,7 +151,7 @@ export default function DirectionComponent() {
     return (
         <>
             {
-                (itemSidebarRight && directionsResponse) && (
+                (showSidebarRight && directionsResponse) && (
                     <>
 
                         {
@@ -172,7 +180,7 @@ export default function DirectionComponent() {
                             markers.map((marker: any, index: number) => (
 
                                 <Marker
-                                    key={index}
+                                    key={`marker${index}`}
                                     position={{
                                         lat: Number.parseFloat(`${marker.point.PUN_LATITUD}`),
                                         lng: Number.parseFloat(`${marker.point.PUN_LONGITUD}`)

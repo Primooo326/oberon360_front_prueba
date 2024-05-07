@@ -9,9 +9,18 @@ import { MdOutlineLocationSearching } from "react-icons/md";
 //     content: IVehiculo | IUbicacionCliente
 // }
 export default function SidebarRight() {
-    const { setItemSidebarRight, mapExpand, mapConfig, setMapConfig, itemSidebarRight } = useSystemStore();
+    const { setShowSidebarRight, mapExpand, mapConfig, setMapConfig, itemSidebarRight } = useSystemStore();
 
 
+    const cerrar = () => {
+        setMapConfig({
+            zoom: 5,
+            fixed: true,
+            center: { lat: 3.3345374, lng: -74.2701511 },
+            showLoadMap: false,
+        })
+        setShowSidebarRight(false)
+    }
 
     const handleSetMapConfig = () => {
         setMapConfig({
@@ -33,7 +42,7 @@ export default function SidebarRight() {
                     <h1 className="font-bold text-lg" >{itemSidebarRight?.item === "vehiculos" ? "Vehiculo" : "Ubicación"}</h1>
                     <button onClick={() => handleSetMapConfig()} className={`btn btn-secondary btn-sm ${mapConfig.fixed ? "btn-disabled" : ""}`}>
                         <MdOutlineLocationSearching className="text-lg" />  Ubicar </button>
-                    <button className="btn btn-outline btn-accent btn-sm" onClick={() => setItemSidebarRight(null)} >Cerrar</button>
+                    <button className="btn btn-outline btn-accent btn-sm" onClick={() => cerrar()} >Cerrar</button>
                 </div>
 
                 <div className="overflow-y-auto scroll overflow-x-hidden mt-3 p-6" >

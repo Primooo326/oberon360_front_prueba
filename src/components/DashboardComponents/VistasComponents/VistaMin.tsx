@@ -7,7 +7,7 @@ import MapaGoogleComponent from '../MapaComponent/MapaGoogle'
 import SidebarRight from '../SidebarRight/SidebarRight'
 
 export default function VistaMin() {
-    const { mapConfig, itemSidebarRight } = useSystemStore()
+    const { mapConfig, showSidebarRight } = useSystemStore()
 
     return (
         <div className='flex flex-col p-8 h-screen w-full' >
@@ -26,8 +26,8 @@ export default function VistaMin() {
                         </div>
                         :
                         <motion.div
-                            initial={{ position: "relative", width: itemSidebarRight ? "calc(100% - 550px)" : "100%" }}
-                            animate={{ left: 0, position: "absolute", width: itemSidebarRight ? "calc(100% - 582px)" : "100%" }}
+                            initial={{ position: "relative", width: showSidebarRight ? "calc(100% - 550px)" : "100%" }}
+                            animate={{ left: 0, position: "absolute", width: showSidebarRight ? "calc(100% - 582px)" : "100%" }}
                             exit={{ width: "100%" }}
                             transition={{ type: 'linear', stiffness: 200 }}
                             className='contenedorMapa w-full h-full rounded-xl'
@@ -37,7 +37,7 @@ export default function VistaMin() {
                     }
                 </div>
                 <AnimatePresence>
-                    {itemSidebarRight && (
+                    {showSidebarRight && (
 
                         <motion.div
                             initial={{ x: '100%' }}

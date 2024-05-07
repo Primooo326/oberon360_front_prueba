@@ -30,7 +30,7 @@ export const useVehiculosStore = create<VehiculosState>((set) => ({
     vehiculos: [],
     setVehiculos: (vehiculos) => {
         set({ vehiculos })
-        if (useSystemStore.getState().itemSidebarRight) {
+        if (useSystemStore.getState().showSidebarRight) {
             const vehiculo = vehiculos.find((vehiculo) => vehiculo.WTLT_PLACA === useSystemStore.getState().itemSidebarRight!.content.WTLT_PLACA)
             useSystemStore.setState((state) => {
                 return {

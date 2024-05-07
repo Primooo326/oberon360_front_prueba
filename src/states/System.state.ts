@@ -18,9 +18,10 @@ interface SystemState {
         content: IVehiculo | any;
         itinerario: IItinerario[] | null
 
-    } | null,
-    setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight | null) => void;
-
+    },
+    setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight) => void;
+    showSidebarRight: boolean;
+    setShowSidebarRight: (showSidebarRight: boolean) => void;
     mapExpand: boolean;
     setMapExpand: (mapExpand: boolean) => void;
     mapConfig: {
@@ -52,11 +53,11 @@ export const useSystemStore = create<SystemState>((set) => ({
         showLoadMap: false
     },
     setMapConfig: (mapConfig) => set({ mapConfig }),
-    itemSidebarRight: null,
+    itemSidebarRight: {} as ItemsSidebarRight,
     setItemSidebarRight: (itemSidebarRight) => {
 
 
-        if (itemSidebarRight) {
+        if (useSystemStore.getState().showSidebarRight) {
             useFiltrosMapa.setState({
                 proteccionFiltro: false,
                 telemetriaFiltro: true,
@@ -64,20 +65,15 @@ export const useSystemStore = create<SystemState>((set) => ({
             })
         } else {
             //reset map config
-            useSystemStore.setState({
-                mapConfig: {
-                    zoom: 5,
-                    fixed: true,
-                    center: { lat: 3.3345374, lng: -74.2701511, },
-                    showLoadMap: false
-                }
-            });
+
         }
 
 
 
         return set({ itemSidebarRight })
     },
+    showSidebarRight: false,
+    setShowSidebarRight: (showSidebarRight) => set({ showSidebarRight }),
     resetMapConfig: () => {
         set({
             mapConfig: {
@@ -98,7 +94,7 @@ export const useSystemStore = create<SystemState>((set) => ({
             })
         }, 1000);
         useSystemStore.setState({
-            itemSidebarRight: null
+            itemSidebarRight: {} as ItemsSidebarRight
         });
     }
 }));

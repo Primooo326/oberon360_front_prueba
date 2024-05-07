@@ -6,7 +6,7 @@ import SidebarRight from '../SidebarRight/SidebarRight'
 
 export default function VistaMax() {
 
-    const { mapConfig, showSidebar, itemSidebarRight, mapExpand } = useSystemStore()
+    const { mapConfig, showSidebar, showSidebarRight, mapExpand } = useSystemStore()
 
     return (
         <div className="w-full h-screen
@@ -22,9 +22,9 @@ export default function VistaMax() {
                     <AnimatePresence>
 
                         <motion.section
-                            initial={{ position: "absolute", left: 0, width: itemSidebarRight ? "calc(100% - 550px)" : "100%" }}
-                            animate={{ left: 0, position: "absolute", width: itemSidebarRight ? "calc(100% - 550px)" : "100%" }}
-                            exit={{ width: itemSidebarRight ? "calc(100% - 550px)" : "100%" }}
+                            initial={{ position: "absolute", left: 0, width: showSidebarRight ? "calc(100% - 550px)" : "100%" }}
+                            animate={{ left: 0, position: "absolute", width: showSidebarRight ? "calc(100% - 550px)" : "100%" }}
+                            exit={{ width: showSidebarRight ? "calc(100% - 550px)" : "100%" }}
                             transition={{ type: 'linear', stiffness: 200 }}
                             style={{ overflow: 'hidden', position: "relative" }}
                             className="w-full h-full scroll"
@@ -35,7 +35,7 @@ export default function VistaMax() {
                     </AnimatePresence>
 
                     <AnimatePresence>
-                        {(itemSidebarRight && mapExpand) && (
+                        {(showSidebarRight && mapExpand) && (
 
                             <motion.div
                                 initial={{ position: 'absolute', x: "100%", right: 0, }}

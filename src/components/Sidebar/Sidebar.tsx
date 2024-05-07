@@ -1,6 +1,5 @@
 import { FaMoon, FaSun } from "react-icons/fa6"
 import { CgHome } from "react-icons/cg";
-import HomeSubmenu from "./SidebarComponents/HomeSubmenu";
 import { PiBell } from "react-icons/pi";
 import SubmenuContainer from "./SidebarComponents/SubmenuContainer";
 import { FiSettings } from "react-icons/fi";
@@ -29,7 +28,7 @@ export default function Sidebar() {
             component:
                 <SubmenuContainer title='Inicio'>
 
-                    <HomeSubmenu />
+                    <div> hola </div>
                 </SubmenuContainer>
         },
         {

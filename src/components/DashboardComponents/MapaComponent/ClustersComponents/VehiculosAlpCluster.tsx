@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehiculos: IVehiculo[]; showVehiculos: boolean }) {
     const [vehiculosFiltrados, setVehiculosFiltrados] = useState<IVehiculo[]>([]);
     const [hoveredMarker, setHoveredMarker] = useState<null | IVehiculo>(null);
-    const { setItemSidebarRight, setMapConfig, itemSidebarRight } = useSystemStore()
+    const { setItemSidebarRight, setMapConfig, itemSidebarRight, showSidebarRight, setShowSidebarRight } = useSystemStore()
     const { vehiculosFiltered } = useVehiculosStore();
     const handleMarkerHoverVehiculo = (marker: any) => {
         setHoveredMarker(marker);
@@ -23,7 +23,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
             },
             showLoadMap: false
         })
-
+        setShowSidebarRight(true)
         setItemSidebarRight({ item: "vehiculos", content: marker, itinerario: null })
     }
 
@@ -37,7 +37,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
     ]
     useEffect(() => {
         let v = vehiculos;
-        if (itemSidebarRight) {
+        if (showSidebarRight) {
             v = vehiculos.filter(vehiculo => {
                 return vehiculo.WTLT_PLACA === itemSidebarRight.content.WTLT_PLACA
             })
@@ -62,7 +62,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
             });
         }
         setVehiculosFiltrados(v);
-    }, [vehiculos, vehiculosFiltered, itemSidebarRight]);
+    }, [vehiculos, vehiculosFiltered, itemSidebarRight, showSidebarRight]);
     return (
         <>
             {showVehiculos && (
