@@ -76,11 +76,22 @@ export default function UserAvatar({
     <>
       <div className="user_info">
         <Dropdown menu={{ items }} trigger={['click']}>
-          <Avatar
-            style={{ background: '#fff', cursor: 'pointer' }}
-            size={sizeAvatar}
-            icon={<UserOutlined style={{ color: '#0c366e' }} />}
-          />
+          <div className='flex gap-2 items-center cursor-pointer' >
+            <Avatar
+              style={{ background: '#fff' }}
+              size={sizeAvatar}
+              icon={<UserOutlined style={{ color: '#0c366e' }} />}
+            />
+            <div>
+
+              <h1 className='text-white text-lg' >
+                {userInfo?.name} {userInfo?.lastName}
+              </h1>
+              <span className='text-white ' >
+                ({userInfo?.role || "Candidato"})
+              </span>
+            </div>
+          </div>
         </Dropdown>
       </div>
 

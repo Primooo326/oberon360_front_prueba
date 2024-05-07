@@ -17,7 +17,7 @@ export default function PrivateRoute({ children }: { children: React.ReactNode }
       validateSession()
         .then((res) => {
           if (res) {
-
+            console.log("res:", res.data);
             setUserInfo(res.data)
             setIsLogged(true);
           }

@@ -6,6 +6,7 @@ import OperationLayoutComponent from '@components/i+c/layout/Operation';
 import HelmetTitle from '@components/i+c/ui/HelmetTitle';
 import { EModules } from '@/models/i+c/Modules';
 import { useICAuthStore } from '@/states/i+c/I+C-auth.state';
+import TopBar from '@/components/i+c/ui/Operation/TopBar';
 
 const { Sider } = Layout;
 
@@ -25,11 +26,11 @@ export default function OperationHomeDashboard() {
   return (
     <OperationLayoutComponent>
       <HelmetTitle title="Inicio" />
-
+      <TopBar title="Inicio" />
       <Sider id={'operation_navbar_custom'}>
         <div className="sidebar_menu">
           <div className="top_menu">
-            <div className="logo" />
+            {/* <div className="logo" /> */}
             <div className="items">
               {userInfo?.permissions?.find(permission => permission.moduleId === EModules.REQUESTS) && (
                 <div className="item_menu">

@@ -13,16 +13,7 @@ export default function OperationTopBar({
 }) {
   return (
     <div
-      className="operation_top_container"
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+      className="operation_top_container sticky top-0 z-10 w-full flex items-center px-5">
       <div className="operation_header">
         <Link
           href={`/I+C/dashboard/operation${path}`}
@@ -34,8 +25,8 @@ export default function OperationTopBar({
       </div>
       <div className="operation_actions">
         {children}
-        <UserAvatar sizeAvatar={45} />
       </div>
+      <UserAvatar sizeAvatar={45} />
     </div>
   );
 }
