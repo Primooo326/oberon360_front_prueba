@@ -189,7 +189,8 @@ export default function RootLayout({
 
   useEffect(() => {
 
-    const interval = setInterval(() => {
+    const fetchData = () => {
+
       if (!mapExpandRef.current) {
         getIndicadores();
       }
@@ -202,29 +203,20 @@ export default function RootLayout({
       if (filtrosMapaRef.current.proteccionFiltro) {
         getData();
       }
-    }, 5000);
+    }
+    fetchData()
+    const interval = setInterval(fetchData, 5000);
 
 
     if (!token) {
       clearInterval(interval);
     }
 
-  }, [token])
+    return () => {
+      clearInterval(interval);
+    };
 
-  useEffect(() => {
-    if (!mapExpandRef.current) {
-      getIndicadores();
-    }
-    if (filtrosMapaRef.current.mobileFiltro) {
-      getMobiles();
-    }
-    if (filtrosMapaRef.current.telemetriaFiltro) {
-      getVehiculos();
-    }
-    if (filtrosMapaRef.current.proteccionFiltro) {
-      getData();
-    }
-  }, [])
+  }, [token])
 
   return (
     <html lang="en">
