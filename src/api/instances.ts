@@ -47,6 +47,9 @@ const instance = (api: "base" | "web" | "i+c") => {
                 router.push('/auth');
             } else if (error.code === 'ERR_NETWORK') {
                 toast.error('Error de red, verifique su conexión a internet.');
+            } else if (error.response.data.message) {
+                toast.error(error.response.data.message);
+
             }
             else {
                 console.log(error);

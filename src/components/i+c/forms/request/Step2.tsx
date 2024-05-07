@@ -29,7 +29,7 @@ export default function RequestStep2Form({
   const [services, setServices] = useState<any[]>([]);
   const [finishCall, setFinishCall] = useState(false);
   const [saveType, setSaveType] = useState('false');
-  const [listParameters, setListParameters] = useState([]);
+  const [listParameters, setListParameters] = useState<any[]>([]);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -62,34 +62,29 @@ export default function RequestStep2Form({
     }
   }, [finishCallLists, requestData]);
 
-  const handleChangeServiceType = (e: any) => {
+  const handleChangeServiceType = () => {
     const services: any[] = [];
     form.setFieldValue('services', []);
-    setServiceType(e.target.value);
-    if (e.target.value === 1) {
-      customerInfo.servicios.map((service: any) => {
-        services.push({
-          id: service.servicio_ID,
-          name: service.servicio_Descripcion,
-        });
+    setServiceType(2);
+    customerInfo.paquetes.map((paquete: any) => {
+      services.push({
+        id: paquete.paquete_ID,
+        name: paquete.paquete_Nombre,
+        value: paquete.paquete_Nombre,
       });
-    } else {
-      customerInfo.paquetes.map((service: any) => {
-        services.push({
-          id: service.paquete_ID,
-          name: service.paquete_Nombre,
-        });
-      });
-    }
+    });
+    console.log(customerInfo);
+    console.log(services);
     setServices(services);
-    form.setFieldValue('requestServiceType', e.target.value);
+    form.setFieldValue('requestServiceType', 2);
   };
 
   const handleChangeCandidatesNumber = (event: any) => {
+    handleChangeServiceType()
     const value = Number(event);
     const currentCandidates = form.getFieldValue('candidates');
     const currentItemCount = currentCandidates.length;
-    let newCandidates;
+    let newCandidates = [];
     if (value > currentItemCount) {
       const itemsToAdd = value - currentItemCount;
       newCandidates = [...currentCandidates];
@@ -108,7 +103,7 @@ export default function RequestStep2Form({
     form.setFieldValue('candidates', newCandidates);
   };
 
-  const onRemoveItem = (index: number, onFunction: Function) => {
+  const onRemoveItem = (index: number, onFunction: (i: any) => void) => {
     onFunction(index);
     const currentCandidates = form.getFieldValue('candidatesNumber');
     form.setFieldValue('candidatesNumber', currentCandidates - 1);
@@ -134,21 +129,21 @@ export default function RequestStep2Form({
   if (!finishCallLists) {
     return <SimpleLoading />;
   }
-    return (
-      <div>
-        <Form
-          form={form}
-          className="form_modal"
-          name="formRequestStep2"
-          style={{ maxWidth: 600 }}
-          onFinish={finishRequest}
-          initialValues={{
-            candidatesNumber: '',
-            services: [],
-            candidates: [],
-          }}
-        >
-          <div className="section">
+  return (
+    <div>
+      <Form
+        form={form}
+        className="form_modal"
+        name="formRequestStep2"
+        style={{ maxWidth: 700 }}
+        onFinish={finishRequest}
+        initialValues={{
+          candidatesNumber: '',
+          services: [],
+          candidates: [],
+        }}
+      >
+        {/* <div className="section">
             <Form.Item
               label="Tipo de solicitud"
               className="operation_input_element w_100"
@@ -165,206 +160,229 @@ export default function RequestStep2Form({
                 <Radio value={2}>PAQUETE DE SERVICIOS</Radio>
               </Radio.Group>
             </Form.Item>
-          </div>
+          </div> */}
 
-          <div className="section">
+        <div className="section">
+          <Form.Item
+            className="operation_input_element"
+            label="Servicios"
+            name="services"
+            rules={[
+              {
+                required: true,
+                message: 'Ingresa los Servicios!',
+              },
+            ]}
+          >
+            <Select
+              placeholder="Servicios"
+              {...{ mode: serviceType === 1 ? 'multiple' : undefined }}
+            >
+              {services.map((service: any) => (
+                <Select.Option key={service.id}>{service.name}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {requestData.requestType === 1 ? (
             <Form.Item
               className="operation_input_element"
-              label="Servicios"
-              name="services"
+              label="No. de candidatos"
+              name="candidatesNumber"
               rules={[
                 {
                   required: true,
-                  message: 'Ingresa los Servicios!',
+                  message: 'Ingresa un No de candidatos!',
                 },
               ]}
             >
-              <Select
-                placeholder="Servicios"
-                {...{ mode: serviceType === 1 ? 'multiple' : undefined }}
-              >
-                {services.map((service: any) => (
-                  <Select.Option key={service.id}>{service.name}</Select.Option>
-                ))}
-              </Select>
+              <InputNumber
+                style={{ width: '100% ' }}
+                placeholder="No de candidatos (max 10)."
+                onChange={handleChangeCandidatesNumber}
+                min={0}
+                max={10}
+              />
             </Form.Item>
-
-            {requestData.requestType === 1 ? (
-              <Form.Item
-                className="operation_input_element"
-                label="No. de candidatos"
-                name="candidatesNumber"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Ingresa un No de candidatos!',
-                  },
-                ]}
+          ) : (
+            <Form.Item
+              className="operation_input_element"
+              label="Plantilla"
+              name="candidatesTemplate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Adjunta la plantilla!',
+                },
+              ]}
+            >
+              <Upload
+                beforeUpload={beforeUpload}
+                action={`${process.env.NEXT_PUBLIC_API_URL}/multer/process`}
+                method="POST"
               >
-                <InputNumber
-                  style={{ width: '100% ' }}
-                  placeholder="No de candidatos"
-                  onChange={handleChangeCandidatesNumber}
-                  min={0}
-                  max={10}
-                />
-              </Form.Item>
-            ) : (
-              <Form.Item
-                className="operation_input_element"
-                label="Plantilla"
-                name="candidatesTemplate"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Adjunta la plantilla!',
-                  },
-                ]}
-              >
-                <Upload
-                  beforeUpload={beforeUpload}
-                  action={`${process.env.NEXT_PUBLIC_API_URL}/multer/process`}
-                  method="POST"
-                >
-                  <Button icon={<UploadOutlined />}>Adjuntar Plantilla</Button>
-                </Upload>
-              </Form.Item>
-            )}
-          </div>
-
-          {requestData.requestType === 1 && (
-            <div style={{ marginTop: 20 }}>
-              <Form.List name="candidates">
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Space
-                        key={key}
-                        style={{ display: 'flex', marginBottom: 8 }}
-                        align="baseline"
-                      >
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'name']}
-                          rules={[
-                            { required: true, message: 'Nombre Completo' },
-                          ]}
-                          className="operation_input_element"
-                          style={{ width: '100px' }}
-                        >
-                          <Input placeholder="Nombre Completo" />
-                        </Form.Item>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'identificationType']}
-                          className="operation_input_element"
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Tipo de identificación',
-                            },
-                          ]}
-                          style={{ width: '100px' }}
-                        >
-                          <Select
-                            showSearch
-                            optionFilterProp="value"
-                            fieldNames={parameterOptionConfig}
-                            className="w_100"
-                            placeholder="Tipo de identificación"
-                            options={listParameters}
-                          />
-                        </Form.Item>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'identification']}
-                          rules={[
-                            { required: true, message: 'N° de identificación' },
-                          ]}
-                          className="operation_input_element"
-                          style={{ width: '100px' }}
-                        >
-                          <Input placeholder="N° de identificación" />
-                        </Form.Item>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'charge']}
-                          rules={[{ required: true, message: 'Cargo' }]}
-                          className="operation_input_element"
-                          style={{ width: '100px' }}
-                        >
-                          <Input placeholder="Cargo" />
-                        </Form.Item>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'email']}
-                          rules={[{ required: true, message: 'Correo' }]}
-                          className="operation_input_element"
-                          style={{ width: '100px' }}
-                        >
-                          <Input placeholder="Correo" />
-                        </Form.Item>
-
-                        <Form.Item
-                          {...restField}
-                          name={[name, 'phone']}
-                          rules={[{ required: true, message: 'Telefono' }]}
-                          className="operation_input_element"
-                          style={{ width: '100px' }}
-                        >
-                          <Input placeholder="Telefono" />
-                        </Form.Item>
-
-                        <MinusCircleOutlined
-                          onClick={() => onRemoveItem(name, remove)}
-                        />
-                      </Space>
-                    ))}
-                  </>
-                )}
-              </Form.List>
-            </div>
+                <Button icon={<UploadOutlined />}>Adjuntar Plantilla</Button>
+              </Upload>
+            </Form.Item>
           )}
+        </div>
 
-          <div className="section align_end">
-            <Form.Item>
-              <Button
-                onClick={() => setSaveType('save')}
-                htmlType="submit"
-                className="operation_modal_button ok_button"
-                loading={submitLoading && saveType === 'save'}
-              >
-                GUARDAR
-              </Button>
-            </Form.Item>
+        {requestData.requestType === 1 && (
+          <div style={{ marginTop: 20 }}>
+            <Form.List name="candidates">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space
+                      key={key}
+                      style={{ display: 'flex', marginBottom: 8 }}
+                      align="baseline"
+                    >
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'name']}
+                        rules={[
+                          { required: true, message: 'Nombre Completo' },
+                        ]}
+                        className="operation_input_element"
+                      // style={{ width: '100px' }}
+                      >
+                        <Input placeholder="Nombre Completo" />
+                      </Form.Item>
 
-            <Form.Item>
-              <Button
-                onClick={() => setSaveType('saveAndSubmit')}
-                htmlType="submit"
-                className="operation_modal_button ok_button"
-                loading={submitLoading && saveType === 'saveAndSubmit'}
-              >
-                GUARDAR Y RADICAR
-              </Button>
-            </Form.Item>
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'identificationType']}
+                        className="operation_input_element"
 
-            <Form.Item>
-              <Button
-                htmlType="button"
-                danger
-                className="operation_modal_button cancel_button"
-                onClick={handleCancelModal}
-              >
-                CANCELAR
-              </Button>
-            </Form.Item>
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Tipo de identificación',
+                          },
+                        ]}
+                      >
+                        <Select
+                          showSearch
+                          optionFilterProp="value"
+                          fieldNames={parameterOptionConfig}
+                          className="w_100"
+                          placeholder="Tipo de identificación"
+                          options={listParameters}
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'identification']}
+                        rules={[
+                          { required: true, message: 'N° de identificación' },
+                        ]}
+                        className="operation_input_element"
+                        style={{ width: '100px' }}
+                      >
+                        <Input placeholder="N° de identificación" />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'charge']}
+                        rules={[{ required: true, message: 'Cargo' }]}
+                        className="operation_input_element"
+                        style={{ width: '100px' }}
+                      >
+                        <Input placeholder="Cargo" />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'email']}
+                        rules={[{ required: true, message: 'Correo' }]}
+                        className="operation_input_element"
+                        style={{ width: '100px' }}
+                      >
+                        <Input placeholder="Correo" />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'phone']}
+                        rules={[{ required: true, message: 'Telefono' }]}
+                        className="operation_input_element"
+                        style={{ width: '100px' }}
+                      >
+                        <Input placeholder="Telefono" />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'service']}
+                        className="operation_input_element"
+
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Servicio',
+                          },
+                        ]}
+                      >
+                        <Select
+                          showSearch
+                          optionFilterProp="value"
+                          fieldNames={parameterOptionConfig}
+                          className="w_100"
+                          placeholder="Servicio"
+                          options={services}
+                        />
+                      </Form.Item>
+
+
+                      <MinusCircleOutlined
+                        onClick={() => onRemoveItem(name, remove)}
+                      />
+                    </Space>
+                  ))}
+                </>
+              )}
+            </Form.List>
           </div>
-        </Form>
-      </div>
-    );
+        )}
+
+        <div className="section align_end">
+          <Form.Item>
+            <Button
+              onClick={() => setSaveType('save')}
+              htmlType="submit"
+              className="operation_modal_button ok_button"
+              loading={submitLoading && saveType === 'save'}
+            >
+              GUARDAR
+            </Button>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              onClick={() => setSaveType('saveAndSubmit')}
+              htmlType="submit"
+              className="operation_modal_button ok_button"
+              loading={submitLoading && saveType === 'saveAndSubmit'}
+            >
+              GUARDAR Y RADICAR
+            </Button>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              htmlType="button"
+              danger
+              className="operation_modal_button cancel_button"
+              onClick={handleCancelModal}
+            >
+              CANCELAR
+            </Button>
+          </Form.Item>
+        </div>
+      </Form>
+    </div>
+  );
 }
