@@ -40,7 +40,7 @@ const instance = (api: "base" | "web" | "i+c") => {
     instancia.interceptors.response.use(
         (response) => response,
         (error) => {
-
+            console.log(error);
             if (error.response && Number(error.response.status) === 401) {
                 Cookies.remove('token');
                 const router = useRouter();
