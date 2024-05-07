@@ -1,4 +1,5 @@
 "use client"
+
 import Sidebar from "@components/Sidebar/Sidebar"
 import { useSystemStore } from '@/states/System.state';
 import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary } from "@/api/mapa.api";
@@ -226,17 +227,29 @@ export default function RootLayout({
   }, [])
 
   return (
+    <html lang="en">
 
-    <MainLayout>
-      {load ?
-        <section className="mainLayout relative">
-          <Sidebar />
-          {children}
-        </section>
-        :
-        <IconoCargando />
-      }
-    </MainLayout>
+      <head>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Oberon 360 - Dashboard</title>
+        <link rel="icon" href="/OBERON-NEGRO.png" />
+      </head>
+
+      <body >
+        <MainLayout>
+          {load ?
+            <section className="mainLayout relative">
+              <Sidebar />
+              {children}
+            </section>
+            :
+            <IconoCargando />
+          }
+        </MainLayout></body>
+    </html>
+
 
   )
 }
