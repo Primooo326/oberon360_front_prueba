@@ -7,7 +7,7 @@ import { TbRouteSquare } from 'react-icons/tb';
 import { useFiltrosMapa } from '@/states/FiltrosMapa.state';
 import { useSystemStore } from '@/states/System.state';
 export default function FiltrosComponent() {
-    const { setMobileFiltro: setMobile, setProteccionFiltro: setProteccion, setTelemetriaFiltro: setTelemetria, mobileFiltro: mobile, proteccionFiltro: proteccion, telemetriaFiltro: telemetria } = useFiltrosMapa()
+    const { setMobileFiltro: setMobile, setProteccionFiltro: setProteccion, setTelemetriaFiltro: setTelemetria, mobileFiltro: mobile, proteccionFiltro: proteccion, telemetriaFiltro: telemetria, oleoductosFiltro: dronFiltro, setoleoductosFiltro: setDronFiltro } = useFiltrosMapa()
     const { clientes, setClienteSelected } = useClientesStore();
     const { resetMapConfig, setShowSidebar, showSidebar } = useSystemStore()
     const [clientesOptions, setClientesOptions] = useState<{ value: string, label: string }[]>([])
@@ -45,6 +45,11 @@ export default function FiltrosComponent() {
                     onClick={() => { resetMapConfig(); setTelemetria(!telemetria); }}
                 >
                     Telemetria
+                </button>
+                <button className={`btn btn-sm ${dronFiltro ? 'btn-error' : ''}`}
+                    onClick={() => { resetMapConfig(); setDronFiltro(!dronFiltro); }}
+                >
+                    Oleoductos
                 </button>
                 <button className={`btn btn-sm ${mobile ? 'btn-error' : ''}`}
                     onClick={() => { resetMapConfig(); setMobile(!mobile); }}

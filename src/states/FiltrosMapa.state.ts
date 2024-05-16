@@ -5,15 +5,18 @@ interface FiltrosMapaState {
     proteccionFiltro: boolean;
     telemetriaFiltro: boolean;
     mobileFiltro: boolean;
+    oleoductosFiltro: boolean;
     setProteccionFiltro: (value: boolean) => void;
     setTelemetriaFiltro: (value: boolean) => void;
     setMobileFiltro: (value: boolean) => void;
+    setoleoductosFiltro: (value: boolean) => void;
 }
 
 export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
     proteccionFiltro: false,
-    telemetriaFiltro: true,
+    telemetriaFiltro: false,
     mobileFiltro: false,
+    oleoductosFiltro: true,
     setProteccionFiltro: (value) => {
         useSystemStore.getState().resetMapConfig()
         set({ proteccionFiltro: value })
@@ -26,4 +29,8 @@ export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
         useSystemStore.getState().resetMapConfig()
         set({ mobileFiltro: value })
     },
+    setoleoductosFiltro: (value) => {
+        useSystemStore.getState().resetMapConfig()
+        set({ oleoductosFiltro: value })
+    }
 }));
