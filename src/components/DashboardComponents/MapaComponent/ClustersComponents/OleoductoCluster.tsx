@@ -1,5 +1,5 @@
 "use client"
-import { Mobile } from '@/data/mapaData';
+import { ZonaRoja } from '@/data/mapaData';
 import { useSystemStore } from '@/states/System.state';
 import { MarkerClusterer, Marker, Polyline, InfoWindow } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
@@ -94,7 +94,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
 
     const clusterStylesMobile = [
         {
-            url: Mobile.url,
+            url: ZonaRoja.url,
             height: 60,
             width: 60,
 
@@ -103,7 +103,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
     ]
     return (
         <>
-            {oleoductos.map((oleoducto, index) => (
+            {oleoductosShow && oleoductos.map((oleoducto, index) => (
                 <>
                     <Marker
                         key={`oleoudctoMarker${index}`}
@@ -196,7 +196,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                 </InfoWindow>
             )}
             {
-                eventoDrone.map((evento, index) => (
+                oleoductosShow && eventoDrone.map((evento, index) => (
                     <Marker
                         key={index}
                         position={{
@@ -208,7 +208,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                             ),
                         }}
                         icon={{
-                            url: Mobile.url,
+                            url: ZonaRoja.url,
                             scaledSize: new google.maps.Size(60, 60),
                         }}
                         onClick={() => {

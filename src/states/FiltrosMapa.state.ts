@@ -16,7 +16,7 @@ export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
     proteccionFiltro: false,
     telemetriaFiltro: false,
     mobileFiltro: false,
-    oleoductosFiltro: true,
+    oleoductosFiltro: false,
     setProteccionFiltro: (value) => {
         useSystemStore.getState().resetMapConfig()
         set({ proteccionFiltro: value })
