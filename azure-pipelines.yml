@@ -15,7 +15,7 @@ pool:
   displayName: 'Instalar Node.js'
 
 - task: Cache@2
-  displayName: 'Cache node_modules'
+  displayName: Cache node_modules
   inputs:
     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
     path: $(nodeModulesCache)
@@ -49,5 +49,5 @@ pool:
     azureSubscription: 'oberontsi'
     appType: 'webAppLinux'
     appName: 'oberontsi'
-    package: '$(Build.ArtifactStagingDirectory)'
+    package: '$(System.DefaultWorkingDirectory)/.next/'
   displayName: 'Deploy to Azure App Service'
