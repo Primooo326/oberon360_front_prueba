@@ -1,5 +1,5 @@
 "use client"
-import { Mobile } from '@/data/mapaData';
+import { ZonaRoja } from '@/data/mapaData';
 import { useSystemStore } from '@/states/System.state';
 import { MarkerClusterer, Marker, Polyline, InfoWindow } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
@@ -91,127 +91,132 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
     const handleSetHoveredMarker = (marker: any) => {
         setHoveredMarker(marker);
     }
+
+    const clusterStylesMobile = [
+        {
+            url: ZonaRoja.url,
+            height: 60,
+            width: 60,
+
+            className: 'clusterText',
+        },
+    ]
     return (
         <>
+            {oleoductosShow && oleoductos.map((oleoducto, index) => (
+                <>
+                    <Marker
+                        key={`oleoudctoMarker${index}`}
+                        position={{
+                            lat: Number.parseFloat(
+                                `${oleoducto.LatitudInicial}`,
+                            ),
+                            lng: Number.parseFloat(
+                                `${oleoducto.LongitudInicial}`,
+                            ),
+                        }}
+                        // onClick={() =>
+                        //     handleClickOleoducto(oleoducto)
+                        // }
+                        onMouseOut={() => {
+                            setHoveredMarker(null)
+                        }}
+                        onMouseOver={() => {
+                            const itemHover = {
+                                lon: oleoducto.LongitudInicial,
+                                lat: oleoducto.LatitudInicial,
+                                EstaciónInicial: oleoducto.EstaciónInicial,
+                                EstaciónFinal: oleoducto.EstaciónFinal
+                            }
+                            setHoveredMarker(itemHover)
+                        }}
+                    />
+                    <Marker
+                        key={index}
+                        position={{
+                            lat: Number.parseFloat(
+                                `${oleoducto.LatitudFinal}`,
+                            ),
+                            lng: Number.parseFloat(
+                                `${oleoducto.LongitudFinal}`,
+                            ),
+                        }}
+                        // onClick={() =>
+                        //     handleClickOleoducto(oleoducto)
+                        // }
+                        onMouseOut={() => {
+                            setHoveredMarker(null)
+                        }}
+                        onMouseOver={() => {
+                            const itemHover = {
+                                lon: oleoducto.LongitudFinal,
+                                lat: oleoducto.LatitudFinal,
+                                EstaciónInicial: oleoducto.EstaciónInicial,
+                                EstaciónFinal: oleoducto.EstaciónFinal
+                            }
+                            setHoveredMarker(itemHover)
+                        }}
+                    />
+                    < Polyline path={[
+                        {
+                            lat: Number.parseFloat(`${oleoducto.LatitudInicial}`),
+                            lng: Number.parseFloat(`${oleoducto.LongitudInicial}`)
+                        },
+                        {
+                            lat: Number.parseFloat(`${oleoducto.LatitudFinal}`),
+                            lng: Number.parseFloat(`${oleoducto.LongitudFinal}`)
+                        }
+
+                    ]
+                    } options={
+                        {
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 1,
+                            strokeWeight: 2,
+                            zIndex: 1
+                        }
+
+                    } />
+                </>
+            ))}
+            {hoveredMarker && (
+                <InfoWindow
+                    position={{
+                        lat: Number.parseFloat(`${hoveredMarker.lat}`),
+                        lng: Number.parseFloat(`${hoveredMarker.lon}`),
+                    }}
+                    onCloseClick={() => setHoveredMarker(null)}
+                >
+                    <div className="mapPopover" >
+                        <div className="flex justify-between items-center p-2 mt-3">
+                            <p className='' >Estación: <span>{hoveredMarker.EstaciónInicial} - {hoveredMarker.EstaciónFinal}</span></p>
+
+                        </div>
+                    </div>
+                </InfoWindow>
+            )}
             {
-                oleoductosShow ? <>
-                    {oleoductos.map((oleoducto, index) => (
-                        <>
-                            <Marker
-                                key={`oleoudctoMarker${index}`}
-                                position={{
-                                    lat: Number.parseFloat(
-                                        `${oleoducto.LatitudInicial}`,
-                                    ),
-                                    lng: Number.parseFloat(
-                                        `${oleoducto.LongitudInicial}`,
-                                    ),
-                                }}
-                                // onClick={() =>
-                                //     handleClickOleoducto(oleoducto)
-                                // }
-                                onMouseOut={() => {
-                                    setHoveredMarker(null)
-                                }}
-                                onMouseOver={() => {
-                                    const itemHover = {
-                                        lon: oleoducto.LongitudInicial,
-                                        lat: oleoducto.LatitudInicial,
-                                        EstaciónInicial: oleoducto.EstaciónInicial,
-                                        EstaciónFinal: oleoducto.EstaciónFinal
-                                    }
-                                    setHoveredMarker(itemHover)
-                                }}
-                            />
-                            <Marker
-                                key={index}
-                                position={{
-                                    lat: Number.parseFloat(
-                                        `${oleoducto.LatitudFinal}`,
-                                    ),
-                                    lng: Number.parseFloat(
-                                        `${oleoducto.LongitudFinal}`,
-                                    ),
-                                }}
-                                // onClick={() =>
-                                //     handleClickOleoducto(oleoducto)
-                                // }
-                                onMouseOut={() => {
-                                    setHoveredMarker(null)
-                                }}
-                                onMouseOver={() => {
-                                    const itemHover = {
-                                        lon: oleoducto.LongitudFinal,
-                                        lat: oleoducto.LatitudFinal,
-                                        EstaciónInicial: oleoducto.EstaciónInicial,
-                                        EstaciónFinal: oleoducto.EstaciónFinal
-                                    }
-                                    setHoveredMarker(itemHover)
-                                }}
-                            />
-                            < Polyline path={[
-                                {
-                                    lat: Number.parseFloat(`${oleoducto.LatitudInicial}`),
-                                    lng: Number.parseFloat(`${oleoducto.LongitudInicial}`)
-                                },
-                                {
-                                    lat: Number.parseFloat(`${oleoducto.LatitudFinal}`),
-                                    lng: Number.parseFloat(`${oleoducto.LongitudFinal}`)
-                                }
-
-                            ]
-                            } options={
-                                {
-                                    strokeColor: "#FF0000",
-                                    strokeOpacity: 1,
-                                    strokeWeight: 2,
-                                    zIndex: 1
-                                }
-
-                            } />
-                        </>
-                    ))}
-                    {hoveredMarker && (
-                        <InfoWindow
-                            position={{
-                                lat: Number.parseFloat(`${hoveredMarker.lat}`),
-                                lng: Number.parseFloat(`${hoveredMarker.lon}`),
-                            }}
-                            onCloseClick={() => setHoveredMarker(null)}
-                        >
-                            <div className="mapPopover" >
-                                <div className="flex justify-between items-center p-2 mt-3">
-                                    <p className='' >Estación: <span>{hoveredMarker.EstaciónInicial} - {hoveredMarker.EstaciónFinal}</span></p>
-
-                                </div>
-                            </div>
-                        </InfoWindow>
-                    )}
-                    {
-                        eventoDrone.map((evento, index) => (
-                            <Marker
-                                key={index}
-                                position={{
-                                    lat: Number.parseFloat(
-                                        `${evento.event_location.latitude}`,
-                                    ),
-                                    lng: Number.parseFloat(
-                                        `${evento.event_location.longitude}`,
-                                    ),
-                                }}
-                                icon={{
-                                    url: Mobile.url,
-                                    scaledSize: new google.maps.Size(60, 60),
-                                }}
-                                onClick={() => {
-                                    setItemSidebarRight({ item: "oleoducto", content: evento, itinerario: null })
-                                    setShowSidebarRight(true)
-                                }}
-                            />
-                        ))
-                    }
-
-                </> : <></>
+                oleoductosShow && eventoDrone.map((evento, index) => (
+                    <Marker
+                        key={index}
+                        position={{
+                            lat: Number.parseFloat(
+                                `${evento.event_location.latitude}`,
+                            ),
+                            lng: Number.parseFloat(
+                                `${evento.event_location.longitude}`,
+                            ),
+                        }}
+                        icon={{
+                            url: ZonaRoja.url,
+                            scaledSize: new google.maps.Size(60, 60),
+                        }}
+                        onClick={() => {
+                            setItemSidebarRight({ item: "oleoducto", content: evento, itinerario: null })
+                            setShowSidebarRight(true)
+                        }}
+                    />
+                ))
             }
         </>
     )
