@@ -1,35 +1,53 @@
-# Node.js with React
-# Build a Node.js project that uses React.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
-- main
+- master
+
+pr: none
+
+variables:
+  nodeModulesCache: $(Build.SourcesDirectory)/node_modules
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '5.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 - task: NodeTool@0
   inputs:
     versionSpec: '18.x'
-  displayName: 'Install Node.js'
+  displayName: 'Instalar Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-- task: ArchiveFiles@2
+- task: Cache@2
+  displayName: Cache node_modules
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)/.next' # Asegúrate de apuntar a la carpeta correcta
-    includeRootFolder: false  # Cambiado a false para no incluir la carpeta raíz en el archivo comprimido
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/build-$(Build.BuildId).zip'
-    replaceExistingArchive: true
-  displayName: 'Archive Next.js build files'
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
+    path: $(nodeModulesCache)
+    cacheHitVar: CACHE_RESTORED
+
+- task: Npm@1
+  displayName: 'Install Dependencies'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'ci'
+  condition: ne(variables.CACHE_RESTORED, 'true')
+
+- script: npm run lint
+  displayName: 'Execute Linter'
+  condition: ne(variables.CACHE_RESTORED, 'true')
+
+- script: npm run build  
+  displayName: 'Generate Build Artifact'
+  condition: ne(variables.CACHE_RESTORED, 'true')
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'oberontsi'
     appType: 'webAppLinux'
     appName: 'oberontsi'
-    package: '$(Build.ArtifactStagingDirectory)/build-$(Build.BuildId).zip'
+    package: '$(System.DefaultWorkingDirectory)/.next/'
+  displayName: 'Deploy to Azure App Service'
