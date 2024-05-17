@@ -1,5 +1,5 @@
 trigger:
-- develop
+- Dev
 
 pr: none
 
@@ -10,6 +10,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '5.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: NodeTool@0
   inputs:
@@ -31,11 +36,9 @@ steps:
     customCommand: 'ci'
   condition: ne(variables.CACHE_RESTORED, 'true')
 
-
 - script: npm run build  
   displayName: 'Generate Build Artifact'
   condition: ne(variables.CACHE_RESTORED, 'true')
-
 
 - task: AzureWebApp@1
   inputs:
