@@ -32,4 +32,4 @@ steps:
     azureSubscription: 'oberontsi'
     appType: 'webAppLinux'
     appName: 'oberontsi'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(Build.ArtifactStagingDirectory)/build-$(Build.BuildId).zip'
