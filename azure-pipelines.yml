@@ -1,5 +1,5 @@
 trigger:
-- master
+- develop
 
 pr: none
 
@@ -10,6 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
 - task: NodeTool@0
   inputs:
     versionSpec: '18.x'
@@ -30,9 +31,11 @@ steps:
     customCommand: 'ci'
   condition: ne(variables.CACHE_RESTORED, 'true')
 
+
 - script: npm run build  
   displayName: 'Generate Build Artifact'
   condition: ne(variables.CACHE_RESTORED, 'true')
+
 
 - task: AzureWebApp@1
   inputs:
