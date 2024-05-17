@@ -49,5 +49,5 @@ steps:
     azureSubscription: 'oberontsi'
     appType: 'webAppLinux'
     appName: 'oberontsi'
-    package: '$(System.DefaultWorkingDirectory)/.next/'
+    package: '$(Build.ArtifactStagingDirectory)'
   displayName: 'Deploy to Azure App Service'
