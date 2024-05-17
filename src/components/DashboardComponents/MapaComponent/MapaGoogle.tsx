@@ -28,7 +28,7 @@ import OleoductoCluster from "./ClustersComponents/OleoductoCluster";
 import { useOleoductosStore } from "@/states/Oleoductos.state";
 
 function MapaGoogle() {
-  const { mobileFiltro, proteccionFiltro, telemetriaFiltro } = useFiltrosMapa()
+  const { mobileFiltro, proteccionFiltro, telemetriaFiltro, oleoductosFiltro } = useFiltrosMapa()
   const { theme, setMapExpand, mapExpand, mapConfig, setMapConfig } = useSystemStore()
   const { clienteSelected } = useClientesStore()
   const { vehiculos } = useVehiculosStore()
@@ -122,7 +122,7 @@ function MapaGoogle() {
         <UbicacionCluster ubicaciones={ubicacionesShow} showUbicaciones={proteccionFiltro} />
         <VehiculosAlpCluster vehiculos={vehiculos} showVehiculos={showVehiculos && telemetriaFiltro} />
         <MobileCluster mobiles={mobiles} mobileShow={mobileFiltro} />
-        <OleoductoCluster oleoductos={oleoductos} oleoductosShow={true} />
+        <OleoductoCluster oleoductos={oleoductos} oleoductosShow={oleoductosFiltro} />
       </GoogleMap>
       <button className="btn bg-white botonExpandable" onClick={() => setMapExpand(!mapExpand)} >
         {mapExpand ? (<FaCompress />) : (<FaExpand />)}
