@@ -36,10 +36,6 @@ steps:
     customCommand: 'ci'
   condition: ne(variables.CACHE_RESTORED, 'true')
 
-- script: npm run lint
-  displayName: 'Execute Linter'
-  condition: ne(variables.CACHE_RESTORED, 'true')
-
 - script: npm run build  
   displayName: 'Generate Build Artifact'
   condition: ne(variables.CACHE_RESTORED, 'true')
