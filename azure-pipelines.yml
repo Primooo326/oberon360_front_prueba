@@ -41,9 +41,10 @@ steps:
   condition: ne(variables.CACHE_RESTORED, 'true')
 
 - task: AzureWebApp@1
+  displayName: 'Deploy to Azure App Service'
   inputs:
-    azureSubscription: 'Suscripción de Azure 1'
+    azureSubscription: 'oberontsi'
     appType: 'webAppLinux'
     appName: 'oberontsi'
     package: '$(System.DefaultWorkingDirectory)/.next/'
-  displayName: 'Deploy to Azure App Service'
+    runtimeStack: 'NODE|18-lts'
