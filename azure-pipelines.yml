@@ -1,5 +1,5 @@
 trigger:
-- Dev
+- master
 
 pr: none
 
@@ -22,7 +22,7 @@ steps:
   displayName: 'Instalar Node.js'
 
 - task: Cache@2
-  displayName: Cache node_modules
+  displayName: 'Cache node_modules'
   inputs:
     key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
     path: $(nodeModulesCache)
@@ -40,10 +40,21 @@ steps:
   displayName: 'Generate Build Artifact'
   condition: ne(variables.CACHE_RESTORED, 'true')
 
+- script: |
+    cp server.js $(Build.ArtifactStagingDirectory)/server.js
+    cp web.config $(Build.ArtifactStagingDirectory)/web.config
+  displayName: 'Copy server and web.config to artifact directory'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'nextjs-app'
+    publishLocation: 'container'
+
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'oberontsi'
     appType: 'webAppLinux'
     appName: 'oberontsi'
-    package: '$(System.DefaultWorkingDirectory)/.next/'
+    package: '$(Build.ArtifactStagingDirectory)'
   displayName: 'Deploy to Azure App Service'
