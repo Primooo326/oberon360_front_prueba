@@ -163,26 +163,6 @@ export default function RequestStep2Form({
           </div> */}
 
         <div className="section">
-          <Form.Item
-            className="operation_input_element"
-            label="Servicios"
-            name="services"
-            rules={[
-              {
-                required: true,
-                message: 'Ingresa los Servicios!',
-              },
-            ]}
-          >
-            <Select
-              placeholder="Servicios"
-              {...{ mode: serviceType === 1 ? 'multiple' : undefined }}
-            >
-              {services.map((service: any) => (
-                <Select.Option key={service.id}>{service.name}</Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
 
           {requestData.requestType === 1 ? (
             <Form.Item
@@ -327,6 +307,7 @@ export default function RequestStep2Form({
                         ]}
                       >
                         <Select
+                          mode='multiple'
                           showSearch
                           optionFilterProp="value"
                           fieldNames={parameterOptionConfig}

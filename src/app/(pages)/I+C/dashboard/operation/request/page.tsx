@@ -88,56 +88,59 @@ export default function OperationRequestPage() {
 
   const submitRequestStep2 = (values: any) => {
     setSubmitLoading(true);
+    console.log(requestData);
+    console.log(values);
     if (requestData.requestType === 1) {
       const requestToGenerate = {
         customerId: requestData.customerId,
         customerInternal: requestData.customerInternal,
         regional: requestData.regional,
         costCenterId: requestData.costCenterId,
-        billable: requestData.billable,
-        remarks: requestData.remarks,
+        billable: true,
         saveType: values.saveType,
-        services:
-          values.requestServiceType === 2
-            ? [
-              {
-                isPackage: values.requestServiceType !== 1,
-                id: values.services,
-              },
-            ]
-            : values.services.map((service: any) => {
-              return {
-                isPackage: values.requestServiceType !== 1,
-                id: service,
-              };
-            }),
+        // services:
+        //   values.requestServiceType === 2
+        //     ? [
+        //       {
+        //         isPackage: values.requestServiceType !== 1,
+        //         id: values.services,
+        //       },
+        //     ]
+        //     : values.services.map((service: any) => {
+        //       return {
+        //         isPackage: values.requestServiceType !== 1,
+        //         id: service,
+        //       };
+        //     }),
         candidates: values.candidates.map((candidate: any) => {
           return {
             username: candidate.identification,
             name: candidate.name,
             email: candidate.email,
             charge: candidate.charge,
+            service: candidate.service,
           };
         }),
       } as RequestCustom;
-      createRequest(requestToGenerate)
-        .then((res) => {
-          if (res) {
-            showSuccess(res.data);
-            setFinishRetrieveData(false);
-            handleCancelModal();
-          }
-          setSubmitLoading(false);
-        })
-        .catch((error) => {
-          console.error(error);
-          setSubmitLoading(false);
-          showError(
-            error.response.data.error
-              ? error.response.data.error.message
-              : 'No se ha podido crear la solicitud'
-          );
-        });
+      console.log(requestToGenerate);
+      // createRequest(requestToGenerate)
+      //   .then((res) => {
+      //     if (res) {
+      //       showSuccess(res.data);
+      //       setFinishRetrieveData(false);
+      //       handleCancelModal();
+      //     }
+      //     setSubmitLoading(false);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //     setSubmitLoading(false);
+      //     showError(
+      //       error.response.data.error
+      //         ? error.response.data.error.message
+      //         : 'No se ha podido crear la solicitud'
+      //     );
+      //   });
     } else {
       const formData = new FormData();
       formData.append('customerId', String(requestData.customerId));
@@ -490,12 +493,15 @@ export default function OperationRequestPage() {
             title="Nueva Solicitud"
             centered
             className="custom_operation_modal"
+            maskClosable={false}
+            keyboard={false}
+
           >
             <div>{steps[current].content}</div>
           </Modal>
 
           <Modal
-            open={openDetailModal}
+            keyboard={false}
             onCancel={handleCancelDetailModal}
             footer={
               <Button
@@ -511,6 +517,8 @@ export default function OperationRequestPage() {
             title="Información Solicitud"
             centered
             className="custom_operation_modal"
+            maskClosable={false}
+
           >
             <RowExpansionTemplate data={requestDetail} />
           </Modal>

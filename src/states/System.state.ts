@@ -4,7 +4,7 @@ import type { IItinerario, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
 import { useVehiculosStore } from "./Vehiculos.state";
 interface ItemsSidebarRight {
-    item: "vehiculos" | "ubicaciones";
+    item: "vehiculos" | "ubicaciones" | "oleoducto";
     content: IVehiculo | any;
     itinerario: IItinerario[] | null
 }
@@ -14,7 +14,7 @@ interface SystemState {
     showSidebar: boolean;
     setShowSidebar: (showSidebar: boolean) => void;
     itemSidebarRight: {
-        item: "vehiculos" | "ubicaciones";
+        item: "vehiculos" | "ubicaciones" | "oleoducto";
         content: IVehiculo | any;
         itinerario: IItinerario[] | null
 
@@ -57,16 +57,14 @@ export const useSystemStore = create<SystemState>((set) => ({
     setItemSidebarRight: (itemSidebarRight) => {
 
 
-        if (useSystemStore.getState().showSidebarRight) {
-            useFiltrosMapa.setState({
-                proteccionFiltro: false,
-                telemetriaFiltro: true,
-                mobileFiltro: false
-            })
-        } else {
-            //reset map config
-
-        }
+        // !! corregir este codigo
+        // if (useSystemStore.getState().showSidebarRight) {
+        // useFiltrosMapa.setState({
+        //     proteccionFiltro: false,
+        //     telemetriaFiltro: false,
+        //     mobileFiltro: false
+        // })
+        // }
 
 
 

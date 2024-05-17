@@ -75,7 +75,7 @@ export default function VehiculosContent() {
     return (
         <>
             {
-                showSidebarRight ? (
+                showSidebarRight && itemSidebarRight.item === "vehiculos" ? (
                     <div className="w-full">
                         <div className="flex justify-center items-center" >
                             {itemSidebarRight!.content.TIPOSERVICIO_DESCRIPCION === "PRIMARIA" ? (

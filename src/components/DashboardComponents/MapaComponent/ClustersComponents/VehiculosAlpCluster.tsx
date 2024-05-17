@@ -37,7 +37,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
     ]
     useEffect(() => {
         let v = vehiculos;
-        if (showSidebarRight) {
+        if (showSidebarRight && itemSidebarRight.item === "vehiculos") {
             v = vehiculos.filter(vehiculo => {
                 return vehiculo.WTLT_PLACA === itemSidebarRight.content.WTLT_PLACA
             })
@@ -65,7 +65,7 @@ export default function VehiculosAlpCluster({ vehiculos, showVehiculos }: { vehi
     }, [vehiculos, vehiculosFiltered, itemSidebarRight, showSidebarRight]);
     return (
         <>
-            {showVehiculos && (
+            {(showVehiculos) && (
                 <MarkerClusterer
                     options={{
                         imagePath:
