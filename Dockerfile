@@ -29,6 +29,8 @@ RUN cat package.json
 
 # Compilar aplicación
 RUN npm run build
+RUN docker ps -a | grep "8000"
+
 EXPOSE 8000
 # Inicia tu aplicación
-RUN npm start
+CMD ["npm", "start"]
