@@ -1,4 +1,4 @@
-# QUIK BACK DOCKER
+# Docker
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
@@ -10,8 +10,9 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  imageRepository: 'quikdocker'
-  containerRegistry: 'quikcontainer.azurecr.io'
+  dockerRegistryServiceConnection: '492c0ffb-f756-4d92-ac7b-c95d12c93986'
+  imageRepository: 'oberon360front'
+  containerRegistry: 'oberon360front.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
 
@@ -28,8 +29,11 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
+      displayName: Build and push an image to container registry
       inputs:
-        containerRegistry: 'oberon360Fron Docker Registry Connection'
-        repository: 'oberon360Front'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
