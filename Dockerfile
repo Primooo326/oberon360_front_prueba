@@ -11,11 +11,13 @@ ENV NEXT_PUBLIC_JWT_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFt
 WORKDIR /usr/src/app
 
 # imprime el directorio de trabajo
-RUN pwd
 
 # Copia los archivos del proyecto al contenedor
 COPY package.json ./
 COPY package-lock.json ./
+
+RUN pwd
+RUN ls
 
 # Instala las dependencias del proyecto
 RUN npm install
