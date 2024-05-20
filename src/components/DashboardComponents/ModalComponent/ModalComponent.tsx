@@ -174,6 +174,10 @@ export default function ModalComponent() {
                                             <h1 className='text-xl font-semibold' >Bitácora</h1>
                                             <textarea className="w-full textarea textarea-bordered" placeholder="Bitácora" />
 
+                                            <div className="flex justify-between items-center gap-5">
+                                                <button className="btn btn-sm btn-primary">Guardar bitácora</button>
+                                                <button className="btn btn-sm btn-success">Completar protocolo</button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))
