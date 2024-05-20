@@ -1,71 +1,35 @@
-# Node.js React Web App to Linux on Azure
-# Build a Node.js React app and deploy it to Azure as a Linux web app.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# QUIK BACK DOCKER
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+- Dev
+
+resources:
+- repo: self
 
 variables:
-
-  # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'a93f1a86-2b2c-4d6c-ba6e-01a7c82da641'
-
-  # Web app name
-  webAppName: 'oberontsi'
-
-  # Environment name
-  environmentName: 'oberontsi'
+  # Container registry service connection established during pipeline creation
+  imageRepository: 'quikdocker'
+  containerRegistry: 'quikcontainer.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: Build and push stage
   jobs:
   - job: Build
     displayName: Build
     pool:
       vmImage: $(vmImageName)
-
     steps:
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
+    - task: Docker@2
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        replaceExistingArchive: true
-
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      artifact: drop
-
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    environment: $(environmentName)
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: oberontsi'
-            inputs:
-              azureSubscription: $(azureSubscription)
-              appType: webAppLinux
-              WebAppName: $(webAppName)
-              packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              RuntimeStack: 'NODE|10.10'
-              StartupCommand: 'npm run start'
-              ScriptType: 'Inline Script'
-              InlineScript: |
-                npm install
-                npm run build --if-present
+        containerRegistry: 'oberon360Fron Docker Registry Connection'
+        repository: 'oberon360Front'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
