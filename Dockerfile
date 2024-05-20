@@ -15,16 +15,17 @@ WORKDIR /usr/src/app
 # Copia los archivos del proyecto al contenedor
 COPY package.json ./
 COPY package-lock.json ./
+# Copia el resto de los archivos al contenedor
+COPY . .
 
 RUN pwd
 RUN ls
+RUN cat package.json
 
 # Instala las dependencias del proyecto
 RUN npm install
 
 
-# Copia el resto de los archivos al contenedor
-COPY . .
 
 # Compilar aplicación
 RUN npm run build
