@@ -10,6 +10,9 @@ ENV NEXT_PUBLIC_JWT_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFt
 # Establece el directorio de trabajo
 WORKDIR /usr/src/app
 
+# imprime el directorio de trabajo
+RUN pwd
+
 # Copia los archivos del proyecto al contenedor
 COPY package.json ./
 COPY package-lock.json ./
