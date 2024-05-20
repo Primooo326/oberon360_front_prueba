@@ -22,3 +22,11 @@ interface IOleoductoTrazo {
     "LatitudFinal": number;
     "LongitudFinal": number;
 }
+
+interface IOleoductioProtocolo {
+    Id_Oleoducto: number | string;
+    nombre_protocolo: string;
+    fecha: string;
+    estado_protocolo: "Pendiente" | "En proceso" | "Completado";
+    bitacora: string;
+}
