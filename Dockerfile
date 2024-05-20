@@ -29,6 +29,6 @@ RUN cat package.json
 
 # Compilar aplicación
 RUN npm run build
-# EXPOSE 8000
+EXPOSE 8000
 # Inicia tu aplicación
 CMD ["npm", "start"]
