@@ -1,10 +1,10 @@
 
 import type { IVehiculo } from "@/models/vehiculos.model";
-import VehiculosContent from "./VehiculosContent/VehiculosContent";
+import VehiculosContent from "./Contents/VehiculosContent";
 import type { IUbicacionCliente } from "@/models/ubicaciones.model";
 import { useSystemStore } from "@/states/System.state";
 import { MdOutlineLocationSearching } from "react-icons/md";
-import OleoductosContent from "./VehiculosContent/OleoductosContent";
+import OleoductosContent from "./Contents/OleoductosContent";
 // interface SidebarRightProps {
 //     item: "vehiculos" | "ubicaciones"
 //     content: IVehiculo | IUbicacionCliente

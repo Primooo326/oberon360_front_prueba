@@ -105,7 +105,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
         <>
             {oleoductosShow && oleoductos.map((oleoducto, index) => (
                 <>
-                    <Marker
+                    {/* <Marker
                         key={`oleoudctoMarker${index}`}
                         position={{
                             lat: Number.parseFloat(
@@ -130,8 +130,8 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                             }
                             setHoveredMarker(itemHover)
                         }}
-                    />
-                    <Marker
+                    /> */}
+                    {/* <Marker
                         key={index}
                         position={{
                             lat: Number.parseFloat(
@@ -156,8 +156,8 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                             }
                             setHoveredMarker(itemHover)
                         }}
-                    />
-                    < Polyline path={[
+                    /> */}
+                    {/* < Polyline path={[
                         {
                             lat: Number.parseFloat(`${oleoducto.LatitudInicial}`),
                             lng: Number.parseFloat(`${oleoducto.LongitudInicial}`)
@@ -176,10 +176,10 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                             zIndex: 1
                         }
 
-                    } />
+                    } /> */}
                 </>
             ))}
-            {hoveredMarker && (
+            {/* {hoveredMarker && (
                 <InfoWindow
                     position={{
                         lat: Number.parseFloat(`${hoveredMarker.lat}`),
@@ -194,7 +194,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                         </div>
                     </div>
                 </InfoWindow>
-            )}
+            )} */}
             {
                 oleoductosShow && eventoDrone.map((evento, index) => (
                     <Marker

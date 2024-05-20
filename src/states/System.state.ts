@@ -22,6 +22,10 @@ interface SystemState {
     setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight) => void;
     showSidebarRight: boolean;
     setShowSidebarRight: (showSidebarRight: boolean) => void;
+    showModalProtocolo: boolean;
+    setShowModalProtocolo: (showModalProtocolo: boolean) => void;
+    itemProtocolo: any;
+    setItemProtocolo: (itemProtocolo: any) => void;
     mapExpand: boolean;
     setMapExpand: (mapExpand: boolean) => void;
     mapConfig: {
@@ -72,6 +76,12 @@ export const useSystemStore = create<SystemState>((set) => ({
     },
     showSidebarRight: false,
     setShowSidebarRight: (showSidebarRight) => set({ showSidebarRight }),
+
+    showModalProtocolo: false,
+    setShowModalProtocolo: (showModalProtocolo) => set({ showModalProtocolo }),
+    itemProtocolo: {},
+    setItemProtocolo: (itemProtocolo) => set({ itemProtocolo }),
+
     resetMapConfig: () => {
         set({
             mapConfig: {

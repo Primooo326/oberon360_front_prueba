@@ -2,7 +2,7 @@ import { useSystemStore } from '@/states/System.state';
 import Image from 'next/image';
 export default function OleoductosContent() {
 
-    const { itemSidebarRight } = useSystemStore();
+    const { itemSidebarRight, setShowModalProtocolo, setItemProtocolo } = useSystemStore();
     console.log(itemSidebarRight.content);
 
     interface PasoProtocolo {
@@ -29,9 +29,9 @@ export default function OleoductosContent() {
         infraestructura: [
             { orden: 1, descripcion: 'Realizar inspección inicial del área afectada', estado: 'Completado' },
             { orden: 2, descripcion: 'Evaluar daños visibles en la infraestructura', estado: 'Completado' },
-            { orden: 3, descripcion: 'Informar al centro de control', estado: 'Completado' },
-            { orden: 4, descripcion: 'Registrar el evento en el sistema de seguimiento', estado: 'Completado' },
-            { orden: 5, descripcion: 'Coordinar con el equipo de mantenimiento para reparaciones', estado: 'Completado' }
+            { orden: 3, descripcion: 'Informar al centro de control', estado: 'Pendiente' },
+            { orden: 4, descripcion: 'Registrar el evento en el sistema de seguimiento', estado: 'Pendiente' },
+            { orden: 5, descripcion: 'Coordinar con el equipo de mantenimiento para reparaciones', estado: 'Pendiente' }
         ],
         intrucion: [
             { orden: 1, descripcion: 'Verificar la alerta de intrusión mediante cámaras de seguridad', estado: 'Completado' },
@@ -43,9 +43,9 @@ export default function OleoductosContent() {
         incendio: [
             { orden: 1, descripcion: 'Activar alarma de incendio', estado: 'Completado' },
             { orden: 2, descripcion: 'Evacuar el área según protocolo de emergencia', estado: 'Completado' },
-            { orden: 3, descripcion: 'Llamar al cuerpo de bomberos', estado: 'Completado' },
-            { orden: 4, descripcion: 'Cortar suministros de energía y combustibles', estado: 'Completado' },
-            { orden: 5, descripcion: 'Realizar revisión post-incidente para determinar causas', estado: 'Completado' }
+            { orden: 3, descripcion: 'Llamar al cuerpo de bomberos', estado: 'Pendiente' },
+            { orden: 4, descripcion: 'Cortar suministros de energía y combustibles', estado: 'Pendiente' },
+            { orden: 5, descripcion: 'Realizar revisión post-incidente para determinar causas', estado: 'Pendiente' }
         ],
         piscinas: [
             { orden: 1, descripcion: 'Verificar niveles de químicos en piscinas', estado: 'Completado' },
@@ -56,11 +56,19 @@ export default function OleoductosContent() {
         ]
     };
 
+    const onHandleProtocolo = () => {
+        setShowModalProtocolo(false);
+        setTimeout(() => {
 
+            setShowModalProtocolo(true);
+            setItemProtocolo(itemContent);
+        }, 100);
+    }
 
     const imgIncendio = "/assets/Recursos/mapa/oleoducto/oleoductos4.jpeg";
     const InspeccionInfraestructura = "/assets/Recursos/mapa/oleoducto/oleoductos3.jpeg";
     const PISCINAS = "/assets/Recursos/mapa/oleoducto/oleoductos.jpeg";
+
     const itemContent: itemContent = {
         content: itemSidebarRight.content,
         // imagen: itemSidebarRight.content.description === 'INCENDIO' ? imgIncendio : InspeccionInfraestructura,
@@ -103,31 +111,6 @@ export default function OleoductosContent() {
 
                     )
                 }
-                {/* 
-                {
-                    itemContent.content && (
-                        <div>
-
-                            <div className="flex justify-between items-center p-2 mt-3">
-                                <h1 className='text-xl font-semibold' >Estaciónes:</h1>
-                                <p>{itemContent.content.EstaciónInicial} - {itemContent.content.EstaciónFinal}</p>
-                            </div>
-                            <div className="flex justify-between items-center p-2">
-                                <h1 className='text-xl font-semibold' >Ubicación Inicial:</h1>
-                                <p>{itemContent.content.LatitudInicial}, {itemContent.content.LongitudInicial}</p>
-
-                            </div>
-
-                            <div className="flex justify-between items-center p-2">
-                                <h1 className='text-xl font-semibold' >Ubicación Final:</h1>
-                                <p>{itemContent.content.LatitudFinal}, {itemContent.content.LongitudFinal}</p>
-                            </div>
-
-                        </div>
-
-                    )
-                } */}
-
                 <div className="divider" />
 
                 <h1 className='text-lg font-semibold' >Estado Protocolo: <span className='text-success' > (Completado)</span></h1>
@@ -139,10 +122,11 @@ export default function OleoductosContent() {
                         </div>
                     ))
                 }
-                <button className="btn btn-accent  w-full mt-3">
+                <button className="btn btn-accent  w-full mt-3" onClick={() => onHandleProtocolo()} >
                     Revisar Protocolo
                 </button>
             </div>
         </div>
     );
 }
+
