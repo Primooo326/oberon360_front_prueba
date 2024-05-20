@@ -17,13 +17,13 @@ COPY package.json ./
 COPY package-lock.json ./
 # Copia el resto de los archivos al contenedor
 COPY . .
+# Instala las dependencias del proyecto
+RUN npm install
 
 RUN pwd
 RUN ls
 RUN cat package.json
 
-# Instala las dependencias del proyecto
-RUN npm install
 
 
 
