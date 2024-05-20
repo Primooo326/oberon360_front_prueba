@@ -44,3 +44,7 @@ export const getInfoDriver = async (id: string) => {
 export const createZProtocolos = async (data: any) => {
     return await fetchApiWeb.post("map/createZProtocolos", data);
 }
+// /map/getEventsShips
+export const getEventsShips = async () => {
+    return await fetchApiWeb.get("map/getEventsShips");
+}
