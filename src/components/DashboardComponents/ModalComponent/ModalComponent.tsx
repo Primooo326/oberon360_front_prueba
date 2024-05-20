@@ -1,5 +1,6 @@
 import { useSystemStore } from '@/states/System.state'
 import React, { useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 export default function ModalComponent() {
 
@@ -138,6 +139,11 @@ export default function ModalComponent() {
     //     }
     // }
 
+
+    const onSaveBitacora = () => {
+        toast.success('Bitácora guardada correctamente');
+    }
+
     useEffect(() => {
 
         const modal: any = document.getElementById("modal");
@@ -175,7 +181,7 @@ export default function ModalComponent() {
                                             <textarea className="w-full textarea textarea-bordered" placeholder="Bitácora" />
 
                                             <div className="flex justify-between items-center gap-5">
-                                                <button className="btn btn-sm btn-primary">Guardar bitácora</button>
+                                                <button className="btn btn-sm btn-primary" onClick={() => onSaveBitacora()}>Guardar bitácora</button>
                                                 <button className="btn btn-sm btn-success">Completar protocolo</button>
                                             </div>
                                         </div>
