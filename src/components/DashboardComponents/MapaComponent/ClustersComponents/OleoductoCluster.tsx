@@ -13,7 +13,7 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
         {
             "title": "ECOPETROL",
             "author": "AT ORDONEZ ARLEX",
-            "description": "20 PISCINAS",
+            "description": "PASIVO AMBIENTAL 01",
             "event_location": {
                 "latitude": "8.605556",
                 "longitude": "-73.3175"
@@ -70,6 +70,22 @@ export default function MobileCluster({ oleoductos, oleoductosShow }: { oleoduct
                 "images": ["6"]
             }
         }
+        // ,
+        // {
+        //     "title": "ECOPETROL",
+        //     "author": "",
+        //     "description": "Inestabilidad geológica",
+        //     "event_location": {
+        //         "latitude": "8.360278",
+        //         "longitude": "-73.152567"
+        //     },
+        //     "event_start_time": "27/09/2015 10:19 P. M.",
+        //     "event_end_time": "27/09/2015 10:19 P. M.",
+        //     "notes": "se detecta inestabilidad geologica con desprendimiento de materiel proximo al derecho de paso del oleoducto. enviar imagenes a matenimiento y prevención. 008°36'02' N, 073°15'25' W en inmediaciones de Convención.",
+        //     "attachments": {
+        //         "images": ["6"]
+        //     }
+        // }
     ]
 
     const handleClickOleoducto = (oleoducto: IOleoductoTrazo) => {

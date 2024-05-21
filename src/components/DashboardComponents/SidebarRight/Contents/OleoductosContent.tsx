@@ -65,14 +65,19 @@ export default function OleoductosContent() {
         }, 100);
     }
 
+    const inestabilidadgeologica = "/assets/Recursos/mapa/oleoducto/oleoductos5.jpeg";
     const imgIncendio = "/assets/Recursos/mapa/oleoducto/oleoductos4.jpeg";
-    const InspeccionInfraestructura = "/assets/Recursos/mapa/oleoducto/oleoductos3.jpeg";
+    const Intrucion = "/assets/Recursos/mapa/oleoducto/oleoductos3.jpeg";
+    const InspeccionInfraestructura = "/assets/Recursos/mapa/oleoducto/oleoductos2.jpeg";
     const PISCINAS = "/assets/Recursos/mapa/oleoducto/oleoductos.jpeg";
-
     const itemContent: itemContent = {
         content: itemSidebarRight.content,
         // imagen: itemSidebarRight.content.description === 'INCENDIO' ? imgIncendio : InspeccionInfraestructura,
-        imagen: itemSidebarRight.content.description === '20 PISCINAS' ? PISCINAS : itemSidebarRight.content.description === 'INCENDIO' ? imgIncendio : InspeccionInfraestructura,
+        imagen: itemSidebarRight.content.description === 'PASIVO AMBIENTAL 01' ? PISCINAS :
+             itemSidebarRight.content.description === 'INCENDIO' ? imgIncendio :
+             itemSidebarRight.content.description === 'Inspeccion Infraestructura' ? InspeccionInfraestructura :
+             itemSidebarRight.content.description === 'INTRUCION' ? Intrucion :
+             inestabilidadgeologica,
         protocolos: protocolosIncidentes
     }
 
