@@ -1,5 +1,7 @@
 import type { IItinerario, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
+import type { PasoProtocolo, itemContent } from '@/models/oleoductos.model';
+
 interface ItemsSidebarRight {
     item: "vehiculos" | "ubicaciones" | "oleoducto";
     content: IVehiculo | any;
@@ -21,8 +23,8 @@ interface SystemState {
     setShowSidebarRight: (showSidebarRight: boolean) => void;
     showModalProtocolo: boolean;
     setShowModalProtocolo: (showModalProtocolo: boolean) => void;
-    itemProtocolo: any;
-    setItemProtocolo: (itemProtocolo: any) => void;
+    itemProtocolo: itemContent;
+    setItemProtocolo: (itemProtocolo: itemContent) => void;
     mapExpand: boolean;
     setMapExpand: (mapExpand: boolean) => void;
     mapConfig: {
@@ -64,7 +66,7 @@ export const useSystemStore = create<SystemState>((set) => ({
 
     showModalProtocolo: false,
     setShowModalProtocolo: (showModalProtocolo) => set({ showModalProtocolo }),
-    itemProtocolo: {},
+    itemProtocolo: {} as itemContent,
     setItemProtocolo: (itemProtocolo) => set({ itemProtocolo }),
 
     resetMapConfig: () => {

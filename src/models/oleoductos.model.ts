@@ -30,3 +30,15 @@ interface IOleoductioProtocolo {
     estado_protocolo: "Pendiente" | "En proceso" | "Completado";
     bitacora: string;
 }
+export interface PasoProtocolo {
+    orden: number;
+    descripcion: string;
+    estado: 'Pendiente' | 'Completado';
+    current: boolean;
+}
+
+export interface itemContent {
+    content: any
+    imagen: string
+    protocolos: PasoProtocolo[]
+}

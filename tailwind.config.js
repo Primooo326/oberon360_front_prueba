@@ -19,6 +19,7 @@ export default {
           secondary: "#efefef",
 
           tertiary: "#6b7280",
+          "bg-tertiary": "#6b7280",
 
           accent: "#3b82f6",
 

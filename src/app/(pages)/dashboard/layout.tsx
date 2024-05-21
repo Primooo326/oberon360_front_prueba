@@ -28,10 +28,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-  const router = useRouter()
   const { setUbicaciones } = useUbicaciones()
-  const { setClientes, clienteSelected } = useClientesStore()
-  const { setToken, token } = useLoginStore.getState()
+  const { setClientes } = useClientesStore()
   const { setVehiculos, vehiculosFiltered } = useVehiculosStore()
   const { setMobiles } = useMobilesStore()
   const { setOleoductos } = useOleoductosStore()
@@ -103,10 +101,8 @@ export default function RootLayout({
 
   const getOleoductos = async () => {
     await getEventsShips().then((resp) => {
-      console.log(resp);
-      const ships = resp.map((ship: any) => {
-
-      })
+      // console.log(resp);
+      setOleoductos(resp)
     })
   }
 
@@ -176,9 +172,6 @@ export default function RootLayout({
     filtrosMapaRef.current = filtrosMapa;
   }, [filtrosMapa]);
 
-  // useEffect(() => {
-  //   verify().finally(() => setLoad(true))
-  // }, [])
 
   useEffect(() => {
     mapExpandRef.current = mapExpand;
