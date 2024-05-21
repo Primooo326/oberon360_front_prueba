@@ -4,10 +4,11 @@ import Select, { type StylesConfig } from 'react-select';
 import { useEffect, useState } from 'react'
 import { useClientesStore } from '@/states/Clientes.state';
 import { TbRouteSquare } from 'react-icons/tb';
-import { useFiltrosMapa } from '@/states/FiltrosMapa.state';
+import { type FiltroMapa, useFiltrosMapa } from '@/states/FiltrosMapa.state';
 import { useSystemStore } from '@/states/System.state';
 export default function FiltrosComponent() {
-    const { setMobileFiltro: setMobile, setProteccionFiltro: setProteccion, setTelemetriaFiltro: setTelemetria, mobileFiltro: mobile, proteccionFiltro: proteccion, telemetriaFiltro: telemetria, oleoductosFiltro: dronFiltro, setoleoductosFiltro: setDronFiltro } = useFiltrosMapa()
+    const { toggleFiltro } = useFiltrosMapa()
+    const { mobileFiltro, oleoductosFiltro, proteccionFiltro, telemetriaFiltro } = useFiltrosMapa().filtrosMapState
     const { clientes, setClienteSelected } = useClientesStore();
     const { resetMapConfig, setShowSidebar, showSidebar } = useSystemStore()
     const [clientesOptions, setClientesOptions] = useState<{ value: string, label: string }[]>([])
@@ -21,12 +22,17 @@ export default function FiltrosComponent() {
         setClienteSelected(clientes.find(cliente => cliente.CLIE_ID_REG === selectedOption.value) || null)
         setSelectedOption(selectedOption)
     }
+
+    const handleToogleFiltro = (filtro: FiltroMapa) => {
+        toggleFiltro(filtro)
+    }
+
     useEffect(() => {
         setClientesOptions(clientes.map(cliente => ({ value: cliente.CLIE_ID_REG, label: cliente.CLIE_COMERCIAL })))
     }, [clientes])
     return (
-        <div className='flex w-full justify-between' >
-            <div className='flex gap-4 w-full' >
+        <div className='flex w-full justify-between'>
+            <div className='flex gap-4 w-full'>
                 <Select
                     className='w-[350px]'
                     defaultValue={selectedOption}
@@ -36,23 +42,23 @@ export default function FiltrosComponent() {
                     placeholder='Filtrar por cliente'
                     isClearable
                 />
-                <button className={`btn btn-sm ${proteccion ? 'btn-error' : ''}`}
-                    onClick={() => { resetMapConfig(); setProteccion(!proteccion); }}
+                <button className={`btn btn-sm ${proteccionFiltro ? 'btn-error' : ''}`}
+                    onClick={() => { resetMapConfig(); handleToogleFiltro("proteccionFiltro"); }}
                 >
                     Protección
                 </button>
-                <button className={`btn btn-sm ${telemetria ? 'btn-error' : ''}`}
-                    onClick={() => { resetMapConfig(); setTelemetria(!telemetria); }}
+                <button className={`btn btn-sm ${telemetriaFiltro ? 'btn-error' : ''}`}
+                    onClick={() => { resetMapConfig(); handleToogleFiltro("telemetriaFiltro"); }}
                 >
                     Telemetria
                 </button>
-                <button className={`btn btn-sm ${dronFiltro ? 'btn-error' : ''}`}
-                    onClick={() => { resetMapConfig(); setDronFiltro(!dronFiltro); }}
+                <button className={`btn btn-sm ${oleoductosFiltro ? 'btn-error' : ''}`}
+                    onClick={() => { resetMapConfig(); handleToogleFiltro("oleoductosFiltro"); }}
                 >
                     Oleoductos
                 </button>
-                <button className={`btn btn-sm ${mobile ? 'btn-error' : ''}`}
-                    onClick={() => { resetMapConfig(); setMobile(!mobile); }}
+                <button className={`btn btn-sm ${mobileFiltro ? 'btn-error' : ''}`}
+                    onClick={() => { resetMapConfig(); handleToogleFiltro("mobileFiltro"); }}
                 >
                     Mobile
                 </button>

@@ -28,7 +28,7 @@ import OleoductoCluster from "./ClustersComponents/OleoductoCluster";
 import { useOleoductosStore } from "@/states/Oleoductos.state";
 
 function MapaGoogle() {
-  const { mobileFiltro, proteccionFiltro, telemetriaFiltro, oleoductosFiltro } = useFiltrosMapa()
+  const { mobileFiltro, proteccionFiltro, telemetriaFiltro, oleoductosFiltro } = useFiltrosMapa().filtrosMapState
   const { theme, setMapExpand, mapExpand, mapConfig, setMapConfig } = useSystemStore()
   const { clienteSelected } = useClientesStore()
   const { vehiculos } = useVehiculosStore()

@@ -40,30 +40,11 @@ export default function RootLayout({
   const showSidebarRightRef = useRef(showSidebarRight)
   const itemSidebarRightRef = useRef(itemSidebarRight)
   const mapExpandRef = useRef(mapExpand)
-  const filtrosMapa = useFiltrosMapa()
+  const filtrosMapa = useFiltrosMapa().filtrosMapState
+  const { initFiltrosMapa } = useFiltrosMapa()
   const filtrosMapaRef = useRef(filtrosMapa)
   const vehiculosFRef = useRef(vehiculosFiltered);
-  const [load, setLoad] = useState(false)
-
-
-  const verify = async () => {
-    const token = Cookies.get("token")
-    if (token) {
-      const tokenValid = await verifyJWT(token)
-      if (tokenValid) {
-        setToken(token)
-        await getData()
-      } else {
-        // Cookies.remove("token")
-        setToken("")
-        // router.push("/auth")
-      }
-    } else {
-      // Cookies.remove("token")
-      setToken("")
-      // router.push("/auth")
-    }
-  }
+  const [load, setLoad] = useState(true)
 
   const getVehiculos = async () => {
     let response: any[] = await getEventsPlates();
@@ -195,9 +176,9 @@ export default function RootLayout({
     filtrosMapaRef.current = filtrosMapa;
   }, [filtrosMapa]);
 
-  useEffect(() => {
-    verify().finally(() => setLoad(true))
-  }, [])
+  // useEffect(() => {
+  //   verify().finally(() => setLoad(true))
+  // }, [])
 
   useEffect(() => {
     mapExpandRef.current = mapExpand;
@@ -222,20 +203,21 @@ export default function RootLayout({
     }
   }
   useEffect(() => {
+    const filtros = JSON.parse(localStorage.getItem("filtrosMapa") || "{}")
+
+    if (filtros) {
+      initFiltrosMapa(filtros)
+    }
 
     fetchData()
     const interval = setInterval(fetchData, 5000);
-
-
-    // if (!token) {
-    //   clearInterval(interval);
-    // }
 
     return () => {
       clearInterval(interval);
     };
 
-  }, [token])
+
+  }, [])
 
   return (
     <html lang="en">

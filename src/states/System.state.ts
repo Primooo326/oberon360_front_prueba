@@ -1,8 +1,5 @@
-import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
-
 import type { IItinerario, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
-import { useVehiculosStore } from "./Vehiculos.state";
 interface ItemsSidebarRight {
     item: "vehiculos" | "ubicaciones" | "oleoducto";
     content: IVehiculo | any;
@@ -90,7 +87,8 @@ export const useSystemStore = create<SystemState>((set) => ({
             })
         }, 1000);
         useSystemStore.setState({
-            itemSidebarRight: {} as ItemsSidebarRight
+            itemSidebarRight: {} as ItemsSidebarRight,
+            showSidebarRight: false
         });
     }
 }));

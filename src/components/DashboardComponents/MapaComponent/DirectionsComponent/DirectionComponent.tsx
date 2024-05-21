@@ -5,7 +5,7 @@ import { DirectionsRenderer, Marker } from "@react-google-maps/api"
 import { useEffect, useState } from "react"
 export default function DirectionComponent() {
 
-    const { itemSidebarRight } = useSystemStore()
+    const { itemSidebarRight, showSidebarRight } = useSystemStore()
 
 
     const [directionsResponse, setDirectionsResponse] = useState<any[] | null>(null)
@@ -171,7 +171,7 @@ export default function DirectionComponent() {
     return (
         <>
             {
-                (itemSidebarRight && directionsResponse) && (
+                (showSidebarRight && directionsResponse) && (
                     <>
                         {directionsResponse.map((directions, index) => (
 

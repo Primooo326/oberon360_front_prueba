@@ -22,7 +22,6 @@ const instance = (api: "base" | "web" | "i+c") => {
     instancia.interceptors.request.use(
         (config) => {
             let token = ""
-            console.log(Cookies.get('token'));
             if (Cookies.get('token')) {
                 token = String(Cookies.get('token'));
             }
@@ -42,7 +41,6 @@ const instance = (api: "base" | "web" | "i+c") => {
         (error) => {
             console.log("error response::::", error);
             if (error.response && Number(error.response.status) === 401) {
-                console.log("unauthorized");
                 Cookies.remove('token');
                 window.location.href = '/auth';
             } else if (error.code === 'ERR_NETWORK') {
