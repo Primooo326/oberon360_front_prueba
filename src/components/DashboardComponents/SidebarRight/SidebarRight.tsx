@@ -10,7 +10,7 @@ import OleoductosContent from "./Contents/OleoductosContent";
 //     content: IVehiculo | IUbicacionCliente
 // }
 export default function SidebarRight() {
-    const { setShowSidebarRight, mapExpand, mapConfig, setMapConfig, itemSidebarRight } = useSystemStore();
+    const { setShowSidebarRight, mapExpand, mapConfig, setMapConfig, itemSidebarRight,setItemSidebarRight } = useSystemStore();
 
 
     const cerrar = () => {
@@ -21,6 +21,7 @@ export default function SidebarRight() {
             showLoadMap: false,
         })
         setShowSidebarRight(false)
+        // setItemSidebarRight({item:"vehiculos",content:null,itinerario:null})
     }
 
     const handleSetMapConfig = () => {
