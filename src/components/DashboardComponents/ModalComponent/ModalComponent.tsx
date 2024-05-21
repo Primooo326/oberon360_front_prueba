@@ -160,7 +160,6 @@ export default function ModalComponent() {
             <dialog id="modal" className="modal">
                 <div className="modal-box w-[650px]" style={{ width: "650px !important" }} >
                     <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */}
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                     <div className="modal-header ">

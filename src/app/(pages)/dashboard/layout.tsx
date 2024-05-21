@@ -44,6 +44,8 @@ export default function RootLayout({
   const filtrosMapaRef = useRef(filtrosMapa)
   const vehiculosFRef = useRef(vehiculosFiltered);
   const [load, setLoad] = useState(false)
+
+
   const verify = async () => {
     const token = Cookies.get("token")
     if (token) {
@@ -52,14 +54,14 @@ export default function RootLayout({
         setToken(token)
         await getData()
       } else {
-        Cookies.remove("token")
+        // Cookies.remove("token")
         setToken("")
-        router.push("/auth")
+        // router.push("/auth")
       }
     } else {
-      Cookies.remove("token")
+      // Cookies.remove("token")
       setToken("")
-      router.push("/auth")
+      // router.push("/auth")
     }
   }
 
@@ -119,195 +121,12 @@ export default function RootLayout({
   }
 
   const getOleoductos = async () => {
-
-    const oleoductos: IOleoductoTrazo[] = [
-      {
-        "EstaciónInicial": "Caño Limon",
-        "LatitudInicial": 6.932876053,
-        "LongitudInicial": -71.16668089,
-        "EstaciónFinal": "Banadia",
-        "LatitudFinal": 6.908421866,
-        "LongitudFinal": -71.84867717
-      },
-      {
-        "EstaciónInicial": "Banadia",
-        "LatitudInicial": 6.908421866,
-        "LongitudInicial": -71.84867717,
-        "EstaciónFinal": "Ayacucho",
-        "LatitudFinal": 8.601829533,
-        "LongitudFinal": -73.5798356
-      },
-      {
-        "EstaciónInicial": "Ayacucho",
-        "LatitudInicial": 8.601935615,
-        "LongitudInicial": -73.5798,
-        "EstaciónFinal": "Coveñas",
-        "LatitudFinal": 9.406178147,
-        "LongitudFinal": -75.68545909
-      },
-      {
-        "EstaciónInicial": "Ayacucho",
-        "LatitudInicial": 8.601935615,
-        "LongitudInicial": -73.5798,
-        "EstaciónFinal": "Coveñas L16",
-        "LatitudFinal": 9.406178147,
-        "LongitudFinal": -75.68545909
-      },
-      {
-        "EstaciónInicial": "Coveñas",
-        "LatitudInicial": 9.406178147,
-        "LongitudInicial": -75.68545909,
-        "EstaciónFinal": "Cartagena L18",
-        "LatitudFinal": 10.40585457,
-        "LongitudFinal": -75.52874672
-      },
-      {
-        "EstaciónInicial": "Galán",
-        "LatitudInicial": 7.068316793,
-        "LongitudInicial": -73.86734859,
-        "EstaciónFinal": "Ayacucho L18",
-        "LatitudFinal": 8.601935615,
-        "LongitudFinal": -73.5798
-      },
-      {
-        "EstaciónInicial": "Galán",
-        "LatitudInicial": 7.068316793,
-        "LongitudInicial": -73.86734859,
-        "EstaciónFinal": "Ayacucho L14",
-        "LatitudFinal": 8.601935615,
-        "LongitudFinal": -73.5798
-      },
-      {
-        "EstaciónInicial": "Vasconia",
-        "LatitudInicial": 6.06651715,
-        "LongitudInicial": -74.55795481,
-        "EstaciónFinal": "Casabombas CIB",
-        "LatitudFinal": 7.064910368,
-        "LongitudFinal": -73.84819938
-      },
-      {
-        "EstaciónInicial": "Ayacucho",
-        "LatitudInicial": 8.601935615,
-        "LongitudInicial": -73.5798,
-        "EstaciónFinal": "Casabombas Galan 8",
-        "LatitudFinal": 7.066880099,
-        "LongitudFinal": -73.85891733
-      },
-      {
-        "EstaciónInicial": "Orito",
-        "LatitudInicial": 0.671136623,
-        "LongitudInicial": -76.87442201,
-        "EstaciónFinal": "Tumaco",
-        "LatitudFinal": 1.800497453,
-        "LongitudFinal": -78.78429707
-      },
-      {
-        "EstaciónInicial": "San Miguel",
-        "LatitudInicial": 0.330921202,
-        "LongitudInicial": -76.87601676,
-        "EstaciónFinal": "Orito ( OSO )",
-        "LatitudFinal": 0.671136623,
-        "LongitudFinal": -76.87442201
-      },
-      {
-        "EstaciónInicial": "Mansoya",
-        "LatitudInicial": 0.451980647,
-        "LongitudInicial": -76.26684362,
-        "EstaciónFinal": "Orito (OMO)",
-        "LatitudFinal": 0.671136623,
-        "LongitudFinal": -76.87442201
-      },
-      {
-        "EstaciónInicial": "Churuyaco",
-        "LatitudInicial": 0.60647564,
-        "LongitudInicial": -77.2242824,
-        "EstaciónFinal": "Punto Guamuez",
-        "LatitudFinal": 0.67326966,
-        "LongitudFinal": -76.87856887
-      },
-      {
-        "EstaciónInicial": "Araguaney",
-        "LatitudInicial": 5.351534019,
-        "LongitudInicial": -72.40044174,
-        "EstaciónFinal": "Monterrey",
-        "LatitudFinal": 4.87592663,
-        "LongitudFinal": -72.89254697
-      },
-      {
-        "EstaciónInicial": "Santiago",
-        "LatitudInicial": 3.451593774,
-        "LongitudInicial": -76.54086123,
-        "EstaciónFinal": "Porvenir",
-        "LatitudFinal": 4.923860405,
-        "LongitudFinal": -72.92290089
-      },
-      {
-        "EstaciónInicial": "Apiay",
-        "LatitudInicial": 4.085407592,
-        "LongitudInicial": -73.56509971,
-        "EstaciónFinal": "Monterrey",
-        "LatitudFinal": 4.87592663,
-        "LongitudFinal": -72.89254697
-      },
-      {
-        "EstaciónInicial": "Monterrey",
-        "LatitudInicial": 4.87592663,
-        "LongitudInicial": -72.89254697,
-        "EstaciónFinal": "Altos de porvenir",
-        "LatitudFinal": 4.919391392,
-        "LongitudFinal": -72.93672373
-      },
-      {
-        "EstaciónInicial": "Monterrey",
-        "LatitudInicial": 4.87592663,
-        "LongitudInicial": -72.89254697,
-        "EstaciónFinal": "Porvenir L12",
-        "LatitudFinal": 4.923860405,
-        "LongitudFinal": -72.92290089
-      },
-      {
-        "EstaciónInicial": "Yanguara",
-        "LatitudInicial": 4.87592663,
-        "LongitudInicial": -72.89254697,
-        "EstaciónFinal": "Tenay",
-        "LatitudFinal": 6.068982128,
-        "LongitudFinal": -74.55827337
-      },
-      {
-        "EstaciónInicial": "San Fernando",
-        "LatitudInicial": 3.428941885,
-        "LongitudInicial": -76.54386169,
-        "EstaciónFinal": "Sabanalarga",
-        "LatitudFinal": 4.853533757,
-        "LongitudFinal": -73.04076233
-      },
-      {
-        "EstaciónInicial": "Toldado",
-        "LatitudInicial": 3.871667705,
-        "LongitudInicial": -75.2811861,
-        "EstaciónFinal": "Gualanday",
-        "LatitudFinal": 4.292863723,
-        "LongitudFinal": -75.04320391
-      },
-      {
-        "EstaciónInicial": "Vasconia",
-        "LatitudInicial": 6.066549157,
-        "LongitudInicial": -74.55824449,
-        "EstaciónFinal": "Velasquez",
-        "LatitudFinal": 5.9684473,
-        "LongitudFinal": -74.51456261
-      }
-    ]
     await getEventsShips().then((resp) => {
       console.log(resp);
       const ships = resp.map((ship: any) => {
 
       })
     })
-    // setTimeout(() => {
-
-    //   setOleoductos(oleoductos)
-    // }, 1000);
   }
 
   const getData = async () => {
@@ -349,6 +168,7 @@ export default function RootLayout({
     }
 
   }
+
   const getIndicadores = async () => {
     try {
       const response = await reportsIndicators();
@@ -407,9 +227,9 @@ export default function RootLayout({
     const interval = setInterval(fetchData, 5000);
 
 
-    if (!token) {
-      clearInterval(interval);
-    }
+    // if (!token) {
+    //   clearInterval(interval);
+    // }
 
     return () => {
       clearInterval(interval);

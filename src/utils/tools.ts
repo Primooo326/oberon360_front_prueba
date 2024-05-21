@@ -118,16 +118,3 @@ export const defineSiglTipDoc = (tipDoc: TipoDocumento): TipDocSiglas => {
     }
 
 }
-
-export function extractCoordinates(pointString: string): { lon: number; lat: number } {
-    // Remove the "POINT (" and ")" parts, and then split by space
-    const trimmed = pointString.replace('POINT (', '').replace(')', '');
-    const parts = trimmed.split(' ');
-
-    // Parse the longitude and latitude as floating point numbers
-    const lon = Number.parseFloat(parts[0]);
-    const lat = Number.parseFloat(parts[1]);
-
-    // Return an object with the longitude and latitude
-    return { lon, lat };
-}

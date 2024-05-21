@@ -23,6 +23,7 @@ const instance = (api: "base" | "web" | "i+c") => {
     instancia.interceptors.request.use(
         (config) => {
             let token = ""
+            console.log(Cookies.get('token'));
             if (Cookies.get('token')) {
                 token = String(Cookies.get('token'));
             }
@@ -42,9 +43,9 @@ const instance = (api: "base" | "web" | "i+c") => {
         (error) => {
             console.log(error);
             if (error.response && Number(error.response.status) === 401) {
-                Cookies.remove('token');
-                const router = useRouter();
-                router.push('/auth');
+                // Cookies.remove('token');
+                // const router = useRouter();
+                // router.push('/auth');
             } else if (error.code === 'ERR_NETWORK') {
                 toast.error('Error de red, verifique su conexión a internet.');
             } else if (error.response.data.message) {

@@ -60,18 +60,6 @@ export const useSystemStore = create<SystemState>((set) => ({
     itemSidebarRight: {} as ItemsSidebarRight,
     setItemSidebarRight: (itemSidebarRight) => {
 
-
-        // !! corregir este codigo
-        // if (useSystemStore.getState().showSidebarRight) {
-        // useFiltrosMapa.setState({
-        //     proteccionFiltro: false,
-        //     telemetriaFiltro: false,
-        //     mobileFiltro: false
-        // })
-        // }
-
-
-
         return set({ itemSidebarRight })
     },
     showSidebarRight: false,

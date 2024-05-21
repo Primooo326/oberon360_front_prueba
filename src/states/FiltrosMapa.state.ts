@@ -14,9 +14,9 @@ interface FiltrosMapaState {
 
 export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
     proteccionFiltro: false,
-    telemetriaFiltro: true,
+    telemetriaFiltro: false,
     mobileFiltro: false,
-    oleoductosFiltro: false,
+    oleoductosFiltro: true,
     setProteccionFiltro: (value) => {
         useSystemStore.getState().resetMapConfig()
         useSystemStore.getState().setShowSidebarRight(false)
