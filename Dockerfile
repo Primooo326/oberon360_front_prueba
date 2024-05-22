@@ -32,4 +32,4 @@ RUN npm run build
 
 EXPOSE 8000
 # Inicia tu aplicación
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
