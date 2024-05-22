@@ -10,8 +10,8 @@ interface ItemsSidebarRight {
 interface SystemState {
     theme: string;
     setTheme: (theme: string) => void;
-    showSidebar: boolean;
-    setShowSidebar: (showSidebar: boolean) => void;
+    showDrawer: boolean;
+    setShowDrawer: (showSidebar: boolean) => void;
     itemSidebarRight: {
         item: "vehiculos" | "ubicaciones" | "oleoducto";
         content: IVehiculo | any;
@@ -45,8 +45,8 @@ interface SystemState {
 export const useSystemStore = create<SystemState>((set) => ({
     theme: "oberon",
     setTheme: (theme) => set({ theme }),
-    showSidebar: false,
-    setShowSidebar: (showSidebar) => set({ showSidebar }),
+    showDrawer: false,
+    setShowDrawer: (showSidebar) => set({ showDrawer: showSidebar }),
     mapExpand: false,
     setMapExpand: (mapExpand) => set({ mapExpand }),
     mapConfig: {

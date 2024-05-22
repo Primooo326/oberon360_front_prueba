@@ -1,14 +1,14 @@
 import { FaMoon, FaSun } from "react-icons/fa6"
 import { CgHome } from "react-icons/cg";
 import { PiBell } from "react-icons/pi";
-import SubmenuContainer from "./SidebarComponents/SubmenuContainer";
 import { FiSettings } from "react-icons/fi";
 import { useSystemStore } from "@/states/System.state";
 import { AnimatePresence, motion } from "framer-motion";
-import FiltrosSubmenu from "./SidebarComponents/FiltrosSubmenu";
 import Image from "next/image";
 import { IoSearchOutline } from "react-icons/io5";
 import { usePathname, useRouter } from "next/navigation";
+import FiltrosSubmenu from "./DrawerContents/FiltrosContent";
+import SubmenuContainer from "./DrawerContents/SubmenuContainer";
 interface SubMenu {
     title: string;
     icon: JSX.Element;
@@ -16,8 +16,8 @@ interface SubMenu {
     href: string;
 }
 
-export default function Sidebar() {
-    const { theme, setTheme, showSidebar, setShowSidebar } = useSystemStore()
+export default function Drawer() {
+    const { theme, setTheme, showDrawer } = useSystemStore()
     const router = useRouter()
     const pathname = usePathname()
     const subMenus = [
@@ -94,8 +94,7 @@ export default function Sidebar() {
                 </div>
             </div>
             <AnimatePresence>
-
-                {showSidebar && (
+                {showDrawer && (
                     <motion.div
                         initial={{ x: '-100%' }}
                         animate={{ x: 0 }}

@@ -10,7 +10,7 @@ export default function FiltrosComponent() {
     const { toggleFiltro } = useFiltrosMapa()
     const { mobileFiltro, oleoductosFiltro, proteccionFiltro, telemetriaFiltro } = useFiltrosMapa().filtrosMapState
     const { clientes, setClienteSelected } = useClientesStore();
-    const { resetMapConfig, setShowSidebar, showSidebar } = useSystemStore()
+    const { resetMapConfig, setShowDrawer: setShowSidebar, showDrawer: showSidebar } = useSystemStore()
     const [clientesOptions, setClientesOptions] = useState<{ value: string, label: string }[]>([])
     const [selectedOption, setSelectedOption] = useState<{ value: string, label: string } | null>(null)
     const stylesSelect: StylesConfig = {

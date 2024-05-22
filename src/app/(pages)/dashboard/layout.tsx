@@ -1,9 +1,8 @@
 "use client"
 
-import Sidebar from "@components/Sidebar/Sidebar"
 import { useSystemStore } from '@/states/System.state';
 import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary, getEventsShips } from "@/api/mapa.api";
-import IconoCargando from "@components/IconoCargando/IconoCargando";
+import IconoCargando from "@components/Shared/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";
@@ -21,6 +20,7 @@ import MainLayout from "@/layouts/MainLayout"
 import "./Dashboard.css"
 import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
 import { useOleoductosStore } from "@/states/Oleoductos.state";
+import Drawer from '@/components/Shared/Drawer/Drawer';
 
 export default function RootLayout({
   children,
@@ -227,7 +227,7 @@ export default function RootLayout({
         <MainLayout>
           {load ?
             <section className="mainLayout relative">
-              <Sidebar />
+              <Drawer />
               {children}
             </section>
             :

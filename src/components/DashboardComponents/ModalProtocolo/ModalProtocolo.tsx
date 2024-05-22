@@ -1,4 +1,3 @@
-import Modal from "@/components/shared/Modal";
 import type { PasoProtocolo } from "@/models/oleoductos.model";
 
 import { useSystemStore } from "@/states/System.state";
@@ -8,6 +7,7 @@ import { FiFilePlus } from "react-icons/fi";
 import { CiCirclePlus } from "react-icons/ci";
 import { LuPlus } from "react-icons/lu";
 import { FaRegFileArchive, FaRegFileAlt } from "react-icons/fa";
+import Modal from "@/components/Shared/Modal";
 export default function ModalProtocolo() {
 
 

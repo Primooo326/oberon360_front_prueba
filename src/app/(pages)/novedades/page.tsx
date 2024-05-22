@@ -1,5 +1,5 @@
 "use client"
-import SidebarRight from '@/components/NovedadesComponents/SidebarRight/SidebarRight'
+import SidebarRightNovedades from '@/components/NovedadesComponents/SidebarRightNovedad/SidebarRightNovedad'
 import TableNovedad from '@/components/NovedadesComponents/TableNovedad/TableNovedad'
 import { useNovedadesStore } from '@/states/novedades.state'
 import { PieChart } from '@mui/x-charts/PieChart'
@@ -58,25 +58,6 @@ export default function page() {
 
             <TableNovedad />
 
-            {/* <div className=" w-[350px] h-[350px]">
-
-                <PieChart
-                    series={[
-                        {
-                            data: dataChart,
-                            innerRadius: 20,
-                            outerRadius: 80,
-                            paddingAngle: 5,
-                            startAngle: -90,
-                            cx: 150,
-                            cy: 150,
-
-                        }
-                    ]}
-
-                />
-            </div> */}
-
             <AnimatePresence>
 
                 {novedadSelected && (
@@ -87,7 +68,7 @@ export default function page() {
                         transition={{ type: "linear", stiffness: 200 }}
                         className="z-10"
                     >
-                        <SidebarRight />
+                        <SidebarRightNovedades />
                     </motion.div>
                 )}
             </AnimatePresence>

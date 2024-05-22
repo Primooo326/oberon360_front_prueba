@@ -3,7 +3,6 @@ import './Dashboard.css'
 import { useSystemStore } from '@/states/System.state'
 import VistaMax from '@/components/DashboardComponents/VistasComponents/VistaMax'
 import VistaMin from '@/components/DashboardComponents/VistasComponents/VistaMin'
-import Modal from '@/components/shared/Modal'
 import ModalProtocolo from '@/components/DashboardComponents/ModalProtocolo/ModalProtocolo'
 
 export default function Dashboard() {
