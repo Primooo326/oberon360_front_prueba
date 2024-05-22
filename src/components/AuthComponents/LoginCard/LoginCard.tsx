@@ -35,7 +35,7 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
                 setReset(true);
             }
             else {
-                router.push("/dashboard1")
+                router.push("/dashboard12")
             }
         } catch (error: any) {
             console.log(error);
