@@ -30,6 +30,6 @@ RUN cat package.json
 # Compilar aplicación
 RUN npm run build
 
-EXPOSE 8000
+EXPOSE 4000
 # Inicia tu aplicación
 CMD ["node", "app.js"]
