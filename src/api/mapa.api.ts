@@ -38,3 +38,13 @@ export const getEventsPlatesDispon = async () => {
 export const getInfoDriver = async (id: string) => {
     return await fetchApiWeb.get(`map/getInfoDriver/${id}`);
 }
+
+// map/createZProtocolos
+
+export const createZProtocolos = async (data: any) => {
+    return await fetchApiWeb.post("map/createZProtocolos", data);
+}
+// /map/getEventsShips
+export const getEventsShips = async () => {
+    return await fetchApiWeb.get("map/getEventsShips");
+}

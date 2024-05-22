@@ -9,6 +9,13 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
 
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '5.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 - task: NodeTool@0
   inputs:
     versionSpec: '18.x'

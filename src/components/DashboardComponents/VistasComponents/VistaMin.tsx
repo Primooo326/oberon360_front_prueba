@@ -4,8 +4,7 @@ import FiltrosComponent from '../FiltrosComponent/FiltrosComponent'
 import { useSystemStore } from '@/states/System.state'
 import { AnimatePresence, motion } from 'framer-motion'
 import MapaGoogleComponent from '../MapaComponent/MapaGoogle'
-import SidebarRight from '../SidebarRight/SidebarRight'
-
+import SidebarRightDashboard from '../SidebarRightDashboard/SidebarRightDashboard'
 export default function VistaMin() {
     const { mapConfig, showSidebarRight } = useSystemStore()
 
@@ -45,7 +44,7 @@ export default function VistaMin() {
                             exit={{ x: '100%' }}
                             transition={{ type: 'linear', stiffness: 200 }}
                         >
-                            <SidebarRight />
+                            <SidebarRightDashboard />
                         </motion.div>
                     )}
                 </AnimatePresence>

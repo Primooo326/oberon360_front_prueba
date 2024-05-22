@@ -1,7 +1,8 @@
+import type { IShip } from "@/models/ships.model";
 import { create } from "zustand";
 
 interface OleoductosState {
-    oleoductos: IOleoductoTrazo[];
+    oleoductos: IShip[];
     setOleoductos: (oleoductos: any[]) => void;
 }
 
