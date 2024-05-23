@@ -1,7 +1,7 @@
 import { useSystemStore } from "@/states/System.state";
 import { RxCross1 } from "react-icons/rx";
 
-export default function SubmenuContainer({ title, children }: { title: string; children: React.ReactNode }) {
+export default function SubmenuDrawerContainer({ title, children }: { title: string; children: React.ReactNode }) {
 
   const {
     setShowDrawer: setShowSidebar,

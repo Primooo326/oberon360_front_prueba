@@ -6,48 +6,54 @@ import { useSystemStore } from "@/states/System.state";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { IoSearchOutline } from "react-icons/io5";
+import { LuUserCog2 } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import FiltrosSubmenu from "./DrawerContents/FiltrosContent";
-import SubmenuContainer from "./DrawerContents/SubmenuContainer";
+import SubmenuDrawerContainer from "./SubmenuDrawerContainer";
+import { useState } from "react";
 interface SubMenu {
     title: string;
     icon: JSX.Element;
-    component: JSX.Element;
-    href: string;
+    component?: JSX.Element;
+    href?: string;
+}
+interface Modulos {
+    title: string;
+    submenus: SubMenu[]
 }
 
 export default function Drawer() {
-    const { theme, setTheme, showDrawer } = useSystemStore()
+    const { theme, setTheme, showDrawer, setShowDrawer } = useSystemStore()
     const router = useRouter()
     const pathname = usePathname()
-    const subMenus = [
+
+    const [currentSubMenu, setCurrentSubMenu] = useState<SubMenu | null>(null)
+
+    const subMenus: SubMenu[] = [
         {
             title: "Inicio",
             icon: <CgHome className="w-6 h-auto" />,
             href: "/dashboard",
             component:
-                <SubmenuContainer title='Inicio'>
-
-                    <div> hola </div>
-                </SubmenuContainer>
+                <SubmenuDrawerContainer title="Filtros Avanzados">
+                    <FiltrosSubmenu />
+                </SubmenuDrawerContainer>
         },
         {
             title: "Novedades",
             icon: <PiBell className="w-6 h-auto" />,
             href: "/novedades",
-            component: <SubmenuContainer title='Novedades'>
+            component: <SubmenuDrawerContainer title='Novedades'>
                 <div>Novedades</div>
-            </SubmenuContainer>
+            </SubmenuDrawerContainer>
         },
         {
-            title: "Investigación y Riesgos",
-            icon: <IoSearchOutline className="w-6 h-auto" />,
-            href: "/I+C/auth",
-            component: <SubmenuContainer title='Investigación y Riesgos'>
-
-                <div>Investigación y Riesgos</div>
-            </SubmenuContainer>
-        }
+            title: "Parámetros",
+            icon: <LuUserCog2 className="w-6 h-auto" />,
+            component: <SubmenuDrawerContainer title='Parámetros'>
+                <div>Parámetros</div>
+            </SubmenuDrawerContainer>
+        },
     ]
 
 
@@ -63,9 +69,16 @@ export default function Drawer() {
 
                     {subMenus.map((subMenu, index) => (
                         <div key={index} className="tooltip tooltip-right" data-tip={subMenu.title}>
-                            <button onClick={() => {
-                                router.push(`${subMenu.href}`)
-                            }} className={pathname === subMenu.href ? styleSubmenuHover : styleSubmenu} >
+                            <button className={pathname === subMenu.href ? styleSubmenuHover : styleSubmenu}
+                                onClick={() => {
+                                    if (subMenu.href) {
+                                        router.push(subMenu.href)
+                                    } else {
+                                        setCurrentSubMenu(subMenu)
+                                        setShowDrawer(true)
+                                    }
+                                }}
+                            >
 
                                 {subMenu.icon}
 
@@ -73,7 +86,7 @@ export default function Drawer() {
                         </div>
                     ))}
                 </div>
-                <div className="flex flex-col items-center space-y-8" >
+                <div className="flex flex-col items-center space-y-6" >
 
                     <button className={styleSubmenu} onClick={() => theme === "oberon" ? setTheme("dark") : setTheme("oberon")} >
                         {theme === "oberon" ?
@@ -93,7 +106,8 @@ export default function Drawer() {
                     </button>
                 </div>
             </div>
-            <AnimatePresence>
+
+            {/* <AnimatePresence>
                 {showDrawer && (
                     <motion.div
                         initial={{ x: '-100%' }}
@@ -105,6 +119,21 @@ export default function Drawer() {
                         <SubmenuContainer title="Filtros Avanzados">
                             <FiltrosSubmenu />
                         </SubmenuContainer>
+                    </motion.div>
+                )}
+            </AnimatePresence> */}
+            <AnimatePresence>
+                {showDrawer && (
+                    <motion.div
+                        initial={{ x: '-100%' }}
+                        animate={{ x: 0 }}
+                        exit={{ x: '-100%' }}
+                        transition={{ type: 'linear', stiffness: 200 }}
+                        className="sidebar"
+                    >
+                        {
+                            currentSubMenu ? currentSubMenu.component : subMenus[0].component
+                        }
                     </motion.div>
                 )}
             </AnimatePresence>
