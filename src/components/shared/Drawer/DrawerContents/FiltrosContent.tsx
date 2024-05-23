@@ -7,7 +7,7 @@ import type React from 'react'
 import { useEffect, useState } from 'react'
 import Select, { type StylesConfig } from 'react-select';
 
-export default function FiltrosSubmenu() {
+export default function FiltrosContent() {
 
     const { vehiculos, setVehiculosFiltered, vehiculosFiltered } = useVehiculosStore()
     const { setItemSidebarRight, setShowSidebarRight } = useSystemStore()

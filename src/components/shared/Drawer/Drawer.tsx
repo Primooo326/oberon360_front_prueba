@@ -8,9 +8,10 @@ import Image from "next/image";
 import { IoSearchOutline } from "react-icons/io5";
 import { LuUserCog2 } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
-import FiltrosSubmenu from "./DrawerContents/FiltrosContent";
+import FiltrosContent from "./DrawerContents/FiltrosContent";
 import SubmenuDrawerContainer from "./SubmenuDrawerContainer";
 import { useState } from "react";
+import ParametrosContent from "./DrawerContents/ParametrosContent";
 interface SubMenu {
     title: string;
     icon: JSX.Element;
@@ -36,7 +37,7 @@ export default function Drawer() {
             href: "/dashboard",
             component:
                 <SubmenuDrawerContainer title="Filtros Avanzados">
-                    <FiltrosSubmenu />
+                    <FiltrosContent />
                 </SubmenuDrawerContainer>
         },
         {
@@ -51,7 +52,7 @@ export default function Drawer() {
             title: "Parámetros",
             icon: <LuUserCog2 className="w-6 h-auto" />,
             component: <SubmenuDrawerContainer title='Parámetros'>
-                <div>Parámetros</div>
+                <ParametrosContent />
             </SubmenuDrawerContainer>
         },
     ]
