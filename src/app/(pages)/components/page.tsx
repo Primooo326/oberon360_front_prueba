@@ -9,6 +9,14 @@ export default function Page() {
         {
             title: 'buttons',
             href: "/components/buttons"
+        },
+        {
+            title: "badges",
+            href: "/components/badges"
+        },
+        {
+            title: "avatar",
+            href: "/components/avatar"
         }
     ]
 

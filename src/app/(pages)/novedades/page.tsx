@@ -11,31 +11,6 @@ export default function page() {
 
     const { novedadSelected } = useNovedadesStore()
 
-    const dataChart = [
-
-        {
-            value: 10,
-            color: "yellow",
-            label: "Aceleración Brusca"
-        },
-        {
-            value: 10, color: "red",
-            label: "Exceso de Velocidad"
-        },
-        {
-            value: 20, color: "#6931ba",
-            label: "Frenado Brusco"
-        },
-        {
-            value: 20, color: "#00df90",
-            label: "Fuera de Ruta"
-        },
-        {
-            value: 50, color: "#3b82f6",
-            label: "Retraso en Ruta"
-        }
-    ]
-
     return (
         <div className='w-full h-full scroll p-8' >
 

@@ -452,8 +452,18 @@ export const responseTableExample = (api: string) => {
                 columns: [
                     {
                         name: 'Conductor',
-                        cell: (row: any) => `${row.conductor.nombre} ${row.conductor.apellido}`
+                        cell: (row: any) => CustomCell.Container({
+                            children: CustomCell.Avatar({
+                                src: row.conductor.foto,
+                                options: {
+                                    size: "md",
+                                    rounded: 'full',
+                                }
+                            }),
+                        }),
+
                     },
+                    // text: `${row.conductor.nombre} ${row.conductor.apellido}`,
                     {
                         name: 'Tipo de Alerta',
                         selector: (row: any) => row.tipoAlerta,
@@ -462,7 +472,13 @@ export const responseTableExample = (api: string) => {
                     {
                         name: 'Estado',
                         selector: (row: any) => row.estado,
-                        cell: (row: any) => row.estado,
+                        cell: (row: any) => CustomCell.Badge({
+                            options: {
+                                color: row.estado === 'Pendiente' ? 'error' : row.estado === 'En Proceso' ? 'warning' : 'success',
+                                size: 'md',
+                            },
+                            children: row.estado
+                        }),
                         sortable: true,
                     },
                     {
@@ -474,7 +490,10 @@ export const responseTableExample = (api: string) => {
                     {
                         name: 'Acciones',
                         cell: (row: any) => CustomCell.Button({
-                            options: { size: 'btn-sm', color: 'btn-primary', rounded: 'rounded-md' },
+                            options: {
+                                color: 'success',
+                                size: 'sm',
+                            },
                             disabled: false,
                             children: 'Ver Protocolo'
                         }),

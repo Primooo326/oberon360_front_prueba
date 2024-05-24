@@ -1,38 +1,15 @@
-import { responseTableExample } from '@/utils/dataTemp';
-import React, { useEffect, useState } from 'react'
-import DataTable, { defaultThemes, type TableColumn } from 'react-data-table-component'
+import DataTable, { defaultThemes, type TableProps, type TableColumn } from 'react-data-table-component'
 
-export interface TableProps {
-    api: string;
+export interface CustomTableProps {
+    data: any;
+    columns: TableColumn<any>[];
     customStyles?: any;
-    pagination?: boolean;
-    paginationPerPage?: number;
-    paginationRowsPerPageOptions?: number[];
+    propsDataTable?: TableProps<any>;
 }
 
-export default function Table({ api, customStyles, pagination = true, paginationPerPage = 10, paginationRowsPerPageOptions = [5, 10, 15, 20] }: TableProps) {
-
-    const [data, setData] = useState([]);
-    const [columns, setColumns] = useState<TableColumn<any>[]>([]);
-    const [loading, setLoading] = useState(true);
+export default function Table({ data, columns, customStyles, propsDataTable }: CustomTableProps) {
 
 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await responseTableExample(api);
-                setColumns(response.columns);
-                setData(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [api]);
 
     const styles: any = {
         header: {
@@ -75,15 +52,23 @@ export default function Table({ api, customStyles, pagination = true, pagination
             },
         },
     };
+    const propsTable: TableProps<any> = {
+        columns: [],
+        data: [],
+        pagination: true,
+        paginationPerPage: 10,
+        paginationRowsPerPageOptions: [5, 10, 15, 20],
+        customStyles: customStyles ? customStyles : styles,
+        dense: true
+    }
+
     return (
         <DataTable
+            {...propsTable}
             columns={columns}
             data={data}
-            pagination={pagination}
-            paginationPerPage={paginationPerPage}
-            paginationRowsPerPageOptions={paginationRowsPerPageOptions}
-            customStyles={customStyles ? customStyles : styles}
-            dense
+            progressComponent={<div>Loading...</div>}
+            noDataComponent={<div>No data</div>}
         />
     );
 
