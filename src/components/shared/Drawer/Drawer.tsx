@@ -88,6 +88,12 @@ export default function Drawer() {
                     ))}
                 </div>
                 <div className="flex flex-col items-center space-y-6" >
+                    <div className="tooltip tooltip-right" data-tip="Buscar componentes">
+
+                        <button className={styleSubmenu} onClick={() => router.push("/components")} >
+                            <IoSearchOutline className="w-6 h-auto" />
+                        </button>
+                    </div>
 
                     <button className={styleSubmenu} onClick={() => theme === "oberon" ? setTheme("dark") : setTheme("oberon")} >
                         {theme === "oberon" ?
@@ -107,7 +113,6 @@ export default function Drawer() {
                     </button>
                 </div>
             </div>
-
             {/* <AnimatePresence>
                 {showDrawer && (
                     <motion.div

@@ -1,4 +1,6 @@
 "use client"
+import CustomCell from '@/components/Shared/Table/CustomCell';
+import Table from '@/components/Shared/Table/Table';
 import { useNovedadesStore } from '@/states/novedades.state';
 import DataTable, { defaultThemes } from 'react-data-table-component';
 
@@ -519,13 +521,20 @@ export default function TableNovedad() {
       selector: (row: any) => row.fecha,
       sortable: true,
     },
-
-
-
     {
       name: 'Acciones',
-      cell: (row: NovedadConductor) => <button onClick={() => setNovedadSelected(row)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver Protocolo</button>,
+      cell: (row: NovedadConductor) => CustomCell.Button({
+        onClick: () => setNovedadSelected(row),
+        options: { size: 'btn-sm', color: 'btn-primary', rounded: 'rounded-none' },
+        className: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
+        disabled: false,
+        children: 'Ver Protocolo'
+      }),
     },
+    // {
+    //   name: 'Acciones',
+    //   cell: (row: NovedadConductor) => <button onClick={() => setNovedadSelected(row)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver Protocolo</button>,
+    // },
   ];
 
   const customStyles: any = {
@@ -572,15 +581,16 @@ export default function TableNovedad() {
 
 
   return (
-    <DataTable
-      columns={columns}
-      data={data}
-      pagination
-      paginationPerPage={10}
-      paginationRowsPerPageOptions={[5, 10, 15, 20]}
-      customStyles={customStyles}
-      dense
-      className='w-full'
-    />
+    // <DataTable
+    //   columns={columns}
+    //   data={data}
+    //   pagination
+    //   paginationPerPage={10}
+    //   paginationRowsPerPageOptions={[5, 10, 15, 20]}
+    //   customStyles={customStyles}
+    //   dense
+    //   className='w-full'
+    // />
+    <Table api='api/novedades' />
   );
 }

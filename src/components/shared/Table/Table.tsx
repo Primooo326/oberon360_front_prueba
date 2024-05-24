@@ -1,19 +1,38 @@
-import React from 'react'
+import { responseTableExample } from '@/utils/dataTemp';
+import React, { useEffect, useState } from 'react'
 import DataTable, { defaultThemes, type TableColumn } from 'react-data-table-component'
 
-interface TableProps {
-
-    columns: TableColumn<any>[],
-    data: any[],
-    customStyles?: any,
-    pagination?: boolean,
-    paginationPerPage?: number,
-    paginationRowsPerPageOptions?: number[],
-    [key: string]: any
-
+export interface TableProps {
+    api: string;
+    customStyles?: any;
+    pagination?: boolean;
+    paginationPerPage?: number;
+    paginationRowsPerPageOptions?: number[];
 }
 
-export default function Table({ columns, data, customStyles, pagination = true, paginationPerPage = 10, paginationRowsPerPageOptions = [5, 10, 15, 20], ...props }: TableProps) {
+export default function Table({ api, customStyles, pagination = true, paginationPerPage = 10, paginationRowsPerPageOptions = [5, 10, 15, 20] }: TableProps) {
+
+    const [data, setData] = useState([]);
+    const [columns, setColumns] = useState<TableColumn<any>[]>([]);
+    const [loading, setLoading] = useState(true);
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await responseTableExample(api);
+                setColumns(response.columns);
+                setData(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [api]);
 
     const styles: any = {
         header: {
@@ -56,17 +75,15 @@ export default function Table({ columns, data, customStyles, pagination = true, 
             },
         },
     };
-
     return (
         <DataTable
             columns={columns}
             data={data}
             pagination={pagination}
-            paginationPerPage={10}
+            paginationPerPage={paginationPerPage}
             paginationRowsPerPageOptions={paginationRowsPerPageOptions}
             customStyles={customStyles ? customStyles : styles}
             dense
-            className={`${props.className}`}
         />
     );
 

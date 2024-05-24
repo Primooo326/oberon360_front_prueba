@@ -1,39 +1,33 @@
 import React from 'react'
+import { FaFolder, FaUserTie, FaTasks, FaBook, FaTag, FaTags, FaMoneyBillWave, FaTools, FaCar, FaWrench, FaMapMarkerAlt, FaRoute, FaTruck } from "react-icons/fa";
 
 export default function ParametrosContent() {
+
+    const parametros = [
+
+        { title: "Directorio", icon: <FaFolder /> },
+        { title: "Responsable Protocolo", icon: <FaUserTie /> },
+        { title: "Actividad", icon: <FaTasks /> },
+        { title: "Protocolo", icon: <FaBook /> },
+        { title: "Categoria Novedad", icon: <FaTag /> },
+        { title: "Subcategoria Novedad", icon: <FaTags /> },
+        { title: "Motivo Viaticos", icon: <FaMoneyBillWave /> },
+        { title: "Categoria Pre-Operacional", icon: <FaTools /> },
+        { title: "Conductores", icon: <FaCar /> },
+        { title: "Subcategoria Pre-Operacional", icon: <FaWrench /> },
+        { title: "Puntos", icon: <FaMapMarkerAlt /> },
+        { title: "Itinerario", icon: <FaRoute /> },
+        { title: "Vehiculos", icon: <FaTruck /> },
+    ]
+
     return (
-        <div className="mt-8 space-y-4">
-            <h2 className="text-xl font-bold">Parámetros</h2>
-            <div className="flex space-x-4">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro1" className="text-sm">Parámetro 1</label>
-                    <input type="text" id="parametro1" className="input input-primary" />
-                </div>
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro2" className="text-sm">Parámetro 2</label>
-                    <input type="text" id="parametro2" className="input input-primary" />
-                </div>
-            </div>
-            <div className="flex space-x-4">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro3" className="text-sm">Parámetro 3</label>
-                    <input type="text" id="parametro3" className="input input-primary" />
-                </div>
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro4" className="text-sm">Parámetro 4</label>
-                    <input type="text" id="parametro4" className="input input-primary" />
-                </div>
-            </div>
-            <div className="flex space-x-4">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro5" className="text-sm">Parámetro 5</label>
-                    <input type="text" id="parametro5" className="input input-primary" />
-                </div>
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro6" className="text-sm">Parámetro 6</label>
-                    <input type="text" id="parametro6" className="input input-primary" />
-                </div>
-            </div>
+        <div className="px-4">
+            <ul className="menu rounded-box">
+                {parametros.map((parametro, index) => (
+                    <li key={index}><a href='' >{parametro.icon}{parametro.title}</a></li>
+                ))}
+            </ul>
+
         </div>
     )
 }
