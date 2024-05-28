@@ -1,9 +1,8 @@
 "use client"
 
-import Sidebar from "@components/Sidebar/Sidebar"
 import { useSystemStore } from '@/states/System.state';
-import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary } from "@/api/mapa.api";
-import IconoCargando from "@components/IconoCargando/IconoCargando";
+import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary, getEventsShips } from "@/api/mapa.api";
+import IconoCargando from "@components/Shared/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";
@@ -20,6 +19,8 @@ import "@/app/globals.css"
 import MainLayout from "@/layouts/MainLayout"
 import "./Dashboard.css"
 import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
+import { useOleoductosStore } from "@/states/Oleoductos.state";
+import Drawer from '@/components/Shared/Drawer/Drawer';
 
 export default function RootLayout({
   children,
@@ -27,39 +28,21 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
-  const router = useRouter()
   const { setUbicaciones } = useUbicaciones()
-  const { setClientes, clienteSelected } = useClientesStore()
-  const { setToken, token } = useLoginStore.getState()
+  const { setClientes } = useClientesStore()
   const { setVehiculos, vehiculosFiltered } = useVehiculosStore()
   const { setMobiles } = useMobilesStore()
+  const { setOleoductos } = useOleoductosStore()
   const { setIndicadores } = useIndicadoresStore()
   const { mapExpand, itemSidebarRight, showSidebarRight, setItemSidebarRight } = useSystemStore()
   const showSidebarRightRef = useRef(showSidebarRight)
   const itemSidebarRightRef = useRef(itemSidebarRight)
   const mapExpandRef = useRef(mapExpand)
-  const filtrosMapa = useFiltrosMapa()
+  const filtrosMapa = useFiltrosMapa().filtrosMapState
+  const { initFiltrosMapa } = useFiltrosMapa()
   const filtrosMapaRef = useRef(filtrosMapa)
   const vehiculosFRef = useRef(vehiculosFiltered);
-  const [load, setLoad] = useState(false)
-  const verify = async () => {
-    const token = Cookies.get("token")
-    if (token) {
-      const tokenValid = await verifyJWT(token)
-      if (tokenValid) {
-        setToken(token)
-        await getData()
-      } else {
-        Cookies.remove("token")
-        setToken("")
-        router.push("/auth")
-      }
-    } else {
-      Cookies.remove("token")
-      setToken("")
-      router.push("/auth")
-    }
-  }
+  const [load, setLoad] = useState(true)
 
   const getVehiculos = async () => {
     let response: any[] = await getEventsPlates();
@@ -87,7 +70,7 @@ export default function RootLayout({
     })
     setVehiculos(newVehiculos)
 
-    if (showSidebarRightRef.current) {
+    if (showSidebarRightRef.current && itemSidebarRightRef.current?.item === "vehiculos") {
       const vehiculo = newVehiculos.find((v) => v.VEHICULO_ID === itemSidebarRightRef.current!.content.VEHICULO_ID)
       const response: IItenary[] = await getItinerary(vehiculo.ITNE_ID)
       const itinerarioEvaluatedGroup: IItinerario[] = response.map(itinerario => {
@@ -96,6 +79,7 @@ export default function RootLayout({
           itinerarioEvaluated: evaluarItinerario(itinerario)
         }
       }).sort((a, b) => a.IPE_ORDEN - b.IPE_ORDEN)
+      console.log("vehiculos");
       if (response) {
 
         setItemSidebarRight(
@@ -114,6 +98,14 @@ export default function RootLayout({
     const response = await getEventsMotorcycle()
     setMobiles(response)
   }
+
+  const getOleoductos = async () => {
+    await getEventsShips().then((resp) => {
+      // console.log(resp);
+      setOleoductos(resp)
+    })
+  }
+
   const getData = async () => {
 
     try {
@@ -153,6 +145,7 @@ export default function RootLayout({
     }
 
   }
+
   const getIndicadores = async () => {
     try {
       const response = await reportsIndicators();
@@ -179,44 +172,45 @@ export default function RootLayout({
     filtrosMapaRef.current = filtrosMapa;
   }, [filtrosMapa]);
 
-  useEffect(() => {
-    verify().finally(() => setLoad(true))
-  }, [])
 
   useEffect(() => {
     mapExpandRef.current = mapExpand;
   }, [mapExpand])
 
-  useEffect(() => {
+  const fetchData = () => {
 
-    const fetchData = () => {
-
-      if (!mapExpandRef.current) {
-        getIndicadores();
-      }
-      if (filtrosMapaRef.current.mobileFiltro) {
-        getMobiles();
-      }
-      if (filtrosMapaRef.current.telemetriaFiltro) {
-        getVehiculos();
-      }
-      if (filtrosMapaRef.current.proteccionFiltro) {
-        getData();
-      }
+    if (!mapExpandRef.current) {
+      getIndicadores();
     }
+    if (filtrosMapaRef.current.mobileFiltro) {
+      getMobiles();
+    }
+    if (filtrosMapaRef.current.telemetriaFiltro) {
+      getVehiculos();
+    }
+    if (filtrosMapaRef.current.proteccionFiltro) {
+      getData();
+    }
+    if (filtrosMapaRef.current.oleoductosFiltro) {
+      getOleoductos();
+    }
+  }
+  useEffect(() => {
+    const filtros = JSON.parse(localStorage.getItem("filtrosMapa") || "{}")
+
+    if (filtros) {
+      initFiltrosMapa(filtros)
+    }
+
     fetchData()
     const interval = setInterval(fetchData, 5000);
-
-
-    if (!token) {
-      clearInterval(interval);
-    }
 
     return () => {
       clearInterval(interval);
     };
 
-  }, [token])
+
+  }, [])
 
   return (
     <html lang="en">
@@ -233,7 +227,7 @@ export default function RootLayout({
         <MainLayout>
           {load ?
             <section className="mainLayout relative">
-              <Sidebar />
+              <Drawer />
               {children}
             </section>
             :

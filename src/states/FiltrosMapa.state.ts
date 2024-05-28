@@ -1,29 +1,33 @@
 import { create } from "zustand";
-import { useSystemStore } from "./System.state";
 
+export type FiltroMapa = "proteccionFiltro" | "telemetriaFiltro" | "mobileFiltro" | "oleoductosFiltro";
 interface FiltrosMapaState {
-    proteccionFiltro: boolean;
-    telemetriaFiltro: boolean;
-    mobileFiltro: boolean;
-    setProteccionFiltro: (value: boolean) => void;
-    setTelemetriaFiltro: (value: boolean) => void;
-    setMobileFiltro: (value: boolean) => void;
+    filtrosMapState: {
+        proteccionFiltro: boolean;
+        telemetriaFiltro: boolean;
+        mobileFiltro: boolean;
+        oleoductosFiltro: boolean;
+    };
+    toggleFiltro: (filtro: FiltroMapa) => void;
+    initFiltrosMapa: (filtros: { proteccionFiltro: boolean, telemetriaFiltro: boolean, mobileFiltro: boolean, oleoductosFiltro: boolean }) => void;
 }
 
 export const useFiltrosMapa = create<FiltrosMapaState>((set) => ({
-    proteccionFiltro: false,
-    telemetriaFiltro: true,
-    mobileFiltro: false,
-    setProteccionFiltro: (value) => {
-        useSystemStore.getState().resetMapConfig()
-        set({ proteccionFiltro: value })
+    filtrosMapState: {
+        proteccionFiltro: false,
+        telemetriaFiltro: false,
+        mobileFiltro: false,
+        oleoductosFiltro: false,
     },
-    setTelemetriaFiltro: (value) => {
-        useSystemStore.getState().resetMapConfig()
-        set({ telemetriaFiltro: value })
+    toggleFiltro: (filtro) => {
+
+        set((state) => ({
+            filtrosMapState: {
+                ...state.filtrosMapState,
+                [filtro]: !state.filtrosMapState[filtro],
+            },
+        }))
+        localStorage.setItem("filtrosMapa", JSON.stringify(useFiltrosMapa.getState().filtrosMapState));
     },
-    setMobileFiltro: (value) => {
-        useSystemStore.getState().resetMapConfig()
-        set({ mobileFiltro: value })
-    },
+    initFiltrosMapa: (filtros) => set({ filtrosMapState: filtros }),
 }));

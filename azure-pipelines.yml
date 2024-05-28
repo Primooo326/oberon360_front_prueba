@@ -1,0 +1,60 @@
+trigger:
+- master
+
+pr: none
+
+variables:
+  nodeModulesCache: $(Build.SourcesDirectory)/node_modules
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '5.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Instalar Node.js'
+
+- task: Cache@2
+  displayName: 'Cache node_modules'
+  inputs:
+    key: 'npm | "$(Agent.OS)" | $(Build.SourcesDirectory)/package-lock.json'
+    path: $(nodeModulesCache)
+    cacheHitVar: CACHE_RESTORED
+
+- task: Npm@1
+  displayName: 'Install Dependencies'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'ci'
+  condition: ne(variables.CACHE_RESTORED, 'true')
+
+- script: npm run build  
+  displayName: 'Generate Build Artifact'
+  condition: ne(variables.CACHE_RESTORED, 'true')
+
+- script: |
+    cp server.js $(Build.ArtifactStagingDirectory)/server.js
+    cp web.config $(Build.ArtifactStagingDirectory)/web.config
+  displayName: 'Copy server and web.config to artifact directory'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'nextjs-app'
+    publishLocation: 'container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'oberontsi'
+    appType: 'webAppLinux'
+    appName: 'oberontsi'
+    package: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Deploy to Azure App Service'

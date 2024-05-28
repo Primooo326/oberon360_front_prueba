@@ -2,11 +2,11 @@ import { useSystemStore } from '@/states/System.state'
 import React from 'react'
 import MapaGoogleComponent from '../MapaComponent/MapaGoogle'
 import { AnimatePresence, motion } from 'framer-motion'
-import SidebarRight from '../SidebarRight/SidebarRight'
+import SidebarRightDashboard from '../SidebarRightDashboard/SidebarRightDashboard'
 
 export default function VistaMax() {
 
-    const { mapConfig, showSidebar, showSidebarRight, mapExpand } = useSystemStore()
+    const { mapConfig, showDrawer: showSidebar, showSidebarRight, mapExpand } = useSystemStore()
 
     return (
         <div className="w-full h-screen
@@ -44,7 +44,7 @@ export default function VistaMax() {
                                 transition={{ type: 'linear', stiffness: 200 }}
                                 className="h-full z-10">
 
-                                <SidebarRight />
+                                <SidebarRightDashboard />
                             </motion.div>
                         )}
                     </AnimatePresence>

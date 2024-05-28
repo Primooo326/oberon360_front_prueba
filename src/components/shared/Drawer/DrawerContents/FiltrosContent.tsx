@@ -231,12 +231,6 @@ export default function FiltrosSubmenu() {
                                             <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.sinReportar} onChange={changeEstadoSinReportar} className="checkbox checkbox-primary" />
                                         </label>
                                     </li>
-                                    {/* <li>
-                                        <label className="label cursor-pointer">
-                                            <span className="label-text">En Operación</span>
-                                            <input type="checkbox" defaultChecked={vehiculosFiltered.changeEstado.enOperacion} onChange={changeEstadoEnOperacion} className="checkbox checkbox-primary" />
-                                        </label>
-                                    </li> */}
                                     <li>
                                         <label className="label cursor-pointer">
                                             <span className="label-text">Disponibles</span>

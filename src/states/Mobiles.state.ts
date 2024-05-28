@@ -1,4 +1,4 @@
-import { IMobile } from "@/models/mobile.model";
+import type { IMobile } from "@/models/mobile.model";
 import { create } from "zustand"
 
 interface MobilesState {

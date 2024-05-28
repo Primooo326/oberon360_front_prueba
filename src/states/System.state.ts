@@ -1,20 +1,19 @@
-import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
-
 import type { IItinerario, IVehiculo } from "@/models/vehiculos.model";
 import { create } from "zustand";
-import { useVehiculosStore } from "./Vehiculos.state";
+import type { PasoProtocolo, itemContent } from '@/models/oleoductos.model';
+
 interface ItemsSidebarRight {
-    item: "vehiculos" | "ubicaciones";
+    item: "vehiculos" | "ubicaciones" | "oleoducto";
     content: IVehiculo | any;
     itinerario: IItinerario[] | null
 }
 interface SystemState {
     theme: string;
     setTheme: (theme: string) => void;
-    showSidebar: boolean;
-    setShowSidebar: (showSidebar: boolean) => void;
+    showDrawer: boolean;
+    setShowDrawer: (showSidebar: boolean) => void;
     itemSidebarRight: {
-        item: "vehiculos" | "ubicaciones";
+        item: "vehiculos" | "ubicaciones" | "oleoducto";
         content: IVehiculo | any;
         itinerario: IItinerario[] | null
 
@@ -22,6 +21,10 @@ interface SystemState {
     setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight) => void;
     showSidebarRight: boolean;
     setShowSidebarRight: (showSidebarRight: boolean) => void;
+    showModalProtocolo: boolean;
+    setShowModalProtocolo: (showModalProtocolo: boolean) => void;
+    itemProtocolo: itemContent;
+    setItemProtocolo: (itemProtocolo: itemContent) => void;
     mapExpand: boolean;
     setMapExpand: (mapExpand: boolean) => void;
     mapConfig: {
@@ -42,8 +45,8 @@ interface SystemState {
 export const useSystemStore = create<SystemState>((set) => ({
     theme: "oberon",
     setTheme: (theme) => set({ theme }),
-    showSidebar: false,
-    setShowSidebar: (showSidebar) => set({ showSidebar }),
+    showDrawer: false,
+    setShowDrawer: (showSidebar) => set({ showDrawer: showSidebar }),
     mapExpand: false,
     setMapExpand: (mapExpand) => set({ mapExpand }),
     mapConfig: {
@@ -56,24 +59,16 @@ export const useSystemStore = create<SystemState>((set) => ({
     itemSidebarRight: {} as ItemsSidebarRight,
     setItemSidebarRight: (itemSidebarRight) => {
 
-
-        if (useSystemStore.getState().showSidebarRight) {
-            useFiltrosMapa.setState({
-                proteccionFiltro: false,
-                telemetriaFiltro: true,
-                mobileFiltro: false
-            })
-        } else {
-            //reset map config
-
-        }
-
-
-
         return set({ itemSidebarRight })
     },
     showSidebarRight: false,
     setShowSidebarRight: (showSidebarRight) => set({ showSidebarRight }),
+
+    showModalProtocolo: false,
+    setShowModalProtocolo: (showModalProtocolo) => set({ showModalProtocolo }),
+    itemProtocolo: {} as itemContent,
+    setItemProtocolo: (itemProtocolo) => set({ itemProtocolo }),
+
     resetMapConfig: () => {
         set({
             mapConfig: {
@@ -94,7 +89,8 @@ export const useSystemStore = create<SystemState>((set) => ({
             })
         }, 1000);
         useSystemStore.setState({
-            itemSidebarRight: {} as ItemsSidebarRight
+            itemSidebarRight: {} as ItemsSidebarRight,
+            showSidebarRight: false
         });
     }
 }));
