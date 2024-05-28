@@ -5,26 +5,26 @@ export default function ParametrosContent() {
 
     const parametros = [
 
-        { title: "Directorio", icon: <FaFolder /> },
-        { title: "Responsable Protocolo", icon: <FaUserTie /> },
-        { title: "Actividad", icon: <FaTasks /> },
-        { title: "Protocolo", icon: <FaBook /> },
-        { title: "Categoria Novedad", icon: <FaTag /> },
-        { title: "Subcategoria Novedad", icon: <FaTags /> },
-        { title: "Motivo Viaticos", icon: <FaMoneyBillWave /> },
-        { title: "Categoria Pre-Operacional", icon: <FaTools /> },
-        { title: "Conductores", icon: <FaCar /> },
-        { title: "Subcategoria Pre-Operacional", icon: <FaWrench /> },
-        { title: "Puntos", icon: <FaMapMarkerAlt /> },
-        { title: "Itinerario", icon: <FaRoute /> },
-        { title: "Vehiculos", icon: <FaTruck /> },
+        { title: "Directorio", href: "", icon: <FaFolder /> },
+        { title: "Responsable Protocolo", href: "", icon: <FaUserTie /> },
+        { title: "Actividad", href: "", icon: <FaTasks /> },
+        { title: "Protocolo", href: "", icon: <FaBook /> },
+        { title: "Categoria Novedad", href: "", icon: <FaTag /> },
+        { title: "Subcategoria Novedad", href: "", icon: <FaTags /> },
+        { title: "Motivo Viaticos", href: "", icon: <FaMoneyBillWave /> },
+        { title: "Categoria Pre-Operacional", href: "", icon: <FaTools /> },
+        { title: "Conductores", href: "/parametros/conductores", icon: <FaCar /> },
+        { title: "Subcategoria Pre-Operacional", href: "", icon: <FaWrench /> },
+        { title: "Puntos", href: "", icon: <FaMapMarkerAlt /> },
+        { title: "Itinerario", href: "", icon: <FaRoute /> },
+        { title: "Vehiculos", href: "", icon: <FaTruck /> },
     ]
 
     return (
         <div className="px-4">
             <ul className="menu rounded-box">
                 {parametros.map((parametro, index) => (
-                    <li key={index}><a href='' >{parametro.icon}{parametro.title}</a></li>
+                    <li key={index}><a href={parametro.href} >{parametro.icon}{parametro.title}</a></li>
                 ))}
             </ul>
 
