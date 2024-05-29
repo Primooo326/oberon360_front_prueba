@@ -1,504 +1,291 @@
-import CustomCell from "@/components/Shared/Table/CustomCell";
+import type { IHeaderCustomTable } from "@/models/customComponents.model";
 
+
+interface responseTabla {
+    data: any;
+    columns: IHeaderCustomTable[];
+    meta: {
+        page: number;
+        take: number;
+        itemCount: number;
+        pageCount: number;
+        hasPreviousPage: boolean;
+        hasNextPage: boolean;
+    };
+}
 export const responseTableExample = (api: string) => {
-    return new Promise<any>((resolve) => {
+    return new Promise<responseTabla>((resolve) => {
+
+
         setTimeout(() => {
             resolve({
-                data: [
+                "data": [
                     {
-                        id: "1",
-                        fecha: "2024-04-30",
-                        tipoAlerta: "Fuera de Ruta",
-                        observaciones: [
-                            { observacion: "Desvío detectado cerca del punto de control 5", fecha: "2024-04-30" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Contactar al conductor para verificar situación', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Actualizar ruta en GPS', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "101",
-                            nombre: "Carlos",
-                            apellido: "Gómez",
-                            dni: "48274658",
-                            telefono: "987654321",
-                            email: "carlos.gomez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=carlos.gomez@example.com"
-                        }
-                    },
-                    {
-                        id: "2",
-                        fecha: "2024-04-29",
-                        tipoAlerta: "Exceso de Velocidad",
-                        observaciones: [
-                            { observacion: "Velocidad excesiva registrada en autopista M30", fecha: "2024-04-29" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Notificar al conductor sobre políticas de velocidad', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Realizar seguimiento de comportamiento de velocidad', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "102",
-                            nombre: "Ana",
-                            apellido: "Martínez",
-                            dni: "47281924",
-                            telefono: "923456789",
-                            email: "ana.martinez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=ana.martinez@example.com"
-                        }
-                    },
-                    {
-                        id: "3",
-                        fecha: "2024-04-28",
-                        tipoAlerta: "Frenado Brusco",
-                        observaciones: [
-                            { observacion: "Frenado brusco detectado en cruce peligroso", fecha: "2024-04-28" }
-                        ],
-                        estado: "Finalizado",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Revisar condiciones del vehículo', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Capacitar al conductor en técnicas de manejo seguro', estado: 'Completado' }
-                        ],
-                        conductor: {
-                            id: "103",
-                            nombre: "Miguel",
-                            apellido: "Ruiz",
-                            dni: "48905631",
-                            telefono: "912345678",
-                            email: "miguel.ruiz@example.com",
-                            foto: "https://ui-avatars.com/api/?name=miguel.ruiz@example.com"
-                        }
-                    },
-                    {
-                        id: "4",
-                        fecha: "2024-04-27",
-                        tipoAlerta: "Aceleración Brusca",
-                        observaciones: [
-                            { observacion: "Aceleración brusca registrada en autopista M40", fecha: "2024-04-27" }
-                        ],
-                        estado: "Finalizado",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Revisar condiciones del vehículo', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Capacitar al conductor en técnicas de manejo seguro', estado: 'Completado' }
-                        ],
-                        conductor: {
-                            id: "104",
-                            nombre: "Laura",
-                            apellido: "García",
-                            dni: "48274658",
-                            telefono: "987654321",
-                            email: "laura.garcia@example.com",
-                            foto: "https://ui-avatars.com/api/?name=laura.garcia@example.com"
-
+                        "CONDUCTOR_ID": "23",
+                        "CONDUCTOR_IDENTIFICACION": "1233492669",
+                        "CONDUCTOR_CODCONDUCTOR": "12345",
+                        "CONDUCTOR_PRIMERNOMBRE": "DANIEL",
+                        "CONDUCTOR_SEGUNDONOMBRE": "ALFONSO",
+                        "CONDUCTOR_PRIMERAPELLIDO": "GALLEGO",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "PEÑA",
+                        "CONDUCTOR_TELPERSONAL": "3002534104",
+                        "CONDUCTOR_TELCORPORATIVO": "3227848121",
+                        "CONDUCTOR_CORREO": "OBERON@THOMASGREG.COM",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": null,
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
                         },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
+                        }
                     },
                     {
-                        id: "5",
-                        fecha: "2024-04-26",
-                        tipoAlerta: "Retraso en Ruta",
-                        observaciones: [
-                            { observacion: "Retraso detectado en punto de control 3", fecha: "2024-04-26" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Contactar al conductor para verificar situación', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Actualizar ruta en GPS', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "105",
-                            nombre: "Javier",
-                            apellido: "Hernández",
-                            dni: "47281924",
-                            telefono: "923456789",
-                            email: "javi.herna@example.com",
-                            foto: "https://ui-avatars.com/api/?name=javi.herna@example.com+Doe"
-
+                        "CONDUCTOR_ID": "24",
+                        "CONDUCTOR_IDENTIFICACION": "1030684547",
+                        "CONDUCTOR_CODCONDUCTOR": "13001",
+                        "CONDUCTOR_PRIMERNOMBRE": "JUAN",
+                        "CONDUCTOR_SEGUNDONOMBRE": "SEBASTIAN",
+                        "CONDUCTOR_PRIMERAPELLIDO": "FUQUENE",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "TORRES",
+                        "CONDUCTOR_TELPERSONAL": "3125182390",
+                        "CONDUCTOR_TELCORPORATIVO": "3125182390",
+                        "CONDUCTOR_CORREO": "OBERON@THJOMASGREG.COM",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": null,
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
                         },
-                    },
-
-                    {
-                        id: "1",
-                        fecha: "2024-04-30",
-                        tipoAlerta: "Fuera de Ruta",
-                        observaciones: [
-                            { observacion: "Desvío detectado cerca del punto de control 5", fecha: "2024-04-30" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Contactar al conductor para verificar situación', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Actualizar ruta en GPS', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "101",
-                            nombre: "Carlos",
-                            apellido: "Gómez",
-                            dni: "48274658",
-                            telefono: "987654321",
-                            email: "carlos.gomez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=carlos.gomez@example.com"
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     },
                     {
-                        id: "2",
-                        fecha: "2024-04-29",
-                        tipoAlerta: "Exceso de Velocidad",
-                        observaciones: [
-                            { observacion: "Velocidad excesiva registrada en autopista M30", fecha: "2024-04-29" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Notificar al conductor sobre políticas de velocidad', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Realizar seguimiento de comportamiento de velocidad', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "102",
-                            nombre: "Ana",
-                            apellido: "Martínez",
-                            dni: "47281924",
-                            telefono: "923456789",
-                            email: "ana.martinez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=ana.martinez@example.com"
+                        "CONDUCTOR_ID": "25",
+                        "CONDUCTOR_IDENTIFICACION": "1031163375",
+                        "CONDUCTOR_CODCONDUCTOR": "123456",
+                        "CONDUCTOR_PRIMERNOMBRE": "JHON",
+                        "CONDUCTOR_SEGUNDONOMBRE": "JAIRO",
+                        "CONDUCTOR_PRIMERAPELLIDO": "BENITEZ",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "NIÑO",
+                        "CONDUCTOR_TELPERSONAL": "3133270688",
+                        "CONDUCTOR_TELCORPORATIVO": "3133270688",
+                        "CONDUCTOR_CORREO": "JHON.BENITEZ@THOMASGREG.COM",
+                        "CONDUCTOR_ESTADO": "1",
+                        "CONDUCTOR_FECINGRESO": "2021-07-01T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     },
                     {
-                        id: "3",
-                        fecha: "2024-04-28",
-                        tipoAlerta: "Frenado Brusco",
-                        observaciones: [
-                            { observacion: "Frenado brusco detectado en cruce peligroso", fecha: "2024-04-28" }
-                        ],
-                        estado: "Finalizado",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Revisar condiciones del vehículo', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Capacitar al conductor en técnicas de manejo seguro', estado: 'Completado' }
-                        ],
-                        conductor: {
-                            id: "103",
-                            nombre: "Miguel",
-                            apellido: "Ruiz",
-                            dni: "48905631",
-                            telefono: "912345678",
-                            email: "miguel.ruiz@example.com",
-                            foto: "https://ui-avatars.com/api/?name=miguel.ruiz@example.com+Doe"
+                        "CONDUCTOR_ID": "26",
+                        "CONDUCTOR_IDENTIFICACION": "1",
+                        "CONDUCTOR_CODCONDUCTOR": "13002",
+                        "CONDUCTOR_PRIMERNOMBRE": "DANIEL",
+                        "CONDUCTOR_SEGUNDONOMBRE": "FERNANDO",
+                        "CONDUCTOR_PRIMERAPELLIDO": "ROA ",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "AVILA",
+                        "CONDUCTOR_TELPERSONAL": "3144759190",
+                        "CONDUCTOR_TELCORPORATIVO": "3144759190",
+                        "CONDUCTOR_CORREO": "DANIEL.ROA@THOMASGREG.COM",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": null,
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     },
                     {
-                        id: "4",
-                        fecha: "2024-04-27",
-                        tipoAlerta: "Aceleración Brusca",
-                        observaciones: [
-                            { observacion: "Aceleración brusca al incorporarse a tráfico denso", fecha: "2024-04-27" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Analizar datos del telemático para contexto', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Discusión de prácticas seguras con el conductor', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "104",
-                            nombre: "Sofía",
-                            apellido: "López",
-                            dni: "45789123",
-                            telefono: "954321678",
-                            email: "sofia.lopez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=sofia.lopez@example.com+Doe"
+                        "CONDUCTOR_ID": "27",
+                        "CONDUCTOR_IDENTIFICACION": "80196103",
+                        "CONDUCTOR_CODCONDUCTOR": "13003",
+                        "CONDUCTOR_PRIMERNOMBRE": "CARLOS",
+                        "CONDUCTOR_SEGUNDONOMBRE": "GUSTAVO",
+                        "CONDUCTOR_PRIMERAPELLIDO": "SANCHEZ",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "RANGEL",
+                        "CONDUCTOR_TELPERSONAL": "3167372861",
+                        "CONDUCTOR_TELCORPORATIVO": null,
+                        "CONDUCTOR_CORREO": "diseno.grafico@thomasgreg.com",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": "2021-08-05T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "A +"
                         }
                     },
                     {
-                        id: "5",
-                        fecha: "2024-04-26",
-                        tipoAlerta: "Retraso en Ruta",
-                        observaciones: [
-                            { observacion: "Retraso significativo debido a tráfico inesperado", fecha: "2024-04-26" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Verificar estado del tráfico actual', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Ajustar horarios de entrega esperados', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "105",
-                            nombre: "Jorge",
-                            apellido: "Navarro",
-                            dni: "47382910",
-                            telefono: "968574123",
-                            email: "jorge.navarro@example.com",
-                            foto: "https://ui-avatars.com/api/?name=jorge.navarro@example.com"
+                        "CONDUCTOR_ID": "46",
+                        "CONDUCTOR_IDENTIFICACION": "2",
+                        "CONDUCTOR_CODCONDUCTOR": "13004",
+                        "CONDUCTOR_PRIMERNOMBRE": "FELIPE",
+                        "CONDUCTOR_SEGUNDONOMBRE": "ANDRES",
+                        "CONDUCTOR_PRIMERAPELLIDO": "CARDENAS",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "ZAPATA",
+                        "CONDUCTOR_TELPERSONAL": "3112222222",
+                        "CONDUCTOR_TELCORPORATIVO": "3112222222",
+                        "CONDUCTOR_CORREO": "felipe@hotmail.com",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": "2021-08-05T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "A +"
                         }
                     },
                     {
-                        id: "6",
-                        fecha: "2024-04-25",
-                        tipoAlerta: "Fuera de Ruta",
-                        observaciones: [
-                            { observacion: "El vehículo ha entrado en una zona no autorizada", fecha: "2024-04-25" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Contactar inmediatamente al conductor', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Revisar parámetros de geofencing', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "106",
-                            nombre: "Laura",
-                            apellido: "Vidal",
-                            dni: "46851029",
-                            telefono: "976543218",
-                            email: "laura.vidal@example.com",
-                            foto: "https://ui-avatars.com/api/?name=laura.vidal@example.com+Doe"
+                        "CONDUCTOR_ID": "47",
+                        "CONDUCTOR_IDENTIFICACION": "80903836",
+                        "CONDUCTOR_CODCONDUCTOR": "80903836",
+                        "CONDUCTOR_PRIMERNOMBRE": "CARLOS",
+                        "CONDUCTOR_SEGUNDONOMBRE": null,
+                        "CONDUCTOR_PRIMERAPELLIDO": "GÓMEZ",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "GÓMEZ",
+                        "CONDUCTOR_TELPERSONAL": "3333333",
+                        "CONDUCTOR_TELCORPORATIVO": "2333333",
+                        "CONDUCTOR_CORREO": "2121",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": "2021-07-01T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     },
                     {
-                        id: "7",
-                        fecha: "2024-04-24",
-                        tipoAlerta: "Exceso de Velocidad",
-                        observaciones: [
-                            { observacion: "Exceso de 20 km/h sobre el límite permitido en zona urbana", fecha: "2024-04-24" }
-                        ],
-                        estado: "Finalizado",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Emitir advertencia formal al conductor', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Monitorizar comportamiento de conducción futura', estado: 'Completado' }
-                        ],
-                        conductor: {
-                            id: "107",
-                            nombre: "Elena",
-                            apellido: "Gutiérrez",
-                            dni: "48273645",
-                            telefono: "934567890",
-                            email: "elena.gutierrez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=elena.gutierrez@example.c"
+                        "CONDUCTOR_ID": "51",
+                        "CONDUCTOR_IDENTIFICACION": "1023006929",
+                        "CONDUCTOR_CODCONDUCTOR": "9999999",
+                        "CONDUCTOR_PRIMERNOMBRE": "NICOLAS",
+                        "CONDUCTOR_SEGUNDONOMBRE": null,
+                        "CONDUCTOR_PRIMERAPELLIDO": "GARCIA",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "RAMIREZ",
+                        "CONDUCTOR_TELPERSONAL": "0",
+                        "CONDUCTOR_TELCORPORATIVO": "3102141595",
+                        "CONDUCTOR_CORREO": "0",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": "2021-08-17T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     },
                     {
-                        id: "8",
-                        fecha: "2024-04-23",
-                        tipoAlerta: "Frenado Brusco",
-                        observaciones: [
-                            { observacion: "Frenada intensa para evitar colisión con peatón", fecha: "2024-04-23" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Analizar datos de la cámara delantera', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Realizar sesión informativa sobre seguridad peatonal', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "108",
-                            nombre: "Antonio",
-                            apellido: "Moreno",
-                            dni: "49283756",
-                            telefono: "945678123",
-                            email: "antonio.moreno@example.com",
-                            foto: "https://ui-avatars.com/api/?name=antonio.moreno@example.co"
+                        "CONDUCTOR_ID": "52",
+                        "CONDUCTOR_IDENTIFICACION": "1016102403",
+                        "CONDUCTOR_CODCONDUCTOR": "13005",
+                        "CONDUCTOR_PRIMERNOMBRE": "THOMAS",
+                        "CONDUCTOR_SEGUNDONOMBRE": "FELIPE",
+                        "CONDUCTOR_PRIMERAPELLIDO": "RODRIGUEZ",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "GONZALEZ",
+                        "CONDUCTOR_TELPERSONAL": "3134411834",
+                        "CONDUCTOR_TELCORPORATIVO": "0",
+                        "CONDUCTOR_CORREO": "oberon@thomasgreg.com",
+                        "CONDUCTOR_ESTADO": "0",
+                        "CONDUCTOR_FECINGRESO": "2021-08-19T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     },
                     {
-                        id: "9",
-                        fecha: "2024-04-22",
-                        tipoAlerta: "Aceleración Brusca",
-                        observaciones: [
-                            { observacion: "Aceleración inadecuada en zona escolar", fecha: "2024-04-22" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Revisar políticas de conducción en zonas sensibles', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Discutir incidente con el conductor', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "109",
-                            nombre: "Isabel",
-                            apellido: "Fernández",
-                            dni: "47819245",
-                            telefono: "912348567",
-                            email: "isabel.fernandez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=isabel.fernandez@example."
-                        }
-                    },
-                    {
-                        id: "10",
-                        fecha: "2024-04-21",
-                        tipoAlerta: "Retraso en Ruta",
-                        observaciones: [
-                            { observacion: "Demora debido a cierre inesperado de carretera", fecha: "2024-04-21" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Informar a clientes sobre posibles retrasos', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Reevaluar rutas alternativas', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "110",
-                            nombre: "Roberto",
-                            apellido: "Díaz",
-                            dni: "48021359",
-                            telefono: "915673489",
-                            email: "roberto.diaz@example.com",
-                            foto: "https://ui-avatars.com/api/?name=roberto.diaz@example.com"
-                        }
-                    },
-                    {
-                        id: "11",
-                        fecha: "2024-04-20",
-                        tipoAlerta: "Fuera de Ruta",
-                        observaciones: [
-                            { observacion: "Desvío no autorizado para evitar tráfico", fecha: "2024-04-20" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Contactar al conductor para aclaraciones', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Revisar y ajustar parámetros de ruta permitida', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "111",
-                            nombre: "Patricia",
-                            apellido: "Lara",
-                            dni: "47123985",
-                            telefono: "947821634",
-                            email: "patricia.lara@example.com",
-                            foto: "https://ui-avatars.com/api/?name=patricia.lara@example.com"
-                        }
-                    },
-                    {
-                        id: "12",
-                        fecha: "2024-04-19",
-                        tipoAlerta: "Exceso de Velocidad",
-                        observaciones: [
-                            { observacion: "Superación del límite de velocidad en 30 km/h", fecha: "2024-04-19" }
-                        ],
-                        estado: "Finalizado",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Sanción disciplinaria al conductor', estado: 'Completado' },
-                            { orden: 2, descripcion: 'Monitoreo continuo de la velocidad del vehículo', estado: 'Completado' }
-                        ],
-                        conductor: {
-                            id: "112",
-                            nombre: "Lucía",
-                            apellido: "Morales",
-                            dni: "46271890",
-                            telefono: "917834256",
-                            email: "lucia.morales@example.com",
-                            foto: "https://ui-avatars.com/api/?name=lucia.morales@example.com"
-                        }
-                    },
-                    {
-                        id: "13",
-                        fecha: "2024-04-18",
-                        tipoAlerta: "Frenado Brusco",
-                        observaciones: [
-                            { observacion: "Frenada intensa en autopista por obstáculo en la vía", fecha: "2024-04-18" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Revisar grabación de dashcam para detalles del incidente', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Capacitar al conductor en maniobras evasivas seguras', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "113",
-                            nombre: "Fernando",
-                            apellido: "Sánchez",
-                            dni: "46791283",
-                            telefono: "943562781",
-                            email: "fernando.sanchez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=fernando.sanchez@example.com"
-                        }
-                    },
-                    {
-                        id: "14",
-                        fecha: "2024-04-17",
-                        tipoAlerta: "Aceleración Brusca",
-                        observaciones: [
-                            { observacion: "Aceleración agresiva tras semáforo en rojo", fecha: "2024-04-17" }
-                        ],
-                        estado: "Pendiente",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Evaluar comportamiento del conductor', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Discutir con el conductor las normas de tráfico', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "114",
-                            nombre: "Carmen",
-                            apellido: "Jiménez",
-                            dni: "47851236",
-                            telefono: "921478563",
-                            email: "carmen.jimenez@example.com",
-                            foto: "https://ui-avatars.com/api/?name=carmen.jimenez@example.co"
-                        }
-                    },
-                    {
-                        id: "15",
-                        fecha: "2024-04-16",
-                        tipoAlerta: "Retraso en Ruta",
-                        observaciones: [
-                            { observacion: "Retraso por avería mecánica inesperada", fecha: "2024-04-16" }
-                        ],
-                        estado: "En Proceso",
-                        pasosProtocolo: [
-                            { orden: 1, descripcion: 'Coordinar reparación en sitio', estado: 'Pendiente' },
-                            { orden: 2, descripcion: 'Actualizar al cliente sobre el estado del envío', estado: 'Pendiente' }
-                        ],
-                        conductor: {
-                            id: "115",
-                            nombre: "Oscar",
-                            apellido: "Torres",
-                            dni: "46928517",
-                            telefono: "934265789",
-                            email: "oscar.torres@example.com",
-                            foto: "https://ui-avatars.com/api/?name=oscar.torres@example.com"
+                        "CONDUCTOR_ID": "53",
+                        "CONDUCTOR_IDENTIFICACION": "1070305056",
+                        "CONDUCTOR_CODCONDUCTOR": "105151",
+                        "CONDUCTOR_PRIMERNOMBRE": "VICTOR",
+                        "CONDUCTOR_SEGUNDONOMBRE": "ALFONSO",
+                        "CONDUCTOR_PRIMERAPELLIDO": "BUSTOS",
+                        "CONDUCTOR_SEGUNDOAPELLIDO": "CONTRERAS",
+                        "CONDUCTOR_TELPERSONAL": "0",
+                        "CONDUCTOR_TELCORPORATIVO": "0",
+                        "CONDUCTOR_CORREO": "0",
+                        "CONDUCTOR_ESTADO": "1",
+                        "CONDUCTOR_FECINGRESO": "2021-08-27T00:00:00.000Z",
+                        "typeIdentification": {
+                            "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+                        },
+                        "factorRh": {
+                            "FACTOR_RH_DESCRIPCION": "O +"
                         }
                     }
                 ],
-                columns: [
+                "columns": [
                     {
-                        name: 'Conductor',
-                        cell: (row: any) => CustomCell.Container({
-                            children: CustomCell.Avatar({
-                                src: row.conductor.foto,
-                                options: {
-                                    size: "md",
-                                    rounded: 'full',
-                                }
-                            }),
-                        }),
-
-                    },
-                    // text: `${row.conductor.nombre} ${row.conductor.apellido}`,
-                    {
-                        name: 'Tipo de Alerta',
-                        selector: (row: any) => row.tipoAlerta,
-                        sortable: true,
-                    },
-                    {
-                        name: 'Estado',
-                        selector: (row: any) => row.estado,
-                        cell: (row: any) => CustomCell.Badge({
-                            options: {
-                                color: row.estado === 'Pendiente' ? 'error' : row.estado === 'En Proceso' ? 'warning' : 'success',
-                                size: 'md',
+                        "type": "button",
+                        "name": "Detalle",
+                        "props": {
+                            "options": {
+                                "color": "success",
+                                "size": "lg",
+                                loader: true,
                             },
-                            children: row.estado
-                        }),
-                        sortable: true,
+                            "disabled": false,
+                            "children": "Foto del conductor"
+                        }
                     },
                     {
-
-                        name: 'Fecha',
-                        selector: (row: any) => row.fecha,
-                        sortable: true,
+                        "type": "cell",
+                        "name": "Tipo de Documento",
+                        "selector": "typeIdentification.TIP_IDEN_DESCRIPCION",
+                        "sortable": true
                     },
                     {
-                        name: 'Acciones',
-                        cell: (row: any) => CustomCell.Button({
-                            options: {
-                                color: 'success',
-                                size: 'sm',
-                            },
-                            disabled: false,
-                            children: 'Ver Protocolo'
-                        }),
+                        "type": "cell",
+                        "name": "Documento",
+                        "selector": "CONDUCTOR_IDENTIFICACION",
+                        "sortable": true
                     },
+                    {
+                        "type": "cell",
+                        "name": "Código",
+                        "selector": "CONDUCTOR_CODCONDUCTOR",
+                        "sortable": true
+                    },
+                    {
+                        "type": "cell",
+                        "name": "Nombre",
+                        "selector": "CONDUCTOR_PRIMERNOMBRE",
+                        "sortable": true
+                    },
+                    {
+                        "type": "cell",
+                        "name": "RH",
+                        "selector": "factorRh.FACTOR_RH_DESCRIPCION",
+                        "sortable": true
+                    },
+                    {
+                        "type": "cell",
+                        "name": "Teléfono Personal",
+                        "selector": "CONDUCTOR_TELPERSONAL",
+                        "sortable": true
+                    },
+                    {
+                        "type": "cell",
+                        "name": "Teléfono Corporativo",
+                        "selector": "CONDUCTOR_TELCORPORATIVO",
+                        "sortable": true
+                    }
                 ],
+                "meta": {
+                    "page": 1,
+                    "take": 10,
+                    "itemCount": 401,
+                    "pageCount": 41,
+                    "hasPreviousPage": false,
+                    "hasNextPage": true
+                }
             });
         }, 2000);
     });

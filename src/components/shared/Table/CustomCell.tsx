@@ -1,26 +1,6 @@
-import type { CustomAvatar, CustomBadge, CustomButton } from '@/models/customComponents.model';
+import type { CustomAvatar, CustomBadge, CustomButton, CustomCellAvatarProps, CustomCellBadgeProps, CustomCellButtonProps, CustomCellProps } from '@/models/customComponents.model';
 import type React from 'react'
 
-interface CustomCellButtonProps {
-  options: CustomButton,
-  children: React.ReactNode,
-  [key: string]: any
-}
-interface CustomCellBadgeProps {
-  options: CustomBadge,
-  children: React.ReactNode,
-  [key: string]: any
-}
-interface CustomCellAvatarProps {
-  src: string,
-  options: CustomAvatar,
-  [key: string]: any;
-}
-
-interface CustomCellProps {
-  children: React.ReactNode,
-  [key: string]: any
-}
 const Button = ({ children, options, ...props }: CustomCellButtonProps) => {
 
   const defaultOptions = {
