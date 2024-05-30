@@ -128,7 +128,7 @@ export const responseTableDriverExample = (api: string) => {
                             },
                             disabled: false,
                             children: 'Foto',
-                            onClick: () => {console.log('prueba')}
+                            onClick: () => {console.log('prueba2')}
                         })
                     },
                     {
