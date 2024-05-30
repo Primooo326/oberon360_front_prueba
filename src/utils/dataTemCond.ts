@@ -127,8 +127,9 @@ export const responseTableDriverExample = (api: string) => {
                                 size: 'sm',
                             },
                             disabled: false,
-                            children: 'Foto'
-                        }),
+                            children: 'Foto',
+                            onClick: () => {console.log('prueba')}
+                        })
                     },
                     {
                         name: 'Tipo de Documento',
