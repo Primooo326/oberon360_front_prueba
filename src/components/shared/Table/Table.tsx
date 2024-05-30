@@ -48,7 +48,7 @@ export default function Table({ data, columns, customStyles, propsDataTable }: C
                 borderLeftStyle: 'solid',
                 borderLeftWidth: '1px',
                 borderLeftColor: defaultThemes.default.divider.default,
-                height: '56px',
+                height: '70px',
             },
         },
     };

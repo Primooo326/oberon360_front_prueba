@@ -63,6 +63,8 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
         if (token) {
             verifyToken(token)
         }
+        setCargando(false)
+
     }, [])
 
     return (

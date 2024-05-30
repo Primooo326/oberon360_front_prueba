@@ -9,6 +9,50 @@ export default function TableConductor() {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
 
+  const columnas: any = [
+    {
+      name: 'Conductor',
+      cell: (row: any) => <div className=' w-full flex items-center justify-center py-2' >
+        <img src={`data:image/jpeg;base64,${row.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full size-14" />
+      </div>,
+    },
+    {
+      name: 'Tipo de Documento',
+      cell: (row: any) => row.typeIdentification.TIP_IDEN_DESCRIPCION,
+      sortable: true,
+    },
+    {
+      name: 'Numero de Documento',
+      cell: (row: any) => row.CONDUCTOR_IDENTIFICACION,
+      selector: (row: any) => row.CONDUCTOR_IDENTIFICACION,
+      sortable: true,
+    },
+    {
+
+      name: 'Código',
+      cell: (row: any) => row.CONDUCTOR_CODCONDUCTOR,
+      sortable: true,
+    },
+
+    {
+      name: 'Nombre',
+      cell: (row: any) => <span>{row.CONDUCTOR_PRIMERNOMBRE}</span>,
+    },
+    {
+      name: "RH",
+      cell: (row: any) => row.factorRh.FACTOR_RH_DESCRIPCION,
+
+    },
+    {
+      name: "Teléfono Personal",
+      cell: (row: any) => row.CONDUCTOR_TELPERSONAL,
+    },
+    {
+      name: "Teléfono Corporativo",
+      cell: (row: any) => row.CONDUCTOR_TELCORPORATIVO,
+    }
+  ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,8 +60,8 @@ export default function TableConductor() {
         const response2 = await getDrivers();
         console.log('responseFront =>', response);
         console.log('responseBack =>', response2);
-        
-        setColumns(response.columns);
+
+        setColumns(columnas);
         setData(response2.data);
       } catch (error) {
         console.error('Error fetching data:', error);
