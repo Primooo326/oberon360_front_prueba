@@ -194,13 +194,29 @@ export default function RootLayout({
     if (filtrosMapaRef.current.oleoductosFiltro) {
       getOleoductos();
     }
+
   }
   useEffect(() => {
     const filtros = JSON.parse(localStorage.getItem("filtrosMapa") || "{}")
 
     if (filtros) {
       initFiltrosMapa(filtros)
+
+      if (filtros.mobileFiltro) {
+        getMobiles();
+      }
+      if (filtros.telemetriaFiltro) {
+        getVehiculos();
+      }
+      if (filtros.proteccionFiltro) {
+        getData();
+      }
+      if (filtros.oleoductosFiltro) {
+        getOleoductos();
+      }
+
     }
+    getIndicadores();
 
     fetchData()
     const interval = setInterval(fetchData, 5000);

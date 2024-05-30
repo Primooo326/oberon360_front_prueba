@@ -6,7 +6,7 @@ import IconoCargando from "@components/Shared/IconoCargando/IconoCargando";
 import { motion } from 'framer-motion';
 
 export default function page() {
-    const [cargando, setCargando] = useState(false);
+    const [cargando, setCargando] = useState(true);
     const [reset, setReset] = useState(false)
     return (
         <>
