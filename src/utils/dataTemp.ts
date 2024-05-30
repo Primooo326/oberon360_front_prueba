@@ -229,7 +229,6 @@ export const responseTableExample = (api: string) => {
                             "options": {
                                 "color": "success",
                                 "size": "lg",
-                                loader: true,
                             },
                             "disabled": false,
                             "children": "Foto del conductor"
