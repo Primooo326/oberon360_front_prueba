@@ -50,7 +50,11 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
     const verifyToken = async (token: string) => {
         const data = await verifyJWT(token)
         if (data !== false) {
+            setCargando(false)
             router.push("/dashboard")
+        } else {
+            setCargando(false)
+
         }
     }
 
