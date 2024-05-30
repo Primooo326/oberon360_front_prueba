@@ -37,7 +37,7 @@ export default function page() {
     ]
 
     return (
-        <div className='w-full h-full scroll p-8' >
+        <div className='w-full h-full overflow-y-auto scroll p-8' >
 
             <div className="flex gap-5 mb-8 items-center">
                 <h1 className='font-bold text-3xl' >
