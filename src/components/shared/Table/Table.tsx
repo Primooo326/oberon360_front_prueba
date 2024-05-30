@@ -4,10 +4,10 @@ export interface CustomTableProps {
     data: any;
     columns: TableColumn<any>[];
     customStyles?: any;
-    propsDataTable?: TableProps<any>;
+    [key: string]: any;
 }
 
-export default function Table({ data, columns, customStyles, propsDataTable }: CustomTableProps) {
+export default function Table({ data, columns, customStyles, ...propsDataTable }: CustomTableProps) {
 
 
 
@@ -21,9 +21,9 @@ export default function Table({ data, columns, customStyles, propsDataTable }: C
         },
         headRow: {
             style: {
-                borderTopStyle: 'solid',
-                borderTopWidth: '1px',
-                borderTopColor: defaultThemes.default.divider.default,
+                // borderTopStyle: 'solid',
+                // borderTopWidth: '1px',
+                // borderTopColor: defaultThemes.default.divider.default,
 
             },
         },
@@ -31,23 +31,23 @@ export default function Table({ data, columns, customStyles, propsDataTable }: C
             style: {
                 fontWeight: 'semi-bold',
                 fontSize: '20px',
-                borderRightStyle: 'solid',
-                borderRightWidth: '1px',
-                borderRightColor: defaultThemes.default.divider.default,
-                borderLeftStyle: 'solid',
-                borderLeftWidth: '1px',
-                borderLeftColor: defaultThemes.default.divider.default,
+                // borderRightStyle: 'solid',
+                // borderRightWidth: '1px',
+                // borderRightColor: defaultThemes.default.divider.default,
+                // borderLeftStyle: 'solid',
+                // borderLeftWidth: '1px',
+                // borderLeftColor: defaultThemes.default.divider.default,
                 height: '56px',
             },
         },
         cells: {
             style: {
                 borderRightStyle: 'solid',
-                borderRightWidth: '1px',
-                borderRightColor: defaultThemes.default.divider.default,
-                borderLeftStyle: 'solid',
-                borderLeftWidth: '1px',
-                borderLeftColor: defaultThemes.default.divider.default,
+                // borderRightWidth: '1px',
+                // borderRightColor: defaultThemes.default.divider.default,
+                // borderLeftStyle: 'solid',
+                // borderLeftWidth: '1px',
+                // borderLeftColor: defaultThemes.default.divider.default,
                 height: '70px',
             },
         },
@@ -59,7 +59,8 @@ export default function Table({ data, columns, customStyles, propsDataTable }: C
         paginationPerPage: 10,
         paginationRowsPerPageOptions: [5, 10, 15, 20],
         customStyles: customStyles ? customStyles : styles,
-        dense: true
+        dense: true,
+        ...propsDataTable
     }
 
     return (
