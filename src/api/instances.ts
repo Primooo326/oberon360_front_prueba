@@ -92,6 +92,7 @@ export const fetchApiWeb = {
     patch: (url: string, body?: any) =>
         instance("web").patch(url, body).then(responseBody),
     delete: (url: string) => instance("web").delete(url).then(responseBody),
+    downloadExcel: (url: string, body: any) => instance("web").post(url, body, { responseType: 'blob' }).then(responseBody),
 };
 
 export const fetchApiIC = {
