@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { getDrivers } from '@/api/conductor.api';
+import { downloadExcel, getDrivers } from '@/api/conductor.api';
 import Table from '@/components/Shared/Table/Table';
 import { responseTableDriverExample } from '@/utils/dataTemCond';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ export default function page() {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit: SubmitHandler<any> = (data) => {
-        console.log(data);
+        // console.log(data);
     }
 
     const [data, setData] = useState<any[]>([]);
@@ -72,7 +72,6 @@ export default function page() {
         }
     ];
     const handleChange = ({ selectedRows }: any) => {
-        console.log('Selected Rows: ', selectedRows);
         setSelectedRows(selectedRows);
     };
 
@@ -80,13 +79,55 @@ export default function page() {
         setConductorToEdit(selectedRows[0]);
     }
 
+    const generateDownloadExcel = async () => {
+        let data = [];
+        if (selectedRows.length) {
+            data = selectedRows;
+        } else {
+            const response = await getDrivers(1, 1000);
+            data = response?.data;
+        }
+
+        const dataExport = await getDataExport(data);
+
+        const responseExcel = await downloadExcel(dataExport);
+    
+        if (responseExcel) {
+            const url = window.URL.createObjectURL(new Blob([responseExcel], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Conductores.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }
+    };
+
+    const getDataExport = async (data: any[]): Promise<any[]> => {
+        const dataExport: { [key: string]: any }[] = [];
+        
+        data.forEach((element: any) => {
+            dataExport.push({
+                "ID": element.CONDUCTOR_ID,
+                "Tipo de Documento": element.typeIdentification.TIP_IDEN_DESCRIPCION,
+                "Documento": element.CONDUCTOR_IDENTIFICACION,
+                "Código": element.CONDUCTOR_CODCONDUCTOR,
+                "Nombre Completo": element.CONDUCTOR_PRIMERNOMBRE + " " + element.CONDUCTOR_SEGUNDONOMBRE + " " + element.CONDUCTOR_PRIMERAPELLIDO + " " + element.CONDUCTOR_SEGUNDOAPELLIDO,
+                "Teléfono Personal": element.CONDUCTOR_TELPERSONAL,
+                "Teléfono Corporativo": element.CONDUCTOR_TELCORPORATIVO,
+                "Correo Electrónico": element.CONDUCTOR_CORREO,
+                "RH": element.factorRh.FACTOR_RH_DESCRIPCION
+            });
+        });
+    
+        return dataExport;
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await responseTableDriverExample("api/conductores");
                 const response2 = await getDrivers();
-                console.log('responseFront =>', response);
-                console.log('responseBack =>', response2);
 
                 setColumns(columnas);
                 setData(response2.data);
@@ -136,7 +177,7 @@ export default function page() {
                     <button disabled={selectedRows.length !== 1} className="btn btn-warning" onClick={() => handleEdit()} >Editar</button>
                     <button disabled={selectedRows.length === 0} className="btn btn-error" >Eliminar</button>
                     <button className="btn btn-success" >Nuevo Conductor</button>
-                    <button className="btn btn-primary" >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
+                    <button className="btn btn-primary" onClick={() => generateDownloadExcel()}>Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                 </div>
 
             </div>
