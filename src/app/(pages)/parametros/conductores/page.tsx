@@ -5,16 +5,29 @@ import Table from '@/components/Shared/Table/Table';
 import { responseTableDriverExample } from '@/utils/dataTemCond';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import Modal from '@/components/Shared/Modal';
+import { FaXmark } from 'react-icons/fa6';
+import { useForm, type SubmitHandler } from "react-hook-form"
 export default function page() {
+
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const onSubmit: SubmitHandler<any> = (data) => {
+        console.log(data);
+    }
 
     const [data, setData] = useState<any[]>([]);
     const [columns, setColumns] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
+    const [imgSelected, setImgSelected] = useState<string>("");
+
+    const [conductorToEdit, setConductorToEdit] = useState<any>(null);
+
     const columnas: any = [
         {
             name: 'Conductor',
-            cell: (row: any) => <div className=' w-full flex items-center justify-center py-2' >
-                <img src={`data:image/jpeg;base64,${row.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full size-14" />
+            cell: (row: any) => <div onClick={() => setImgSelected(row.CONDUCTOR_FOTO)} className='cursor-pointer w-full flex items-center justify-center py-2'>
+                <img src={`data:image/jpeg;base64,${row.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full size-14 object-cover" />
             </div>,
         },
         {
@@ -59,10 +72,13 @@ export default function page() {
         }
     ];
     const handleChange = ({ selectedRows }: any) => {
-        // You can set state or dispatch with something like Redux so we can use the retrieved data
         console.log('Selected Rows: ', selectedRows);
         setSelectedRows(selectedRows);
     };
+
+    const handleEdit = () => {
+        setConductorToEdit(selectedRows[0]);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,6 +97,27 @@ export default function page() {
 
         fetchData();
     }, []);
+    // conductor example:
+    //     {
+    //     "CONDUCTOR_ID": "23",
+    //     "CONDUCTOR_IDENTIFICACION": "1233492669",
+    //     "CONDUCTOR_CODCONDUCTOR": "12345",
+    //     "CONDUCTOR_PRIMERNOMBRE": "DANIEL",
+    //     "CONDUCTOR_SEGUNDONOMBRE": "ALFONSO",
+    //     "CONDUCTOR_PRIMERAPELLIDO": "GALLEGO",
+    //     "CONDUCTOR_SEGUNDOAPELLIDO": "PEÑA",
+    //     "CONDUCTOR_TELPERSONAL": "3002534104",
+    //     "CONDUCTOR_TELCORPORATIVO": "3227848121",
+    //     "CONDUCTOR_CORREO": "OBERON@THOMASGREG.COM",
+    //     "CONDUCTOR_ESTADO": "0",
+    //     "CONDUCTOR_FECINGRESO": null,
+    //     "typeIdentification": {
+    //         "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
+    //     },
+    //     "factorRh": {
+    //         "FACTOR_RH_DESCRIPCION": "O +"
+    //     }
+    // }
     return (
         <div className='w-full h-full scroll p-8' >
             <div className="flex gap-5 mb-8 items-center">
@@ -96,7 +133,7 @@ export default function page() {
                     </label>
                 </div>
                 <div className="flex gap-3" >
-                    <button disabled={selectedRows.length !== 1} className="btn btn-warning" >Editar</button>
+                    <button disabled={selectedRows.length !== 1} className="btn btn-warning" onClick={() => handleEdit()} >Editar</button>
                     <button disabled={selectedRows.length === 0} className="btn btn-error" >Eliminar</button>
                     <button className="btn btn-success" >Nuevo Conductor</button>
                     <button className="btn btn-primary" >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
@@ -105,6 +142,125 @@ export default function page() {
             </div>
             <Table data={data} columns={columns} selectableRows
                 onSelectedRowsChange={handleChange} />
+            <Modal id="modalConductor" className="rounded-full" isOpen={imgSelected !== ""} onClose={() => { setImgSelected("") }} >
+                <div className='size-[520px] p-5' >
+                    <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full size-full object-cover" />
+                </div>
+            </Modal>
+            <Modal id='modalEditConductor' className="rounded-xl " isOpen={conductorToEdit} canCloseEsc={false} onClose={() => setConductorToEdit(null)} >
+                <div className='modal-header flex justify-between items-center border-b w-full px-10' >
+                    <div />
+                    <h1 className='text-2xl font-bold' >Editar Conductor</h1>
+                    <button onClick={() => setConductorToEdit(null)} >
+                        <FaXmark />
+                    </button>
+                </div>
+                <div>
+                    <form onSubmit={handleSubmit(onSubmit)} className='p-10' >
+                        <div className='flex gap-5' >
+                            <div className='grid grid-cols-2 gap-5' >
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Primer Nombre</span>
+                                    </div>
+                                    <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("nombre")} value={conductorToEdit?.CONDUCTOR_PRIMERNOMBRE} />
+
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Segundo Nombre</span>
+                                    </div>
+                                    <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("segundoNombre")} value={conductorToEdit?.CONDUCTOR_SEGUNDONOMBRE} />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Primer Apellido</span>
+                                    </div>
+                                    <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("primerApellido")} value={conductorToEdit?.CONDUCTOR_PRIMERAPELLIDO} />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Segundo Apellido</span>
+                                    </div>
+                                    <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("segundoApellido")} value={conductorToEdit?.CONDUCTOR_SEGUNDOAPELLIDO} />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Correo</span>
+                                    </div>
+                                    <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("correo")} value={conductorToEdit?.CONDUCTOR_CORREO} />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Código</span>
+                                    </div>
+                                    <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("codigo")} value={conductorToEdit?.CONDUCTOR_CODCONDUCTOR} />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Teléfono Personal</span>
+                                    </div>
+                                    <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("telefonoPersonal")} value={conductorToEdit?.CONDUCTOR_TELPERSONAL} />
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Teléfono Corporativo</span>
+                                    </div>
+                                    <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("telefonoCorporativo")} value={conductorToEdit?.CONDUCTOR_TELCORPORATIVO} />
+                                </label>
+
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Tipo de Documento</span>
+                                    </div>
+                                    <select className="select select-bordered w-full max-w-xs" {...register("tipoDocumento")} >
+                                        <option value="1">Cédula de Ciudadanía</option>
+                                        <option value="2">Cédula de Extranjería</option>
+                                        <option value="3">Pasaporte</option>
+                                    </select>
+                                </label>
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Número de Documento</span>
+                                    </div>
+                                    <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("numeroDocumento")} value={conductorToEdit?.CONDUCTOR_IDENTIFICACION} />
+                                </label>
+
+
+
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">RH</span>
+                                    </div>
+                                    <select className="select select-bordered w-full max-w-xs" {...register("rh")} >
+                                        <option value="1">O +</option>
+                                        <option value="2">O -</option>
+                                        <option value="3">A +</option>
+                                        <option value="4">A -</option>
+                                        <option value="5">B +</option>
+                                        <option value="6">B -</option>
+                                        <option value="7">AB +</option>
+                                        <option value="8">AB -</option>
+                                    </select>
+                                </label>
+
+                                <label className="form-control w-full max-w-xs">
+                                    <div className="label">
+                                        <span className="label-text">Estado</span>
+                                    </div>
+                                    <select className="select select-bordered w-full max-w-xs" {...register("estado")} >
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </Modal>
         </div>
     )
 }
