@@ -6,7 +6,7 @@ import { responseTableDriverExample } from '@/utils/dataTemCond';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Modal from '@/components/Shared/Modal';
-import { FaXmark } from 'react-icons/fa6';
+import { FaPen, FaXmark } from 'react-icons/fa6';
 import { useForm, type SubmitHandler } from "react-hook-form"
 export default function page() {
 
@@ -18,7 +18,9 @@ export default function page() {
 
     const [data, setData] = useState<any[]>([]);
     const [columns, setColumns] = useState<any[]>([]);
+
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
+
     const [imgSelected, setImgSelected] = useState<string>("");
 
     const [conductorToEdit, setConductorToEdit] = useState<any>(null);
@@ -142,6 +144,7 @@ export default function page() {
             </div>
             <Table data={data} columns={columns} selectableRows
                 onSelectedRowsChange={handleChange} />
+
             <Modal id="modalConductor" className="rounded-full" isOpen={imgSelected !== ""} onClose={() => { setImgSelected("") }} >
                 <div className='size-[520px] p-5' >
                     <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full size-full object-cover" />
@@ -157,8 +160,17 @@ export default function page() {
                 </div>
                 <div>
                     <form onSubmit={handleSubmit(onSubmit)} className='p-10' >
-                        <div className='flex gap-5' >
-                            <div className='grid grid-cols-2 gap-5' >
+                        <div className='flex flex-col items-center gap-3'>
+
+                            <div className='avatar size-48 relative' >
+                                <img src={`data:image/jpeg;base64,${conductorToEdit?.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full size-48 object-cover" />
+                                <button className="btn btn-primary rounded-full absolute top-0 right-0" onClick={() => {
+                                    document.getElementById('imageLoader')?.click();
+                                }} ><FaPen /></button>
+                                <input type="file" className="hidden" id='imageLoader' accept='image/*' />
+                            </div>
+
+                            <div className='grid grid-cols-4 gap-5' >
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Primer Nombre</span>
@@ -258,6 +270,10 @@ export default function page() {
 
                         </div>
 
+                        <div className='flex justify-center gap-5 mt-5' >
+                            <button className="btn btn-error" onClick={() => setConductorToEdit(null)} >Cancelar</button>
+                            <button type="submit" className="btn btn-success" >Guardar</button>
+                        </div>
                     </form>
                 </div>
             </Modal>
