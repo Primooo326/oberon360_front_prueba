@@ -2,7 +2,7 @@
 import LoginCard from "@components/AuthComponents/LoginCard/LoginCard"
 import ResetCard from "@components/AuthComponents/ResetCard/ResetCard"
 import { useState } from "react";
-import IconoCargando from "@components/Shared/IconoCargando/IconoCargando";
+import IconoCargando from "@components/shared/IconoCargando/IconoCargando";
 import { motion } from 'framer-motion';
 
 export default function page() {

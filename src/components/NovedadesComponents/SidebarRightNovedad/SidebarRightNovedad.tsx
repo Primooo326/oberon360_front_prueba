@@ -1,4 +1,4 @@
-import SidebarRight from "@/components/Shared/SidebarRight";
+import SidebarRight from "@/components/shared/SidebarRight";
 import { useNovedadesStore } from "@/states/novedades.state"
 import Image from "next/image";
 interface NovedadConductor {

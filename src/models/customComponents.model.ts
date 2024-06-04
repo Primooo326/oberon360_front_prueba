@@ -6,7 +6,7 @@ export interface CustomButton {
     block?: boolean,
     iconPosition?: "left" | "right",
     loader?: boolean,
-    icon?: string | null,
+    icon?: React.ReactElement | null,
     className?: string
 }
 
@@ -15,7 +15,7 @@ export interface CustomBadge {
     size?: "sm" | "md" | "lg",
     outline?: boolean,
     iconPosition?: "left" | "right",
-    icon?: string | null,
+    icon?: React.ReactElement | null,
     className?: string
 }
 

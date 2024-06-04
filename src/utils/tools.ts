@@ -1,4 +1,4 @@
-import CustomCell from '@/components/Shared/Table/CustomCell'
+import CustomCell from '@/components/shared/Table/CustomCell'
 import { JWT_SECRET } from '@/config'
 import type { IHeaderCustomTable } from '@/models/customComponents.model'
 import type { IItenary, IItenaryEvaluated, TipDocSiglas, TipoDocumento } from '@/models/vehiculos.model'
@@ -23,6 +23,8 @@ export const formatFecha = (fecha: string) => {
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
+        timeZone: 'UTC',
+        hour12: true,
     }
     const fechaDate = new Date(fecha)
     return fechaDate.toLocaleDateString('es-ES', fechaOptions)

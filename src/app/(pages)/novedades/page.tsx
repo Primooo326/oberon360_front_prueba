@@ -36,15 +36,16 @@ export default function page() {
             <AnimatePresence>
 
                 {novedadSelected && (
-                    <motion.div
-                        initial={{ x: "100" }}
-                        animate={{ x: 0 }}
-                        exit={{ x: "100" }}
-                        transition={{ type: "linear", stiffness: 200 }}
-                        className="z-10"
-                    >
                         <SidebarRightNovedades />
-                    </motion.div>
+                    // <motion.div
+                    //     initial={{ x: "100" }}
+                    //     animate={{ x: 0 }}
+                    //     exit={{ x: "100" }}
+                    //     transition={{ type: "linear", stiffness: 200 }}
+                    //     className="z-10"
+                    // >
+                    //     <SidebarRightNovedades />
+                    // </motion.div>
                 )}
             </AnimatePresence>
         </div>

@@ -1,4 +1,4 @@
-import CustomCell from "@/components/Shared/Table/CustomCell";
+import CustomCell from "@/components/shared/Table/CustomCell";
 
 export const responseTableDriverExample = (api: string) => {
     return new Promise<any>((resolve) => {
