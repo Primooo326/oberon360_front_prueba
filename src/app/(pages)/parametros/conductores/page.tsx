@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { downloadExcel, getDrivers } from '@/api/conductor.api';
+import { downloadExcel, getDrivers, findAllDrivers } from '@/api/conductor.api';
 import Table from '@/components/Shared/Table/Table';
 import { responseTableDriverExample } from '@/utils/dataTemCond';
 import { useEffect, useState } from 'react';
@@ -86,7 +86,7 @@ export default function page() {
         if (selectedRows.length) {
             data = selectedRows;
         } else {
-            const response = await getDrivers(1, 1000);
+            const response = await findAllDrivers();
             data = response?.data;
         }
 
@@ -110,15 +110,15 @@ export default function page() {
         
         data.forEach((element: any) => {
             dataExport.push({
-                "ID": element.CONDUCTOR_ID,
-                "Tipo de Documento": element.typeIdentification.TIP_IDEN_DESCRIPCION,
-                "Documento": element.CONDUCTOR_IDENTIFICACION,
-                "Código": element.CONDUCTOR_CODCONDUCTOR,
-                "Nombre Completo": element.CONDUCTOR_PRIMERNOMBRE + " " + element.CONDUCTOR_SEGUNDONOMBRE + " " + element.CONDUCTOR_PRIMERAPELLIDO + " " + element.CONDUCTOR_SEGUNDOAPELLIDO,
-                "Teléfono Personal": element.CONDUCTOR_TELPERSONAL,
-                "Teléfono Corporativo": element.CONDUCTOR_TELCORPORATIVO,
-                "Correo Electrónico": element.CONDUCTOR_CORREO,
-                "RH": element.factorRh.FACTOR_RH_DESCRIPCION
+                "ID": element?.CONDUCTOR_ID,
+                "Tipo de Documento": element?.typeIdentification?.TIP_IDEN_DESCRIPCION,
+                "Documento": element?.CONDUCTOR_IDENTIFICACION,
+                "Código": element?.CONDUCTOR_CODCONDUCTOR,
+                "Nombre Completo": element?.CONDUCTOR_PRIMERNOMBRE + " " + element?.CONDUCTOR_SEGUNDONOMBRE + " " + element?.CONDUCTOR_PRIMERAPELLIDO + " " + element?.CONDUCTOR_SEGUNDOAPELLIDO,
+                "Teléfono Personal": element?.CONDUCTOR_TELPERSONAL,
+                "Teléfono Corporativo": element?.CONDUCTOR_TELCORPORATIVO,
+                "Correo Electrónico": element?.CONDUCTOR_CORREO,
+                "RH": element?.factorRh?.FACTOR_RH_DESCRIPCION
             });
         });
     
