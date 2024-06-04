@@ -1,8 +1,8 @@
 "use client"
-import CustomCell from "@/components/Shared/Table/CustomCell";
+import CustomCell from "@/components/shared/Table/CustomCell";
 import type { CustomBadge } from "@/models/customComponents.model";
 import { useRouter } from "next/navigation";
-import { FaRegHeart } from "react-icons/fa"
+import  {FaRegHeart} from "react-icons/fa"
 
 
 export default function page() {
@@ -83,7 +83,7 @@ export default function page() {
                         <h2 className='font-bold text-xl mb-5'>{badge.title}</h2>
                         <div className='flex flex-wrap gap-5' >
                             {badge.element.map((element, index) => (
-                                <CustomCell.Badge key={index} options={element}>{element.color}</CustomCell.Badge>
+                                <CustomCell.Badge key={index} options={element}>{String(element.color)}</CustomCell.Badge>
                             ))}
                         </div>
                     </div>

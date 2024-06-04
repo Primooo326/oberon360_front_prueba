@@ -1,5 +1,5 @@
 "use client"
-import CustomCell from "@/components/Shared/Table/CustomCell";
+import CustomCell from "@/components/shared/Table/CustomCell";
 import type { CustomAvatar } from "@/models/customComponents.model";
 import { useRouter } from "next/navigation";
 

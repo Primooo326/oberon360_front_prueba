@@ -1,5 +1,5 @@
 "use client"
-import Drawer from "@/components/Shared/Drawer/Drawer";
+import Drawer from "@/components/shared/Drawer/Drawer";
 import MainLayout from "@/layouts/MainLayout";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -3,7 +3,7 @@ import type { CustomButton } from '@/models/customComponents.model';
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { FaRegHeart } from "react-icons/fa"
-import CustomCell from '../../../../components/Shared/Table/CustomCell';
+import CustomCell from '../../../../components/shared/Table/CustomCell';
 
 export default function page() {
 
@@ -372,7 +372,7 @@ export default function page() {
                         <div className='flex flex-wrap gap-5' >
                             {button.element.map((element, index) => (
                                 <CustomCell.Button options={element} key={index} >
-                                    {element.color}
+                                    {String(element.color)}
                                 </CustomCell.Button>
                             ))}
                         </div>

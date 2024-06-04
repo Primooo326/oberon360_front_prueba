@@ -4,7 +4,7 @@ import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver }
 import Table from '@/components/Shared/Table/Table';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import Modal from '@/components/Shared/Modal';
+import Modal from '@/components/shared/Modal';
 import { FaPen, FaXmark } from 'react-icons/fa6';
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { toast } from 'react-toastify';
