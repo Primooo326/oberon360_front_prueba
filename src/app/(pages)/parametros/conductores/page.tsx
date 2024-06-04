@@ -7,6 +7,7 @@ import { FaSearch } from 'react-icons/fa';
 import Modal from '@/components/Shared/Modal';
 import { FaPen, FaXmark } from 'react-icons/fa6';
 import { useForm, type SubmitHandler } from "react-hook-form"
+import { toast } from 'react-toastify';
 export default function page() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -38,27 +39,49 @@ export default function page() {
     const [loading, setLoading] = useState<boolean>(true);
 
 
-    const onSubmit: SubmitHandler<any> = (data) => {
-        console.log(data);
-        console.log(imgToChange);
+    const onSubmit: SubmitHandler<any> = async (data) => {
         let base64 = null;
-        const reader = new FileReader();
-        reader.readAsDataURL(imgToChange);
-        reader.onloadend = () => {
-            base64 = reader.result?.toString().split(',')[1];
-        }
-        reader.onerror = () => {
-            console.error('Error reading file');
+        if (imgToChange) {
+
+            const base64Convert = new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(imgToChange);
+                reader.onloadend = () => {
+                    resolve(reader.result!.toString().split(',')[1]);
+                };
+                reader.onerror = () => {
+                    console.error("Error reading file");
+                    reject(null);
+                };
+            }
+            );
+            base64 = await base64Convert;
         }
 
+        console.log(data);
         const dataToSend = {
             ...data,
+            CONDUCTOR_ID_RH: Number(data.CONDUCTOR_ID_RH),
             CONDUCTOR_FOTO: base64
         }
-        if (conductorToEdit) {
-            updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID);
+        if (conductorToEdit.CONDUCTOR_ID !== 0) {
+            updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID).then(() => {
+                setConductorToEdit(null);
+                fetchData();
+                toast.success('Conductor actualizado correctamente');
+            }).catch((error) => {
+                console.error('Error updating driver:', error);
+                toast.error('Error actualizando conductor');
+            });
         } else {
-            createDriver(dataToSend);
+            createDriver(dataToSend).then(() => {
+                setConductorToEdit(null);
+                fetchData();
+                toast.success('Conductor creado correctamente');
+            }).catch((error) => {
+                console.error('Error creating driver:', error);
+                toast.error('Error creando conductor');
+            });
         }
     }
     const handleChange = ({ selectedRows }: any) => {
@@ -66,7 +89,29 @@ export default function page() {
     };
 
     const handleEdit = () => {
+        console.log("edit");
         setConductorToEdit(selectedRows[0]);
+    }
+
+    const handleCreate = () => {
+        console.log("create");
+        setConductorToEdit({
+            CONDUCTOR_ID: 0,
+            CONDUCTOR_PRIMERNOMBRE: '',
+            CONDUCTOR_SEGUNDONOMBRE: '',
+            CONDUCTOR_PRIMERAPELLIDO: '',
+            CONDUCTOR_SEGUNDOAPELLIDO: '',
+            CONDUCTOR_CORREO: '',
+            CONDUCTOR_CODCONDUCTOR: '',
+            CONDUCTOR_TELPERSONAL: '',
+            CONDUCTOR_TELCORPORATIVO: '',
+            CONDUCTOR_ID_TIPOIDENTIFICACION: 1,
+            CONDUCTOR_IDENTIFICACION: '',
+            CONDUCTOR_ID_RH: 1,
+            CONDUCTOR_ESTADO: 1,
+            CONDUCTOR_FOTO: null
+        })
+        setImgSelected("");
     }
 
     const handleChangeImage = (e: any) => {
@@ -164,6 +209,9 @@ export default function page() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+    }, [selectedRows, conductorToEdit, imgSelected, imgToChange, paginationOptions, loading, data, columns]);
+
     const columnas: any = [
         {
             name: 'Conductor',
@@ -229,7 +277,7 @@ export default function page() {
                 <div className="flex gap-3" >
                     <button disabled={selectedRows.length !== 1} className="btn btn-warning" onClick={() => handleEdit()} >Editar</button>
                     <button disabled={selectedRows.length === 0} className="btn btn-error" >Eliminar</button>
-                    <button className="btn btn-success" >Nuevo Conductor</button>
+                    <button className="btn btn-success" onClick={() => handleCreate()} >Nuevo Conductor</button>
                     <button className="btn btn-primary" onClick={() => generateDownloadExcel()}>Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                 </div>
 
@@ -243,143 +291,150 @@ export default function page() {
 
                 </div>
             </Modal>
-            <Modal id='modalEditConductor' className="rounded-xl " isOpen={conductorToEdit} canCloseEsc={false} onClose={() => setConductorToEdit(null)} >
-                <div className='modal-header flex justify-between items-center border-b w-full px-10' >
-                    <div />
-                    <h1 className='text-2xl font-bold' >Editar Conductor</h1>
-                    <button onClick={() => setConductorToEdit(null)} >
-                        <FaXmark />
-                    </button>
-                </div>
-                <div>
-                    <form className='p-10' >
-                        <div className='flex flex-col items-center gap-3'>
+            {
+                conductorToEdit !== null &&
+                <Modal id='modalEditConductor' className="rounded-xl " isOpen={conductorToEdit !== null} canCloseEsc={false} onClose={() => setConductorToEdit(null)} >
+                    <div className='modal-header flex justify-between items-center border-b w-full px-10' >
+                        <div />
+                        <h1 className='text-2xl font-bold' >
+                            {
+                                conductorToEdit ? "Editar Conductor" : "Nuevo Conductor"
+                            }
+                        </h1>
+                        <button onClick={() => setConductorToEdit(null)} >
+                            <FaXmark />
+                        </button>
+                    </div>
+                    <div>
+                        <form className='p-10' >
+                            <div className='flex flex-col items-center gap-3'>
 
-                            <div className='avatar size-48 relative' >
-                                {imgToChange ? (
-                                    <img src={URL.createObjectURL(imgToChange)} alt="conductor foto" className="rounded-full size-full object-cover" />
-                                ) : (
-                                    <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full size-full object-cover" />
-                                )}
-                                <button className="btn btn-primary rounded-full absolute top-0 right-0" onClick={(e) => {
-                                    e.preventDefault();
-                                    document.getElementById('imageLoader')?.click();
-                                }} ><FaPen /></button>
-                                <input type="file" className="hidden" id='imageLoader' accept='image/*' onChange={handleChangeImage} />
+                                <div className='avatar size-48 relative ' >
+                                    {imgToChange ? (
+                                        <img src={URL.createObjectURL(imgToChange)} alt="conductor foto" className="rounded-full border size-full object-cover" />
+                                    ) : (
+                                        <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full border size-full object-cover" />
+                                    )}
+                                    <button className="btn btn-primary rounded-full absolute top-0 right-0" onClick={(e) => {
+                                        e.preventDefault();
+                                        document.getElementById('imageLoader')?.click();
+                                    }} ><FaPen /></button>
+                                    <input type="file" className="hidden" id='imageLoader' accept='image/*' onChange={handleChangeImage} />
+                                </div>
+
+                                <div className='grid grid-cols-4 gap-5' >
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Primer Nombre</span>
+                                        </div>
+                                        <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERNOMBRE")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_PRIMERNOMBRE : ''} />
+
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Segundo Nombre</span>
+                                        </div>
+                                        <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDONOMBRE")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_SEGUNDONOMBRE : null} />
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Primer Apellido</span>
+                                        </div>
+                                        <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERAPELLIDO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_PRIMERAPELLIDO : null} />
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Segundo Apellido</span>
+                                        </div>
+                                        <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDOAPELLIDO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_SEGUNDOAPELLIDO : null} />
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Correo</span>
+                                        </div>
+                                        <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CORREO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_CORREO : "null"} />
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Código</span>
+                                        </div>
+                                        <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CODCONDUCTOR")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_CODCONDUCTOR : null} />
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Teléfono Personal</span>
+                                        </div>
+                                        <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELPERSONAL")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_TELPERSONAL : null} />
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Teléfono Corporativo</span>
+                                        </div>
+                                        <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELCORPORATIVO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_TELCORPORATIVO : null} />
+                                    </label>
+
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Tipo de Documento</span>
+                                        </div>
+                                        <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_ID_TIPOIDENTIFICACION : null} >
+                                            <option value="1">CEDULA DE CUIDADANIA</option>
+                                            <option value="2">NIT</option>
+                                            <option value="3">CEDULA DE EXTRANJERIA</option>
+                                            <option value="4">PEP</option>
+                                            <option value="5">PASAPORTE</option>
+                                            <option value="6">SIN IDENTIFICACION</option>
+                                            <option value="7">DOCUMENTO EXTRANJERO</option>
+                                            <option value="8">TARJETA DE IDENTIDAD</option>
+                                        </select>
+                                    </label>
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Número de Documento</span>
+                                        </div>
+                                        <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_IDENTIFICACION")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_IDENTIFICACION : null} />
+                                    </label>
+
+
+
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">RH</span>
+                                        </div>
+                                        <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_ID_RH : null}  >
+                                            <option value={1}>A -</option>
+                                            <option value={2}>A +</option>
+                                            <option value={3}>AB -</option>
+                                            <option value={4}>AB +</option>
+                                            <option value={5}>B -</option>
+                                            <option value={6}>B +</option>
+                                            <option value={7}>O -</option>
+                                            <option value={8}>O +</option>
+                                        </select>
+                                    </label>
+
+                                    <label className="form-control w-full max-w-xs">
+                                        <div className="label">
+                                            <span className="label-text">Estado</span>
+                                        </div>
+                                        <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ESTADO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_ESTADO : null}  >
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+                                        </select>
+                                    </label>
+
+                                </div>
+
                             </div>
 
-                            <div className='grid grid-cols-4 gap-5' >
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Primer Nombre</span>
-                                    </div>
-                                    <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERNOMBRE")} value={conductorToEdit?.CONDUCTOR_PRIMERNOMBRE} />
-
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Segundo Nombre</span>
-                                    </div>
-                                    <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDONOMBRE")} value={conductorToEdit?.CONDUCTOR_SEGUNDONOMBRE} />
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Primer Apellido</span>
-                                    </div>
-                                    <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERAPELLIDO")} value={conductorToEdit?.CONDUCTOR_PRIMERAPELLIDO} />
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Segundo Apellido</span>
-                                    </div>
-                                    <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDOAPELLIDO")} value={conductorToEdit?.CONDUCTOR_SEGUNDOAPELLIDO} />
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Correo</span>
-                                    </div>
-                                    <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CORREO")} value={conductorToEdit?.CONDUCTOR_CORREO} />
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Código</span>
-                                    </div>
-                                    <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CODCONDUCTOR")} value={conductorToEdit?.CONDUCTOR_CODCONDUCTOR} />
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Teléfono Personal</span>
-                                    </div>
-                                    <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELPERSONAL")} value={conductorToEdit?.CONDUCTOR_TELPERSONAL} />
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Teléfono Corporativo</span>
-                                    </div>
-                                    <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELCORPORATIVO")} value={conductorToEdit?.CONDUCTOR_TELCORPORATIVO} />
-                                </label>
-
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Tipo de Documento</span>
-                                    </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} value={conductorToEdit.CONDUCTOR_ID_TIPOIDENTIFICACION || null} >
-                                        <option value="1">CEDULA DE CUIDADANIA</option>
-                                        <option value="2">NIT</option>
-                                        <option value="3">CEDULA DE EXTRANJERIA</option>
-                                        <option value="4">PEP</option>
-                                        <option value="5">PASAPORTE</option>
-                                        <option value="6">SIN IDENTIFICACION</option>
-                                        <option value="7">DOCUMENTO EXTRANJERO</option>
-                                        <option value="8">TARJETA DE IDENTIDAD</option>
-                                    </select>
-                                </label>
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Número de Documento</span>
-                                    </div>
-                                    <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_IDENTIFICACION")} value={conductorToEdit?.CONDUCTOR_IDENTIFICACION} />
-                                </label>
-
-
-
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">RH</span>
-                                    </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} value={conductorToEdit.CONDUCTOR_ID_RH || null} >
-                                        <option value="1">A -</option>
-                                        <option value="2">A +</option>
-                                        <option value="3">AB -</option>
-                                        <option value="4">AB +</option>
-                                        <option value="5">B -</option>
-                                        <option value="6">B +</option>
-                                        <option value="7">O -</option>
-                                        <option value="8">O +</option>
-                                    </select>
-                                </label>
-
-                                <label className="form-control w-full max-w-xs">
-                                    <div className="label">
-                                        <span className="label-text">Estado</span>
-                                    </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("estado")} >
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
-                                    </select>
-                                </label>
-
+                            <div className='flex justify-center gap-5 mt-5' >
+                                <button className="btn btn-error" onClick={() => setConductorToEdit(null)} >Cancelar</button>
+                                <button type="submit" onClick={handleSubmit(onSubmit)} className="btn btn-success" >Guardar</button>
                             </div>
-
-                        </div>
-
-                        <div className='flex justify-center gap-5 mt-5' >
-                            <button className="btn btn-error" onClick={() => setConductorToEdit(null)} >Cancelar</button>
-                            <button type="submit" onClick={handleSubmit(onSubmit)} className="btn btn-success" >Guardar</button>
-                        </div>
-                    </form>
-                </div>
-            </Modal>
+                        </form>
+                    </div>
+                </Modal>
+            }
         </div>
     )
 }
