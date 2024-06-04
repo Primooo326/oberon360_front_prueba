@@ -1,8 +1,7 @@
 "use client"
 import React from 'react'
-import { downloadExcel, getDrivers, findAllDrivers } from '@/api/conductor.api';
+import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver } from '@/api/conductor.api';
 import Table from '@/components/Shared/Table/Table';
-import { responseTableDriverExample } from '@/utils/dataTemCond';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Modal from '@/components/Shared/Modal';
@@ -12,18 +11,158 @@ export default function page() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit: SubmitHandler<any> = (data) => {
-        // console.log(data);
-    }
+
 
     const [data, setData] = useState<any[]>([]);
+
     const [columns, setColumns] = useState<any[]>([]);
 
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
     const [imgSelected, setImgSelected] = useState<string>("");
 
+    const [imgToChange, setImgToChange] = useState<any>();
+
     const [conductorToEdit, setConductorToEdit] = useState<any>(null);
+
+    const [paginationOptions, setPaginationOptions] = useState<any>({
+        currentItems: data,
+        page: 1,
+        take: 10,
+        itemCount: data.length,
+        pageCount: 1,
+        hasPreviousPage: false,
+        hasNextPage: false
+    });
+
+    const [loading, setLoading] = useState<boolean>(true);
+
+
+    const onSubmit: SubmitHandler<any> = (data) => {
+        console.log(data);
+        console.log(imgToChange);
+        let base64 = null;
+        const reader = new FileReader();
+        reader.readAsDataURL(imgToChange);
+        reader.onloadend = () => {
+            base64 = reader.result?.toString().split(',')[1];
+        }
+        reader.onerror = () => {
+            console.error('Error reading file');
+        }
+
+        const dataToSend = {
+            ...data,
+            CONDUCTOR_FOTO: base64
+        }
+        if (conductorToEdit) {
+            updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID);
+        } else {
+            createDriver(dataToSend);
+        }
+    }
+    const handleChange = ({ selectedRows }: any) => {
+        setSelectedRows(selectedRows);
+    };
+
+    const handleEdit = () => {
+        setConductorToEdit(selectedRows[0]);
+    }
+
+    const handleChangeImage = (e: any) => {
+        const file = e.target.files[0];
+        setImgToChange(file);
+    }
+
+    const generateDownloadExcel = async () => {
+        let data = [];
+        if (selectedRows.length) {
+            data = selectedRows;
+        } else {
+            const response = await findAllDrivers();
+            data = response?.data;
+        }
+
+        const dataExport = await getDataExport(data);
+
+        const responseExcel = await downloadExcel(dataExport);
+
+        if (responseExcel) {
+            const url = window.URL.createObjectURL(new Blob([responseExcel], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Conductores.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        }
+    };
+
+    const getDataExport = async (data: any[]): Promise<any[]> => {
+        const dataExport: { [key: string]: any }[] = [];
+
+        data.forEach((element: any) => {
+            dataExport.push({
+                "ID": element?.CONDUCTOR_ID,
+                "Tipo de Documento": element?.typeIdentification?.TIP_IDEN_DESCRIPCION,
+                "Documento": element?.CONDUCTOR_IDENTIFICACION,
+                "Código": element?.CONDUCTOR_CODCONDUCTOR,
+                "Nombre Completo": `${element?.CONDUCTOR_PRIMERNOMBRE} ${element?.CONDUCTOR_SEGUNDONOMBRE} ${element?.CONDUCTOR_PRIMERAPELLIDO} ${element?.CONDUCTOR_SEGUNDOAPELLIDO}`,
+                "Teléfono Personal": element?.CONDUCTOR_TELPERSONAL,
+                "Teléfono Corporativo": element?.CONDUCTOR_TELCORPORATIVO,
+                "Correo Electrónico": element?.CONDUCTOR_CORREO,
+                "RH": element?.factorRh?.FACTOR_RH_DESCRIPCION
+            });
+        });
+
+        return dataExport;
+    };
+
+    const onChangePage = (page: number) => {
+        console.log('page', page);
+        setPaginationOptions({ ...paginationOptions, page });
+        fetchData(page);
+    }
+
+    const onChangePerPage = (newPerPage: number, page: number) => {
+        console.log('newPerPage', newPerPage);
+        console.log('page', page);
+        if (newPerPage > paginationOptions.take) {
+            fetchData(page, newPerPage);
+
+        } else {
+            fetchData(1, newPerPage);
+
+        }
+    }
+
+
+    const fetchData = async (page: number = paginationOptions.page, take: number = paginationOptions.take) => {
+        try {
+            setLoading(true);
+            const response2 = await getDrivers(page, take);
+
+            setColumns(columnas);
+            setData(response2.data);
+            setPaginationOptions({
+                currentItems: response2.data,
+                page: response2.meta.page,
+                take: response2.meta.take,
+                itemCount: response2.meta.itemCount,
+                pageCount: response2.meta.pageCount,
+                hasPreviousPage: response2.meta.hasPreviousPage,
+                hasNextPage: response2.meta.hasNextPage
+            });
+            console.log(response2);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.error('Error fetching data:', error);
+        }
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const columnas: any = [
         {
@@ -58,8 +197,8 @@ export default function page() {
         },
         {
             name: "RH",
-            cell: (row: any) => row.factorRh.FACTOR_RH_DESCRIPCION,
-            selector: (row: any) => row.factorRh.FACTOR_RH_DESCRIPCION,
+            cell: (row: any) => row.factorRh ? row.factorRh.FACTOR_RH_DESCRIPCION : "No definido",
+            selector: (row: any) => row.factorRh ? row.factorRh.FACTOR_RH_DESCRIPCION : "No definido",
 
         },
         {
@@ -73,96 +212,8 @@ export default function page() {
             selector: (row: any) => row.CONDUCTOR_TELCORPORATIVO,
         }
     ];
-    const handleChange = ({ selectedRows }: any) => {
-        setSelectedRows(selectedRows);
-    };
-
-    const handleEdit = () => {
-        setConductorToEdit(selectedRows[0]);
-    }
-
-    const generateDownloadExcel = async () => {
-        let data = [];
-        if (selectedRows.length) {
-            data = selectedRows;
-        } else {
-            const response = await findAllDrivers();
-            data = response?.data;
-        }
-
-        const dataExport = await getDataExport(data);
-
-        const responseExcel = await downloadExcel(dataExport);
-    
-        if (responseExcel) {
-            const url = window.URL.createObjectURL(new Blob([responseExcel], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'Conductores.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-        }
-    };
-
-    const getDataExport = async (data: any[]): Promise<any[]> => {
-        const dataExport: { [key: string]: any }[] = [];
-        
-        data.forEach((element: any) => {
-            dataExport.push({
-                "ID": element?.CONDUCTOR_ID,
-                "Tipo de Documento": element?.typeIdentification?.TIP_IDEN_DESCRIPCION,
-                "Documento": element?.CONDUCTOR_IDENTIFICACION,
-                "Código": element?.CONDUCTOR_CODCONDUCTOR,
-                "Nombre Completo": element?.CONDUCTOR_PRIMERNOMBRE + " " + element?.CONDUCTOR_SEGUNDONOMBRE + " " + element?.CONDUCTOR_PRIMERAPELLIDO + " " + element?.CONDUCTOR_SEGUNDOAPELLIDO,
-                "Teléfono Personal": element?.CONDUCTOR_TELPERSONAL,
-                "Teléfono Corporativo": element?.CONDUCTOR_TELCORPORATIVO,
-                "Correo Electrónico": element?.CONDUCTOR_CORREO,
-                "RH": element?.factorRh?.FACTOR_RH_DESCRIPCION
-            });
-        });
-    
-        return dataExport;
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await responseTableDriverExample("api/conductores");
-                const response2 = await getDrivers();
-
-                setColumns(columnas);
-                setData(response2.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-    // conductor example:
-    //     {
-    //     "CONDUCTOR_ID": "23",
-    //     "CONDUCTOR_IDENTIFICACION": "1233492669",
-    //     "CONDUCTOR_CODCONDUCTOR": "12345",
-    //     "CONDUCTOR_PRIMERNOMBRE": "DANIEL",
-    //     "CONDUCTOR_SEGUNDONOMBRE": "ALFONSO",
-    //     "CONDUCTOR_PRIMERAPELLIDO": "GALLEGO",
-    //     "CONDUCTOR_SEGUNDOAPELLIDO": "PEÑA",
-    //     "CONDUCTOR_TELPERSONAL": "3002534104",
-    //     "CONDUCTOR_TELCORPORATIVO": "3227848121",
-    //     "CONDUCTOR_CORREO": "OBERON@THOMASGREG.COM",
-    //     "CONDUCTOR_ESTADO": "0",
-    //     "CONDUCTOR_FECINGRESO": null,
-    //     "typeIdentification": {
-    //         "TIP_IDEN_DESCRIPCION": "CEDULA DE CUIDADANIA"
-    //     },
-    //     "factorRh": {
-    //         "FACTOR_RH_DESCRIPCION": "O +"
-    //     }
-    // }
     return (
-        <div className='w-full h-full scroll p-8' >
+        <div className='w-full h-full overflow-auto scroll p-8' >
             <div className="flex gap-5 mb-8 items-center">
                 <h1 className='font-bold text-3xl' >
                     Listado de Conductores
@@ -184,11 +235,12 @@ export default function page() {
 
             </div>
             <Table data={data} columns={columns} selectableRows
-                onSelectedRowsChange={handleChange} />
+                onSelectedRowsChange={handleChange} paginationOptions={paginationOptions} onChangePage={onChangePage} onChangePerPage={onChangePerPage} progressPending={loading} />
 
             <Modal id="modalConductor" className="rounded-full" isOpen={imgSelected !== ""} onClose={() => { setImgSelected("") }} >
                 <div className='size-[520px] p-5' >
                     <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full size-full object-cover" />
+
                 </div>
             </Modal>
             <Modal id='modalEditConductor' className="rounded-xl " isOpen={conductorToEdit} canCloseEsc={false} onClose={() => setConductorToEdit(null)} >
@@ -200,15 +252,20 @@ export default function page() {
                     </button>
                 </div>
                 <div>
-                    <form onSubmit={handleSubmit(onSubmit)} className='p-10' >
+                    <form className='p-10' >
                         <div className='flex flex-col items-center gap-3'>
 
                             <div className='avatar size-48 relative' >
-                                <img src={`data:image/jpeg;base64,${conductorToEdit?.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full size-48 object-cover" />
-                                <button className="btn btn-primary rounded-full absolute top-0 right-0" onClick={() => {
+                                {imgToChange ? (
+                                    <img src={URL.createObjectURL(imgToChange)} alt="conductor foto" className="rounded-full size-full object-cover" />
+                                ) : (
+                                    <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full size-full object-cover" />
+                                )}
+                                <button className="btn btn-primary rounded-full absolute top-0 right-0" onClick={(e) => {
+                                    e.preventDefault();
                                     document.getElementById('imageLoader')?.click();
                                 }} ><FaPen /></button>
-                                <input type="file" className="hidden" id='imageLoader' accept='image/*' />
+                                <input type="file" className="hidden" id='imageLoader' accept='image/*' onChange={handleChangeImage} />
                             </div>
 
                             <div className='grid grid-cols-4 gap-5' >
@@ -216,67 +273,72 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">Primer Nombre</span>
                                     </div>
-                                    <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("nombre")} value={conductorToEdit?.CONDUCTOR_PRIMERNOMBRE} />
+                                    <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERNOMBRE")} value={conductorToEdit?.CONDUCTOR_PRIMERNOMBRE} />
 
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Segundo Nombre</span>
                                     </div>
-                                    <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("segundoNombre")} value={conductorToEdit?.CONDUCTOR_SEGUNDONOMBRE} />
+                                    <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDONOMBRE")} value={conductorToEdit?.CONDUCTOR_SEGUNDONOMBRE} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Primer Apellido</span>
                                     </div>
-                                    <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("primerApellido")} value={conductorToEdit?.CONDUCTOR_PRIMERAPELLIDO} />
+                                    <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERAPELLIDO")} value={conductorToEdit?.CONDUCTOR_PRIMERAPELLIDO} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Segundo Apellido</span>
                                     </div>
-                                    <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("segundoApellido")} value={conductorToEdit?.CONDUCTOR_SEGUNDOAPELLIDO} />
+                                    <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDOAPELLIDO")} value={conductorToEdit?.CONDUCTOR_SEGUNDOAPELLIDO} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Correo</span>
                                     </div>
-                                    <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("correo")} value={conductorToEdit?.CONDUCTOR_CORREO} />
+                                    <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CORREO")} value={conductorToEdit?.CONDUCTOR_CORREO} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Código</span>
                                     </div>
-                                    <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("codigo")} value={conductorToEdit?.CONDUCTOR_CODCONDUCTOR} />
+                                    <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CODCONDUCTOR")} value={conductorToEdit?.CONDUCTOR_CODCONDUCTOR} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Teléfono Personal</span>
                                     </div>
-                                    <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("telefonoPersonal")} value={conductorToEdit?.CONDUCTOR_TELPERSONAL} />
+                                    <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELPERSONAL")} value={conductorToEdit?.CONDUCTOR_TELPERSONAL} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Teléfono Corporativo</span>
                                     </div>
-                                    <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("telefonoCorporativo")} value={conductorToEdit?.CONDUCTOR_TELCORPORATIVO} />
+                                    <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELCORPORATIVO")} value={conductorToEdit?.CONDUCTOR_TELCORPORATIVO} />
                                 </label>
 
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Tipo de Documento</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("tipoDocumento")} >
-                                        <option value="1">Cédula de Ciudadanía</option>
-                                        <option value="2">Cédula de Extranjería</option>
-                                        <option value="3">Pasaporte</option>
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} value={conductorToEdit.CONDUCTOR_ID_TIPOIDENTIFICACION || null} >
+                                        <option value="1">CEDULA DE CUIDADANIA</option>
+                                        <option value="2">NIT</option>
+                                        <option value="3">CEDULA DE EXTRANJERIA</option>
+                                        <option value="4">PEP</option>
+                                        <option value="5">PASAPORTE</option>
+                                        <option value="6">SIN IDENTIFICACION</option>
+                                        <option value="7">DOCUMENTO EXTRANJERO</option>
+                                        <option value="8">TARJETA DE IDENTIDAD</option>
                                     </select>
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Número de Documento</span>
                                     </div>
-                                    <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("numeroDocumento")} value={conductorToEdit?.CONDUCTOR_IDENTIFICACION} />
+                                    <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_IDENTIFICACION")} value={conductorToEdit?.CONDUCTOR_IDENTIFICACION} />
                                 </label>
 
 
@@ -285,15 +347,15 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">RH</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("rh")} >
-                                        <option value="1">O +</option>
-                                        <option value="2">O -</option>
-                                        <option value="3">A +</option>
-                                        <option value="4">A -</option>
-                                        <option value="5">B +</option>
-                                        <option value="6">B -</option>
-                                        <option value="7">AB +</option>
-                                        <option value="8">AB -</option>
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} value={conductorToEdit.CONDUCTOR_ID_RH || null} >
+                                        <option value="1">A -</option>
+                                        <option value="2">A +</option>
+                                        <option value="3">AB -</option>
+                                        <option value="4">AB +</option>
+                                        <option value="5">B -</option>
+                                        <option value="6">B +</option>
+                                        <option value="7">O -</option>
+                                        <option value="8">O +</option>
                                     </select>
                                 </label>
 
@@ -313,7 +375,7 @@ export default function page() {
 
                         <div className='flex justify-center gap-5 mt-5' >
                             <button className="btn btn-error" onClick={() => setConductorToEdit(null)} >Cancelar</button>
-                            <button type="submit" className="btn btn-success" >Guardar</button>
+                            <button type="submit" onClick={handleSubmit(onSubmit)} className="btn btn-success" >Guardar</button>
                         </div>
                     </form>
                 </div>
