@@ -128,7 +128,7 @@ export default function Drawer() {
                 )}
             </AnimatePresence> */}
             <AnimatePresence>
-                {showDrawer && (
+                {showDrawer && currentSubMenu && (
                     <motion.div
                         initial={{ x: '-100%' }}
                         animate={{ x: 0 }}
@@ -137,7 +137,7 @@ export default function Drawer() {
                         className="sidebar"
                     >
                         {
-                            currentSubMenu ? currentSubMenu.component : subMenus[0].component
+                            currentSubMenu.component
                         }
                     </motion.div>
                 )}

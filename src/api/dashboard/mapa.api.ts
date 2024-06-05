@@ -1,4 +1,4 @@
-import { fetchApiWeb } from "./instances";
+import { fetchApiWeb } from "../instances";
 export const ubicacionesClientes = async (idCliente?: string | number) => {
     return await fetchApiWeb.post("map/getUbications", {
         CLIUBIC_ID_CLIENT: idCliente || null

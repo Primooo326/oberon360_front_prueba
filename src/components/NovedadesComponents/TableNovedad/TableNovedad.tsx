@@ -1,5 +1,5 @@
 "use client"
-import { getDrivers } from '@/api/conductor.api';
+import { getDrivers } from '@/api/dashboard/parametros/conductor.api';
 import Table from '@/components/shared/Table/Table';
 import { responseTableExample } from '@/utils/dataTemp';
 import { generateColumns } from '@/utils/tools';
@@ -9,7 +9,7 @@ export default function TableNovedad() {
 
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,7 +23,7 @@ export default function TableNovedad() {
         console.error('Error fetching data:', error);
       }
     };
- 
+
     fetchData();
   }, []);
   return <Table data={data} columns={columns} />

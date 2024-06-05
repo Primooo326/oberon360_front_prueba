@@ -1,10 +1,10 @@
 import "./ResetCard.css"
-import { changePassword } from "@/api/auth.api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Image from "next/image";
+import { changePassword } from "@/api/dashboard/auth.api";
 export default function ResetCard({ setCargando }: { setCargando: (b: boolean) => void }) {
     const router = useRouter()
 

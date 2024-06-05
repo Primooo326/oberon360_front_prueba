@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver, deleteDriver } from '@/api/conductor.api';
+import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver, deleteDriver } from '@/api/dashboard/parametros/conductor.api';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Modal from '@/components/shared/Modal';
@@ -306,7 +306,7 @@ export default function page() {
         },
         {
             name: "Estado",
-            cell: (row: any) => row.CONDUCTOR_ESTADO ? <span className='badge badge-error'> Inactivo</span> : <span className='badge badge-success'> Activo</span>,
+            cell: (row: any) => row.CONDUCTOR_ESTADO !== "1" ? <span className='badge badge-error'> Inactivo</span> : <span className='badge badge-success'> Activo</span>,
             selector: (row: any) => row.CONDUCTOR_ESTADO,
         },
         {

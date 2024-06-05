@@ -1,12 +1,12 @@
 
 import "./LoginCard.css"
-import { login } from "@/api/auth.api";
 import { useLoginStore } from "@/states/Login.state";
 import { verifyJWT } from "@/utils/tools";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { login } from "@/api/dashboard/auth.api";
 export default function LoginCard({ setCargando, setReset }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
     const router = useRouter();
     const { setToken, setUser } = useLoginStore()
