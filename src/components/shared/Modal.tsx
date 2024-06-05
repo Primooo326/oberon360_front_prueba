@@ -40,6 +40,8 @@ export default function Modal({
         }
     }, [isOpen, handleKeyDown]);
 
+    useEffect(() => { }, [children]);
+
     return (
         <>
             {isOpen && (
