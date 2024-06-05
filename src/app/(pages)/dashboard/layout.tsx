@@ -1,8 +1,8 @@
 "use client"
 
 import { useSystemStore } from '@/states/System.state';
-import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary, getEventsShips } from "@/api/mapa.api";
-import IconoCargando from "@components/Shared/IconoCargando/IconoCargando";
+import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary, getEventsShips } from "@/api/dashboard/mapa.api";
+import IconoCargando from "@components/shared/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";
@@ -20,7 +20,7 @@ import MainLayout from "@/layouts/MainLayout"
 import "./Dashboard.css"
 import { useFiltrosMapa } from "@/states/FiltrosMapa.state";
 import { useOleoductosStore } from "@/states/Oleoductos.state";
-import Drawer from '@/components/Shared/Drawer/Drawer';
+import Drawer from '@/components/shared/Drawer/Drawer';
 
 export default function RootLayout({
   children,
@@ -194,13 +194,29 @@ export default function RootLayout({
     if (filtrosMapaRef.current.oleoductosFiltro) {
       getOleoductos();
     }
+
   }
   useEffect(() => {
     const filtros = JSON.parse(localStorage.getItem("filtrosMapa") || "{}")
 
     if (filtros) {
       initFiltrosMapa(filtros)
+
+      if (filtros.mobileFiltro) {
+        getMobiles();
+      }
+      if (filtros.telemetriaFiltro) {
+        getVehiculos();
+      }
+      if (filtros.proteccionFiltro) {
+        getData();
+      }
+      if (filtros.oleoductosFiltro) {
+        getOleoductos();
+      }
+
     }
+    getIndicadores();
 
     fetchData()
     const interval = setInterval(fetchData, 5000);

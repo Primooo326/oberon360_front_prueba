@@ -1,4 +1,6 @@
+import CustomCell from '@/components/shared/Table/CustomCell'
 import { JWT_SECRET } from '@/config'
+import type { IHeaderCustomTable } from '@/models/customComponents.model'
 import type { IItenary, IItenaryEvaluated, TipDocSiglas, TipoDocumento } from '@/models/vehiculos.model'
 import * as jose from 'jose'
 
@@ -21,6 +23,8 @@ export const formatFecha = (fecha: string) => {
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
+        timeZone: 'UTC',
+        hour12: true,
     }
     const fechaDate = new Date(fecha)
     return fechaDate.toLocaleDateString('es-ES', fechaOptions)
@@ -117,4 +121,33 @@ export const defineSiglTipDoc = (tipDoc: TipoDocumento): TipDocSiglas => {
             return "SIN"
     }
 
+}
+export function getValueBySelector(obj: any, selector: string) {
+    console.log(selector);
+    if (!selector) return "obj";
+    return selector.split('.').reduce((o, i) => (o ? o[i] : undefined), obj);
+}
+export const generateColumns = (columns: IHeaderCustomTable[]) => {
+
+    return columns.map((column: IHeaderCustomTable) => {
+        console.log(column.selector);
+        return {
+            name: column.name,
+            selector: column.selector ? (row: any) => getValueBySelector(row, column.selector!) : undefined,
+            sortable: column.sortable,
+            cell: column.type ? (row: any) => {
+                switch (column.type) {
+
+                    case 'button':
+                        return CustomCell.Button({ ...column.props as any, });
+                    case 'badge':
+                        return CustomCell.Badge({ options: column.props as any, children: getValueBySelector(row, column.selector!) });
+                    case 'avatar':
+                        return CustomCell.Avatar({ src: column.props?.src, options: column.props as any });
+                    case 'cell':
+                        return CustomCell({ children: getValueBySelector(row, column.selector!) });
+                }
+            } : undefined
+        }
+    })
 }

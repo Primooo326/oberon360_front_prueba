@@ -1,4 +1,4 @@
-import { fetchApiBase } from "./instances";
+import { fetchApiBase } from "../instances";
 
 export const login = async (Login: {
     user: string;

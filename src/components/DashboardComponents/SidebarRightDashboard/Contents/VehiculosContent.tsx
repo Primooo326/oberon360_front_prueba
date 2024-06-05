@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import type { IConductor, IItenaryEvaluated, IItinerario } from "@/models/vehiculos.model";
 import { defineSiglTipDoc, formatFecha } from "@/utils/tools";
 import { IoWarning } from "react-icons/io5";
-import { getInfoDriver } from "@/api/mapa.api";
+import { getInfoDriver } from "@/api/dashboard/mapa.api";
 import Image from "next/image";
 import { useSystemStore } from "@/states/System.state";
 export default function VehiculosContent() {

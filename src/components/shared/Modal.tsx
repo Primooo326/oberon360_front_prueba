@@ -1,13 +1,54 @@
-import React from 'react'
+import type React from 'react'
+import { useEffect } from 'react'
 import "@/styles/components/shared/modal.scss"
-export default function Modal({ children, id, ...props }: { children: any; id: string, [key: string]: any }) {
+export interface ModalProps {
+    children: React.ReactNode;
+    id: string;
+    className?: string;
+    isOpen: boolean;
+    canCloseEsc?: boolean;
+    canCloseOut?: boolean;
+    onClose: () => void;
+}
 
+export default function Modal({
+    children,
+    id,
+    className,
+    isOpen,
+    canCloseEsc = true,
+    canCloseOut = true,
+    onClose,
+}: ModalProps) {
+    const handleKeyDown = (e: any) => {
+        if (e.keyCode === 27 && canCloseEsc) {
+            onClose();
+        }
+    };
+
+    const handleClickOut = (e: any) => {
+        if ((e.target as HTMLElement).id === id && canCloseOut) {
+            onClose();
+        }
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener('keydown', handleKeyDown);
+        } else {
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [isOpen, handleKeyDown]);
+
+    useEffect(() => { }, [children]);
 
     return (
-        <section id={id} className='modale' >
-            <div className={`modal-content ${props.className}`} >
-                {children}
-            </div>
-        </section>
-    )
+        <>
+            {isOpen && (
+                <section id={id} className="modale" onClick={handleClickOut}>
+                    <div className={`modal-content ${className}`}>{children}</div>
+                </section>
+            )}
+        </>
+    );
 }

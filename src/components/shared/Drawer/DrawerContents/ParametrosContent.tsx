@@ -1,39 +1,85 @@
+import { useSystemStore } from '@/states/System.state'
+import { useRouter } from 'next/navigation'
 import React from 'react'
+import { MdAltRoute, MdFaceUnlock, MdManageAccounts, MdOutlineBuildCircle, MdOutlineCategory, MdOutlineEventAvailable, MdOutlineFolder, MdOutlineLocalShipping, MdOutlineLocationOn, MdOutlinePayments, MdOutlineRule } from 'react-icons/md'
 
 export default function ParametrosContent() {
+    const { setShowDrawer } = useSystemStore()
+    const router = useRouter()
+
+    const parametros = [
+
+        { title: "Directorio", href: "", icon: <MdOutlineFolder className="w-6 h-auto text-gray-500" /> },
+        { title: "Responsable Protocolo", href: "", icon: <MdManageAccounts className="w-6 h-auto text-gray-500" /> },
+        { title: "Actividad", href: "", icon: <MdOutlineEventAvailable className="w-6 h-auto text-gray-500" /> },
+        { title: "Protocolo", href: "/parametros/protocolos", icon: <MdOutlineRule className="w-6 h-auto text-gray-500" /> },
+        { title: "Categoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto text-gray-500" /> },
+        { title: "Subcategoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto text-gray-500" /> },
+        { title: "Motivo Viaticos", href: "", icon: <MdOutlinePayments className="w-6 h-auto text-gray-500" /> },
+        { title: "Categoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto text-gray-500" /> },
+        { title: "Subcategoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto text-gray-500" /> },
+        { title: "Conductores", href: "/parametros/conductores", icon: <MdFaceUnlock className="w-6 h-auto text-gray-500" /> },
+        { title: "Puntos", href: "", icon: <MdOutlineLocationOn className="w-6 h-auto text-gray-500" /> },
+        { title: "Itinerario", href: "", icon: <MdAltRoute className="w-6 h-auto text-gray-500" /> },
+        { title: "Vehiculos", href: "", icon: <MdOutlineLocalShipping className="w-6 h-auto text-gray-500" /> },
+    ]
+
+    const parametros2 = [
+
+        { title: "Directorio", href: "", icon: <MdOutlineFolder className="w-6 h-auto text-gray-500" /> },
+
+        {
+            parent: "Protocolos",
+            childrens: [
+                { title: "Responsable Protocolo", href: "", icon: <MdManageAccounts className="w-6 h-auto text-gray-500" /> },
+                { title: "Actividad", href: "", icon: <MdOutlineEventAvailable className="w-6 h-auto text-gray-500" /> },
+                { title: "Protocolos", href: "/parametros/protocolos", icon: <MdOutlineRule className="w-6 h-auto text-gray-500" /> },
+            ]
+        },
+
+        {
+            parent: "Novedades",
+            childrens: [
+                { title: "Categoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto text-gray-500" /> },
+                { title: "Subcategoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto text-gray-500" /> },
+            ]
+        },
+        { title: "Motivo Viaticos", href: "", icon: <MdOutlinePayments className="w-6 h-auto text-gray-500" /> },
+        { title: "Categoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto text-gray-500" /> },
+        { title: "Subcategoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto text-gray-500" /> },
+        { title: "Conductores", href: "/parametros/conductores", icon: <MdFaceUnlock className="w-6 h-auto text-gray-500" /> },
+        { title: "Puntos", href: "", icon: <MdOutlineLocationOn className="w-6 h-auto text-gray-500" /> },
+        { title: "Itinerario", href: "", icon: <MdAltRoute className="w-6 h-auto text-gray-500" /> },
+        { title: "Vehiculos", href: "", icon: <MdOutlineLocalShipping className="w-6 h-auto text-gray-500" /> },
+    ]
+
     return (
-        <div className="mt-8 space-y-4">
-            <h2 className="text-xl font-bold">Parámetros</h2>
-            <div className="flex space-x-4">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro1" className="text-sm">Parámetro 1</label>
-                    <input type="text" id="parametro1" className="input input-primary" />
-                </div>
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro2" className="text-sm">Parámetro 2</label>
-                    <input type="text" id="parametro2" className="input input-primary" />
-                </div>
-            </div>
-            <div className="flex space-x-4">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro3" className="text-sm">Parámetro 3</label>
-                    <input type="text" id="parametro3" className="input input-primary" />
-                </div>
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro4" className="text-sm">Parámetro 4</label>
-                    <input type="text" id="parametro4" className="input input-primary" />
-                </div>
-            </div>
-            <div className="flex space-x-4">
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro5" className="text-sm">Parámetro 5</label>
-                    <input type="text" id="parametro5" className="input input-primary" />
-                </div>
-                <div className="flex flex-col space-y-2">
-                    <label htmlFor="parametro6" className="text-sm">Parámetro 6</label>
-                    <input type="text" id="parametro6" className="input input-primary" />
-                </div>
-            </div>
+        <div className="px-4">
+            {/* <ul className="menu rounded-box">
+                {parametros.map((parametro, index) => (
+                    <li key={index}><a onClick={() => { setShowDrawer(false); router.push(parametro.href) }} >{parametro.icon}{parametro.title}</a></li>
+                ))}
+            </ul> */}
+
+            <ul className="menu rounded-box">
+                {parametros2.map((parametro, index) => (
+                    <li key={index}>
+                        {parametro.parent ? (
+                            <>
+                                <a>{parametro.parent}</a>
+                                <ul>
+                                    {parametro.childrens.map((child, index) => (
+                                        <li key={index}><a onClick={() => { setShowDrawer(false); router.push(child.href) }} >{child.icon}{child.title}</a></li>
+                                    ))}
+                                </ul>
+                            </>
+                        ) : (
+                            <a onClick={() => { setShowDrawer(false); router.push(parametro.href) }} >{parametro.icon}{parametro.title}</a>
+                        )}
+                    </li>
+                ))}
+            </ul>
+
         </div>
     )
 }

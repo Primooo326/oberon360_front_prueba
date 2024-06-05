@@ -1,12 +1,12 @@
 
 import "./LoginCard.css"
-import { login } from "@/api/auth.api";
 import { useLoginStore } from "@/states/Login.state";
 import { verifyJWT } from "@/utils/tools";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { login } from "@/api/dashboard/auth.api";
 export default function LoginCard({ setCargando, setReset }: { setCargando: (b: boolean) => void, setReset: (b: boolean) => void }) {
     const router = useRouter();
     const { setToken, setUser } = useLoginStore()
@@ -50,7 +50,11 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
     const verifyToken = async (token: string) => {
         const data = await verifyJWT(token)
         if (data !== false) {
+            setCargando(false)
             router.push("/dashboard")
+        } else {
+            setCargando(false)
+
         }
     }
 
@@ -59,6 +63,8 @@ export default function LoginCard({ setCargando, setReset }: { setCargando: (b: 
         if (token) {
             verifyToken(token)
         }
+        setCargando(false)
+
     }, [])
 
     return (

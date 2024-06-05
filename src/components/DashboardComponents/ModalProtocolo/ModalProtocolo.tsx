@@ -7,7 +7,7 @@ import { FiFilePlus } from "react-icons/fi";
 import { CiCirclePlus } from "react-icons/ci";
 import { LuPlus } from "react-icons/lu";
 import { FaRegFileArchive, FaRegFileAlt } from "react-icons/fa";
-import Modal from "@/components/Shared/Modal";
+import Modal from "@/components/shared/Modal";
 export default function ModalProtocolo() {
 
 
@@ -64,7 +64,7 @@ export default function ModalProtocolo() {
     return (
         <>
             {showModalProtocolo &&
-                <Modal id='modalPrueba' className="w-[70%] h-[70%] rounded-xl border flex flex-col">
+                <Modal id='modalPrueba' className="w-[70%] h-[70%] rounded-xl border flex flex-col" isOpen={showModalProtocolo} onClose={() => setShowModalProtocolo(false)}>
                     <div className='modal-header flex justify-between items-center border-b w-full px-10' >
                         <div />
                         <h1 className='text-2xl font-bold' >Protocolo</h1>

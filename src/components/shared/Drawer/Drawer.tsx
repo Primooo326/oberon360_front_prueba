@@ -5,13 +5,12 @@ import { FiSettings } from "react-icons/fi";
 import { useSystemStore } from "@/states/System.state";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { IoSearchOutline } from "react-icons/io5";
 import { LuUserCog2 } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
-import FiltrosContent from "./DrawerContents/FiltrosContent";
-import SubmenuDrawerContainer from "./SubmenuDrawerContainer";
 import { useState } from "react";
+import FiltrosContent from "./DrawerContents/FiltrosContent";
 import ParametrosContent from "./DrawerContents/ParametrosContent";
+import SubmenuDrawerContainer from "./SubmenuDrawerContainer";
 interface SubMenu {
     title: string;
     icon: JSX.Element;
@@ -88,6 +87,12 @@ export default function Drawer() {
                     ))}
                 </div>
                 <div className="flex flex-col items-center space-y-6" >
+                    {/* <div className="tooltip tooltip-right" data-tip="Buscar componentes">
+
+                        <button className={styleSubmenu} onClick={() => router.push("/components")} >
+                            <IoSearchOutline className="w-6 h-auto" />
+                        </button>
+                    </div> */}
 
                     <button className={styleSubmenu} onClick={() => theme === "oberon" ? setTheme("dark") : setTheme("oberon")} >
                         {theme === "oberon" ?
@@ -107,7 +112,6 @@ export default function Drawer() {
                     </button>
                 </div>
             </div>
-
             {/* <AnimatePresence>
                 {showDrawer && (
                     <motion.div
@@ -124,7 +128,7 @@ export default function Drawer() {
                 )}
             </AnimatePresence> */}
             <AnimatePresence>
-                {showDrawer && (
+                {showDrawer && currentSubMenu && (
                     <motion.div
                         initial={{ x: '-100%' }}
                         animate={{ x: 0 }}
@@ -133,7 +137,7 @@ export default function Drawer() {
                         className="sidebar"
                     >
                         {
-                            currentSubMenu ? currentSubMenu.component : subMenus[0].component
+                            currentSubMenu.component
                         }
                     </motion.div>
                 )}

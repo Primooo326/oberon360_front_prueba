@@ -5,7 +5,7 @@ import { useSystemStore } from "@/states/System.state";
 import { MdOutlineLocationSearching } from "react-icons/md";
 import OleoductosContent from "./Contents/OleoductosContent";
 import { useState } from "react";
-import SidebarRight from "@/components/Shared/SidebarRight";
+import SidebarRight from "@/components/shared/SidebarRight";
 export default function SidebarRightDashboard() {
     const { mapConfig, setMapConfig, itemSidebarRight, setShowSidebarRight, mapExpand, showSidebarRight } = useSystemStore();
 
