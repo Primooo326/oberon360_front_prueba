@@ -1,23 +1,23 @@
 import React from 'react'
-import { FaFolder, FaUserTie, FaTasks, FaBook, FaTag, FaTags, FaMoneyBillWave, FaTools, FaCar, FaWrench, FaMapMarkerAlt, FaRoute, FaTruck } from "react-icons/fa";
+import { MdAltRoute, MdFaceUnlock, MdManageAccounts, MdOutlineBuildCircle, MdOutlineCategory, MdOutlineEventAvailable, MdOutlineFolder, MdOutlineLocalShipping, MdOutlineLocationOn, MdOutlinePayments, MdOutlineRule } from 'react-icons/md'
 
 export default function ParametrosContent() {
 
     const parametros = [
 
-        { title: "Directorio", href: "", icon: <FaFolder className="w-6 h-auto" /> },
-        { title: "Responsable Protocolo", href: "", icon: <FaUserTie className="w-6 h-auto" /> },
-        { title: "Actividad", href: "", icon: <FaTasks className="w-6 h-auto" /> },
-        { title: "Protocolo", href: "", icon: <FaBook className="w-6 h-auto" /> },
-        { title: "Categoria Novedad", href: "", icon: <FaTag className="w-6 h-auto" /> },
-        { title: "Subcategoria Novedad", href: "", icon: <FaTags className="w-6 h-auto" /> },
-        { title: "Motivo Viaticos", href: "", icon: <FaMoneyBillWave className="w-6 h-auto" /> },
-        { title: "Categoria Pre-Operacional", href: "", icon: <FaTools className="w-6 h-auto" /> },
-        { title: "Conductores", href: "/parametros/conductores", icon: <FaCar className="w-6 h-auto" /> },
-        { title: "Subcategoria Pre-Operacional", href: "", icon: <FaWrench className="w-6 h-auto" /> },
-        { title: "Puntos", href: "", icon: <FaMapMarkerAlt className="w-6 h-auto" /> },
-        { title: "Itinerario", href: "", icon: <FaRoute className="w-6 h-auto" /> },
-        { title: "Vehiculos", href: "", icon: <FaTruck className="w-6 h-auto" /> },
+        { title: "Directorio", href: "", icon: <MdOutlineFolder className="w-6 h-auto text-gray-500" /> },
+        { title: "Responsable Protocolo", href: "", icon: <MdManageAccounts className="w-6 h-auto text-gray-500" /> },
+        { title: "Actividad", href: "", icon: <MdOutlineEventAvailable className="w-6 h-auto text-gray-500" /> },
+        { title: "Protocolo", href: "/parametros/protocolo", icon: <MdOutlineRule className="w-6 h-auto text-gray-500" /> },
+        { title: "Categoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto text-gray-500" /> },
+        { title: "Subcategoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto text-gray-500" /> },
+        { title: "Motivo Viaticos", href: "", icon: <MdOutlinePayments className="w-6 h-auto text-gray-500" /> },
+        { title: "Categoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto text-gray-500" /> },
+        { title: "Subcategoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto text-gray-500" /> },
+        { title: "Conductores", href: "/parametros/conductores", icon: <MdFaceUnlock className="w-6 h-auto text-gray-500" /> },
+        { title: "Puntos", href: "", icon: <MdOutlineLocationOn className="w-6 h-auto text-gray-500" /> },
+        { title: "Itinerario", href: "", icon: <MdAltRoute className="w-6 h-auto text-gray-500" /> },
+        { title: "Vehiculos", href: "", icon: <MdOutlineLocalShipping className="w-6 h-auto text-gray-500" /> },
     ]
 
     return (

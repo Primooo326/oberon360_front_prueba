@@ -19,3 +19,7 @@ export const updateDriver = async (data: any, id: string | number) => {
 export const createDriver = async (data: any) => {
     return await fetchApiWeb.post("driver", data);
 }
+
+export const deleteDriver = async (id: string | number) => {
+    return await fetchApiWeb.delete(`driver/${id}`);
+}

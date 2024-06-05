@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver } from '@/api/conductor.api';
+import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver, deleteDriver } from '@/api/conductor.api';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Modal from '@/components/shared/Modal';
@@ -14,7 +14,6 @@ export default function page() {
 
     const [data, setData] = useState<any[]>([]);
 
-
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
     const [imgSelected, setImgSelected] = useState<string>("");
@@ -22,6 +21,10 @@ export default function page() {
     const [imgToChange, setImgToChange] = useState<any>();
 
     const [conductorToEdit, setConductorToEdit] = useState<any>();
+
+    const [conductorToDelete, setConductorToDelete] = useState<any>();
+
+    const [conductorCodVerificar, setConductorCodVerificar] = useState<string>("");
 
     const [paginationOptions, setPaginationOptions] = useState<any>({
         currentItems: data,
@@ -33,7 +36,10 @@ export default function page() {
         hasNextPage: false
     });
 
+    const [term, setTerm] = useState<string>('');
+
     const [loading, setLoading] = useState<boolean>(true);
+
 
     const onSubmit: SubmitHandler<any> = async (data) => {
         let base64 = null;
@@ -58,9 +64,15 @@ export default function page() {
         const dataToSend = {
             ...data,
             CONDUCTOR_ID_RH: Number(data.CONDUCTOR_ID_RH),
-            CONDUCTOR_FOTO: base64,
-            CONDUCTOR_ID_TIPOIDENTIFICACION: `${data.CONDUCTOR_ID_TIPOIDENTIFICACION}`
+            CONDUCTOR_ID_TIPOIDENTIFICACION: `${data.CONDUCTOR_ID_TIPOIDENTIFICACION}`,
+            CONDUCTOR_ESTADO: `${data.CONDUCTOR_ESTADO}`
         }
+        if (base64) {
+            dataToSend.CONDUCTOR_FOTO = base64;
+        } else {
+            delete dataToSend.CONDUCTOR_FOTO;
+        }
+
         if (conductorToEdit.CONDUCTOR_ID !== 0) {
             updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID).then(() => {
                 setConductorToEdit(null);
@@ -84,10 +96,10 @@ export default function page() {
 
     const onChangeBuscador = (e: any) => {
 
-        console.log(e.target.value);
+        setTerm(e.target.value);
         if (e.target.value.length > 2) {
 
-            fetchData(1, paginationOptions.take, e.target.value);
+            fetchData(1, paginationOptions.take);
         } else if (e.target.value.length === 0) {
             fetchData(1, paginationOptions.take);
         }
@@ -186,10 +198,14 @@ export default function page() {
         }
     }
 
-    const fetchData = async (page: number = paginationOptions.page, take: number = paginationOptions.take, term?: string) => {
+    const fetchData = async (page: number = paginationOptions.page, take: number = paginationOptions.take) => {
         try {
+            let termino = '';
+            if (term.length > 2) {
+                termino = term;
+            }
             setLoading(true);
-            const response2 = await getDrivers(page, take, term);
+            const response2 = await getDrivers(page, take, termino);
             setData(response2.data);
             setPaginationOptions({
                 currentItems: response2.data,
@@ -207,6 +223,18 @@ export default function page() {
             console.error('Error fetching data:', error);
         }
     };
+
+    const deleteConductor = async () => {
+        try {
+            await deleteDriver(conductorToDelete.CONDUCTOR_ID);
+            setConductorToDelete(null);
+            fetchData();
+            toast.success('Conductor eliminado correctamente');
+        } catch (error) {
+            console.error('Error deleting driver:', error);
+            toast.error('Error eliminando conductor');
+        }
+    }
 
     useEffect(() => {
         fetchData();
@@ -284,8 +312,8 @@ export default function page() {
         {
             name: 'Acciones',
             cell: (row: any) => <div className='flex gap-3' >
-                <button className="btn btn-warning" onClick={() => setConductorToEdit(row)} >Editar</button>
-                <button className="btn btn-error" onClick={() => console.log('eliminar', row)} >Eliminar</button>
+                <button className="btn btn-warning" onClick={() => { setConductorToEdit(row); console.log(row); }} >Editar</button>
+                <button className="btn btn-error" onClick={() => setConductorToDelete(row)} >Eliminar</button>
             </div>
         }
     ];
@@ -313,7 +341,7 @@ export default function page() {
             <Table data={data} columns={columnas} selectableRows
                 onSelectedRowsChange={handleChange} paginationOptions={paginationOptions} onChangePage={onChangePage} onChangePerPage={onChangePerPage} progressPending={loading} />
 
-            <Modal id='modalEditConductor' className="rounded-xl " isOpen={conductorToEdit} canCloseEsc={false} onClose={() => setConductorToEdit(null)} >
+            <Modal id='modalEditConductor' className="rounded-xl " isOpen={conductorToEdit} canCloseEsc={false} onClose={() => setConductorToEdit(null)} canCloseOut={false} >
                 <div className='modal-header flex justify-between items-center border-b w-full px-10' >
                     <div />
                     <h1 className='text-2xl font-bold' >
@@ -333,14 +361,14 @@ export default function page() {
                                 {imgToChange ? (
                                     <img src={URL.createObjectURL(imgToChange)} alt="conductor foto" className="rounded-full border size-full object-cover" />
                                 ) : (
-                                    imgSelected ? (
-                                        <img src={`data:image/jpeg;base64,${imgSelected}`} alt="conductor foto" className="rounded-full border size-full object-cover" />
+                                    conductorToEdit && (conductorToEdit.CONDUCTOR_FOTO ? (
+                                        <img src={`data:image/jpeg;base64,${conductorToEdit.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full border size-full object-cover" />
                                     ) : (
                                         <div className="bg-neutral text-neutral-content rounded-full w-48">
                                             <span className="text-3xl">No Foto</span>
                                         </div>
 
-                                    )
+                                    ))
 
                                 )}
                                 <button className="btn btn-primary rounded-full absolute top-0 right-0" onClick={(e) => {
@@ -355,57 +383,57 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">Primer Nombre</span>
                                     </div>
-                                    <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERNOMBRE")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_PRIMERNOMBRE : ''} />
+                                    <input type="text" placeholder="Primer Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERNOMBRE")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_PRIMERNOMBRE : ''} />
 
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Segundo Nombre</span>
                                     </div>
-                                    <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDONOMBRE")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_SEGUNDONOMBRE : null} />
+                                    <input type="text" placeholder="Segundo Nombre" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDONOMBRE")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_SEGUNDONOMBRE : null} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Primer Apellido</span>
                                     </div>
-                                    <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERAPELLIDO")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_PRIMERAPELLIDO : null} />
+                                    <input type="text" placeholder="Primer Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_PRIMERAPELLIDO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_PRIMERAPELLIDO : null} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Segundo Apellido</span>
                                     </div>
-                                    <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDOAPELLIDO")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_SEGUNDOAPELLIDO : null} />
+                                    <input type="text" placeholder="Segundo Apellido" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_SEGUNDOAPELLIDO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_SEGUNDOAPELLIDO : null} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Correo</span>
                                     </div>
-                                    <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CORREO")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_CORREO : "null"} />
+                                    <input type="email" placeholder="Correo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CORREO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_CORREO : "null"} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Código</span>
                                     </div>
-                                    <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CODCONDUCTOR")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_CODCONDUCTOR : null} />
+                                    <input type="text" placeholder="Código" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_CODCONDUCTOR")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_CODCONDUCTOR : null} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Teléfono Personal</span>
                                     </div>
-                                    <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELPERSONAL")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_TELPERSONAL : null} />
+                                    <input type="text" placeholder="Teléfono Personal" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELPERSONAL")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_TELPERSONAL : null} />
                                 </label>
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Teléfono Corporativo</span>
                                     </div>
-                                    <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELCORPORATIVO")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_TELCORPORATIVO : null} />
+                                    <input type="text" placeholder="Teléfono Corporativo" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_TELCORPORATIVO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_TELCORPORATIVO : null} />
                                 </label>
 
                                 <label className="form-control w-full max-w-xs">
                                     <div className="label">
                                         <span className="label-text">Tipo de Documento</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_ID_TIPOIDENTIFICACION : null} >
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} defaultValue={conductorToEdit ? conductorToEdit.typeIdentification.TIP_IDEN_ID : null} >
                                         <option value="1">CEDULA DE CUIDADANIA</option>
                                         <option value="2">NIT</option>
                                         <option value="3">CEDULA DE EXTRANJERIA</option>
@@ -420,7 +448,7 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">Número de Documento</span>
                                     </div>
-                                    <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_IDENTIFICACION")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_IDENTIFICACION : null} />
+                                    <input type="text" placeholder="Número de Documento" className="input input-bordered w-full max-w-xs" {...register("CONDUCTOR_IDENTIFICACION")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_IDENTIFICACION : null} />
                                 </label>
 
 
@@ -429,7 +457,7 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">RH</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_ID_RH : null}  >
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} defaultValue={conductorToEdit ? conductorToEdit.factorRh.FACTOR_RH_ID_REG : null}  >
                                         <option value={1}>A -</option>
                                         <option value={2}>A +</option>
                                         <option value={3}>AB -</option>
@@ -445,7 +473,7 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">Estado</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ESTADO")} value={conductorToEdit ? conductorToEdit.CONDUCTOR_ESTADO : null}  >
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ESTADO")} defaultValue={conductorToEdit ? conductorToEdit.CONDUCTOR_ESTADO : null}  >
                                         <option value="1">Activo</option>
                                         <option value="0">Inactivo</option>
                                     </select>
@@ -462,6 +490,63 @@ export default function page() {
                     </form>
                 </div>
             </Modal>
+
+            {
+                conductorToDelete &&
+                <Modal id='modalDeleteConductor' className="rounded-xl " isOpen={conductorToDelete} onClose={() => setConductorToDelete(null)} >
+                    <div className='modal-header flex justify-between items-center border-b w-full px-10' >
+                        <div />
+                        <h1 className='text-2xl font-bold' >
+                            Eliminar Conductor
+                        </h1>
+                        <button onClick={() => setConductorToDelete(null)} >
+                            <FaXmark />
+                        </button>
+                    </div>
+                    <div>
+                        <div className='p-10 flex flex-col items-center gap-3' >
+                            <h1 className='text-xl' >
+                                ¿Está seguro de eliminar al conductor <span className='font-bold'>{`${conductorToDelete?.CONDUCTOR_PRIMERNOMBRE} ${conductorToDelete?.CONDUCTOR_SEGUNDONOMBRE} ${conductorToDelete?.CONDUCTOR_PRIMERAPELLIDO} ${conductorToDelete?.CONDUCTOR_SEGUNDOAPELLIDO}`}</span> con código <span className='font-bold'>{`${conductorToDelete?.CONDUCTOR_CODCONDUCTOR}`}</span>?
+                            </h1>
+                            <div className={`avatar size-48 relative ${conductorToDelete.CONDUCTOR_FOTO ? "" : "placeholder"}`} >
+                                {conductorToDelete.CONDUCTOR_FOTO ? (
+                                    <img src={`data:image/jpeg;base64,${conductorToDelete.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full border size-full object-cover" />
+                                ) : (
+                                    <div className="bg-neutral text-neutral-content rounded-full w-48">
+                                        <span className="text-3xl">No Foto</span>
+                                    </div>
+                                )}
+
+                            </div>
+                            <div>
+                                <p className='font-bold mb-5' >
+                                    Para confirmar la eliminación del conductor, por favor ingrese el código del conductor
+                                </p>
+                                <div className="form-control">
+
+                                    <input type="text" placeholder="Código de Conductor" className="input input-bordered" value={conductorCodVerificar} onChange={(e) => setConductorCodVerificar(e.target.value)} onPaste={(e) => e.preventDefault()} />
+
+
+
+                                    {conductorCodVerificar === conductorToDelete.CONDUCTOR_CODCONDUCTOR && <p className="text-success" >
+                                        Código correcto
+                                    </p>}
+                                    {conductorCodVerificar !== conductorToDelete.CONDUCTOR_CODCONDUCTOR && <p className="text-error" >
+                                        Código incorrecto
+                                    </p>}
+
+
+                                </div>
+                            </div>
+                            <div className='flex justify-center gap-5 mt-5' >
+                                <button className="btn btn-error" onClick={() => setConductorToDelete(null)} >Cancelar</button>
+                                <button className="btn btn-success" disabled={conductorCodVerificar !== conductorToDelete.CONDUCTOR_CODCONDUCTOR} onClick={() => deleteConductor()} >Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
+            }
+
         </div>
     )
 }
