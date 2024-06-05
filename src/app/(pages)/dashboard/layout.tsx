@@ -2,7 +2,7 @@
 
 import { useSystemStore } from '@/states/System.state';
 import { getEventsPlates, getEventsMotorcycle, ubicacionesClientes, getClients, reportsIndicators, getEventsPlatesDispon, getItinerary, getEventsShips } from "@/api/dashboard/mapa.api";
-import IconoCargando from "@components/shared/IconoCargando/IconoCargando";
+import IconoCargando from "@/components/shared/IconoCargando/IconoCargando";
 import { useClientesStore } from "@/states/Clientes.state";
 import { useLoginStore } from "@/states/Login.state";
 import { useMobilesStore } from "@/states/Mobiles.state";

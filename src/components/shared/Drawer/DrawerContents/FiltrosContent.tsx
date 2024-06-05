@@ -1,5 +1,4 @@
 "use client"
-import { getEventsPlatesDispon } from '@/api/mapa.api';
 import type { IVehiculo } from '@/models/vehiculos.model'
 import { useSystemStore } from '@/states/System.state';
 import { useVehiculosStore } from '@/states/Vehiculos.state'

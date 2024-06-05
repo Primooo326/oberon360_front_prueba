@@ -2,8 +2,7 @@
 import SidebarRightNovedades from '@/components/NovedadesComponents/SidebarRightNovedad/SidebarRightNovedad'
 import TableNovedad from '@/components/NovedadesComponents/TableNovedad/TableNovedad'
 import { useNovedadesStore } from '@/states/novedades.state'
-import { PieChart } from '@mui/x-charts/PieChart'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 
 type tipoAlerta = "Fuera de Ruta" | "Exceso de Velocidad" | "Frenado Brusco" | "Aceleración Brusca" | "Retraso en Ruta";
@@ -36,7 +35,7 @@ export default function page() {
             <AnimatePresence>
 
                 {novedadSelected && (
-                        <SidebarRightNovedades />
+                    <SidebarRightNovedades />
                     // <motion.div
                     //     initial={{ x: "100" }}
                     //     animate={{ x: 0 }}

@@ -26,5 +26,5 @@ export default function TableNovedad() {
 
     fetchData();
   }, []);
-  return <Table data={data} columns={columns} />
+  return <Table data={data} columns={columns} onChangePage={() => { }} onChangePerPage={() => { }} />
 }

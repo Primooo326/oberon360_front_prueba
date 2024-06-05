@@ -74,7 +74,7 @@ export default function ParametrosContent() {
                                 </ul>
                             </>
                         ) : (
-                            <a onClick={() => { setShowDrawer(false); router.push(parametro.href) }} >{parametro.icon}{parametro.title}</a>
+                            <a onClick={() => { setShowDrawer(false); router.push(parametro.href || "") }} >{parametro.icon}{parametro.title}</a>
                         )}
                     </li>
                 ))}
