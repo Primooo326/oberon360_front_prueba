@@ -1,3 +1,4 @@
+import { fetchApiBase } from '@/api/instances'
 import CustomCell from '@/components/shared/Table/CustomCell'
 import { JWT_SECRET } from '@/config'
 import type { IHeaderCustomTable } from '@/models/customComponents.model'
@@ -151,3 +152,18 @@ export const generateColumns = (columns: IHeaderCustomTable[]) => {
         }
     })
 }
+
+export const generateDownloadExcel = async (data: any[], name: string) => {
+
+    const responseExcel = await fetchApiBase.downloadExcel("excel/downloadExcel", { dataExport: data });
+
+    if (responseExcel) {
+        const url = window.URL.createObjectURL(new Blob([responseExcel], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${name}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }
+};

@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { downloadExcel, getDrivers, findAllDrivers, updateDriver, createDriver, deleteDriver } from '@/api/dashboard/parametros/conductor.api';
+import { getDrivers, findAllDrivers, updateDriver, createDriver, deleteDriver } from '@/api/dashboard/parametros/conductor.api';
 import { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Modal from '@/components/shared/Modal';
@@ -8,6 +8,7 @@ import { FaPen, FaXmark } from 'react-icons/fa6';
 import { useForm, type SubmitHandler } from "react-hook-form"
 import { toast } from 'react-toastify';
 import Table from '@/components/shared/Table/Table';
+import { generateDownloadExcel } from '@/utils/tools';
 export default function page() {
 
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();
@@ -65,13 +66,13 @@ export default function page() {
             ...data,
             CONDUCTOR_ID_RH: Number(data.CONDUCTOR_ID_RH),
             CONDUCTOR_ID_TIPOIDENTIFICACION: `${data.CONDUCTOR_ID_TIPOIDENTIFICACION}`,
-            CONDUCTOR_ESTADO: `${data.CONDUCTOR_ESTADO}`
+            CONDUCTOR_ESTADO: `${data.CONDUCTOR_ESTADO}`,
+            CONDUCTOR_FOTO: base64
         }
-        if (base64) {
-            dataToSend.CONDUCTOR_FOTO = base64;
-        } else {
-            delete dataToSend.CONDUCTOR_FOTO;
-        }
+        // if (base64) {
+        // } else {
+        //     delete dataToSend.CONDUCTOR_FOTO;
+        // }
 
         if (conductorToEdit.CONDUCTOR_ID !== 0) {
             updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID).then(() => {
@@ -95,14 +96,8 @@ export default function page() {
     }
 
     const onChangeBuscador = (e: any) => {
-
         setTerm(e.target.value);
-        if (e.target.value.length > 2) {
-
-            fetchData(1, paginationOptions.take);
-        } else if (e.target.value.length === 0) {
-            fetchData(1, paginationOptions.take);
-        }
+        fetchData(1, paginationOptions.take, e.target.value);
     }
 
     const handleChange = ({ selectedRows }: any) => {
@@ -135,7 +130,7 @@ export default function page() {
         setImgToChange(file);
     }
 
-    const generateDownloadExcel = async () => {
+    const getDataExport = async () => {
         let data = [];
         if (selectedRows.length) {
             data = selectedRows;
@@ -143,23 +138,6 @@ export default function page() {
             const response = await findAllDrivers();
             data = response?.data;
         }
-
-        const dataExport = await getDataExport(data);
-
-        const responseExcel = await downloadExcel(dataExport);
-
-        if (responseExcel) {
-            const url = window.URL.createObjectURL(new Blob([responseExcel], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'Conductores.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-        }
-    };
-
-    const getDataExport = async (data: any[]): Promise<any[]> => {
         const dataExport: { [key: string]: any }[] = [];
 
         data.forEach((element: any) => {
@@ -175,9 +153,10 @@ export default function page() {
                 "RH": element?.factorRh?.FACTOR_RH_DESCRIPCION
             });
         });
-
-        return dataExport;
+        generateDownloadExcel(dataExport, "Conductores");
     };
+
+
 
     const onChangePage = (page: number) => {
         console.log('page', page);
@@ -198,14 +177,11 @@ export default function page() {
         }
     }
 
-    const fetchData = async (page: number = paginationOptions.page, take: number = paginationOptions.take) => {
+    const fetchData = async (page: number = paginationOptions.page, take: number = paginationOptions.take, termino: string | null = null) => {
         try {
-            let termino = '';
-            if (term.length > 2) {
-                termino = term;
-            }
+            termino = termino !== null ? termino : term;
             setLoading(true);
-            const response2 = await getDrivers(page, take, termino);
+            const response2 = await getDrivers(page, take, termino || "");
             setData(response2.data);
             setPaginationOptions({
                 currentItems: response2.data,
@@ -255,8 +231,14 @@ export default function page() {
     const columnas: any = [
         {
             name: 'Conductor',
-            cell: (row: any) => <div onClick={() => setImgSelected(row.CONDUCTOR_FOTO)} className='cursor-pointer w-full flex items-center justify-center py-2'>
-                <img src={`data:image/jpeg;base64,${row.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full size-14 object-cover" />
+            cell: (row: any) => <div className={`avatar size-16 relative ${row.CONDUCTOR_FOTO ? "" : "placeholder"}`} >
+                {row.CONDUCTOR_FOTO ? (
+                    <img src={`data:image/jpeg;base64,${row.CONDUCTOR_FOTO}`} alt="conductor foto" className="rounded-full border size-full object-cover" />
+                ) : (
+                    <div className="bg-neutral text-neutral-content rounded-full w-48">
+                        <span className="text-lg">No Foto</span>
+                    </div>
+                )}
             </div>,
         },
         {
@@ -312,8 +294,8 @@ export default function page() {
         {
             name: 'Acciones',
             cell: (row: any) => <div className='flex gap-3' >
-                <button className="btn btn-warning" onClick={() => { setConductorToEdit(row); console.log(row); }} >Editar</button>
-                <button className="btn btn-error" onClick={() => setConductorToDelete(row)} >Eliminar</button>
+                <button className="btn btn-sm btn-warning" onClick={() => { setConductorToEdit(row); console.log(row); }} >Editar</button>
+                <button className="btn btn-sm btn-error" onClick={() => setConductorToDelete(row)} >Eliminar</button>
             </div>
         }
     ];
@@ -334,7 +316,7 @@ export default function page() {
                 </div>
                 <div className="flex gap-3" >
                     <button className="btn btn-success" onClick={() => handleCreate()} >Nuevo Conductor</button>
-                    <button className="btn btn-primary" onClick={() => generateDownloadExcel()}>Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
+                    <button className="btn btn-primary" onClick={() => getDataExport()}>Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                 </div>
 
             </div>
