@@ -6,11 +6,12 @@ import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 
 type tipoAlerta = "Fuera de Ruta" | "Exceso de Velocidad" | "Frenado Brusco" | "Aceleración Brusca" | "Retraso en Ruta";
-export default function page() {
+export default function Page() {
 
     const { novedadSelected } = useNovedadesStore()
 
     return (
+
         <div className='w-full h-full overflow-y-auto scroll p-8' >
 
             <div className="flex gap-5 mb-8 items-center">

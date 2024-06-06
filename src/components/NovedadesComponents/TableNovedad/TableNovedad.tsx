@@ -10,6 +10,16 @@ export default function TableNovedad() {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
 
+  const optionsPagination = {
+    currentItems: data,
+    page: 1,
+    take: 10,
+    itemCount: 100,
+    pageCount: 10,
+    hasPreviousPage: true,
+    hasNextPage: true
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,5 +36,5 @@ export default function TableNovedad() {
 
     fetchData();
   }, []);
-  return <Table data={data} columns={columns} onChangePage={() => { }} onChangePerPage={() => { }} />
+  return <Table data={data} columns={columns} onChangePage={() => { }} onChangePerPage={() => { }} paginationOptions={optionsPagination} />
 }

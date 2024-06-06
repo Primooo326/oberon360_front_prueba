@@ -6,7 +6,7 @@ export interface CustomTableProps {
     data: any;
     columns: TableColumn<any>[];
     customStyles?: any;
-    paginationOptions?: {
+    paginationOptions: {
         currentItems: any[],
         page: number,
         take: number,
@@ -78,8 +78,8 @@ export default function Table({ data, columns, customStyles, paginationOptions, 
 
 
 
-    const startRecord = (paginationOptions!.page - 1) * paginationOptions!.take + 1;
-    const endRecord = Math.min(paginationOptions!.page * paginationOptions!.take, paginationOptions!.itemCount);
+    const startRecord = (paginationOptions.page - 1) * paginationOptions.take + 1;
+    const endRecord = Math.min(paginationOptions.page * paginationOptions.take, paginationOptions.itemCount);
 
     return (
         <>
@@ -99,7 +99,7 @@ export default function Table({ data, columns, customStyles, paginationOptions, 
             <div className='w-full flex justify-end items-center gap-5 mt-1' >
                 <label className="form-control w-full max-w-xs">
 
-                    <select className="select" onChange={(e) => onChangePerPage(Number(e.target.value), paginationOptions!.page)} value={paginationOptions!.take}>
+                    <select className="select" onChange={(e) => onChangePerPage(Number(e.target.value), paginationOptions.page)} value={paginationOptions.take}>
                         <option value={5}>Items por página: 5</option>
                         <option value={10} >Items por página: 10</option>
                         <option value={15} >Items por página: 15</option>
@@ -108,19 +108,19 @@ export default function Table({ data, columns, customStyles, paginationOptions, 
                     </select>
                 </label>
                 <p>
-                    Página {paginationOptions!.page} de {paginationOptions!.pageCount} | Registros {startRecord}-{endRecord} de {paginationOptions!.itemCount}
+                    Página {paginationOptions.page} de {paginationOptions.pageCount} | Registros {startRecord}-{endRecord} de {paginationOptions.itemCount}
                 </p>
                 <div className='flex gap-5' >
-                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(1)} disabled={!paginationOptions!.hasPreviousPage}>
+                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(1)} disabled={!paginationOptions.hasPreviousPage}>
                         <MdFirstPage className="text-[24px]" />
                     </button>
-                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(paginationOptions!.page - 1)} disabled={!paginationOptions!.hasPreviousPage}>
+                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(paginationOptions.page - 1)} disabled={!paginationOptions.hasPreviousPage}>
                         <FaChevronLeft className='w-6' />
                     </button>
-                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(paginationOptions!.page + 1)} disabled={!paginationOptions!.hasNextPage}>
+                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(paginationOptions.page + 1)} disabled={!paginationOptions.hasNextPage}>
                         <FaChevronRight className='w-6' />
                     </button>
-                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(paginationOptions!.pageCount)} disabled={!paginationOptions!.hasNextPage}>
+                    <button className="btn btn-circle btn-ghost" onClick={() => onChangePage(paginationOptions.pageCount)} disabled={!paginationOptions.hasNextPage}>
                         <MdLastPage className="text-[24px]" />
                     </button>
                 </div>
