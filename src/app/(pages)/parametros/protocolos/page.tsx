@@ -79,8 +79,8 @@ const Page = () => {
 
         data.forEach((element: any) => {
             dataExport.push({
-                "Responsable Protocolo": element.protocolResponsible.TFUN_NOMBRE,
-                "Actividad": element.activity.PREFUN_PREGUNTA,
+                "Responsable Protocolo": element.mapProtocolResponsible.TFUN_NOMBRE,
+                "Actividad": element.mapActivity.PREFUN_PREGUNTA,
                 "Protocolo": element.FUN_FUNCION,
                 "Estado": element.FUN_STATUS === '1' ? 'Activo' : 'Inactivo',
             });
@@ -120,7 +120,7 @@ const Page = () => {
                 TFUN_ID: "",
                 TFUN_NOMBRE: "",
             },
-            activity: {
+            mapActivity: {
                 PREFUN_ID: "",
                 PREFUN_PREGUNTA: "",
             },
@@ -206,14 +206,14 @@ const Page = () => {
     const columnas = [
         {
             name: "Responsable Protocolo",
-            cell: (row: any) => row.protocolResponsible.TFUN_NOMBRE,
+            cell: (row: any) => row.mapProtocolResponsible.TFUN_NOMBRE,
             sortable: true,
 
         },
         {
             name: "Actividad",
-            cell: (row: any) => row.activity.PREFUN_PREGUNTA,
-            selector: (row: any) => row.activity.PREFUN_PREGUNTA,
+            cell: (row: any) => row.mapActivity.PREFUN_PREGUNTA,
+            selector: (row: any) => row.mapActivity.PREFUN_PREGUNTA,
             sortable: true,
         },
         {
@@ -223,7 +223,7 @@ const Page = () => {
         },
         {
             name: "Estado",
-            cell: (row: any) => row.FUN_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-danger'>Inactivo</span>,
+            cell: (row: any) => row.FUN_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-error'>Inactivo</span>,
         },
         {
             name: "Acciones",
@@ -275,7 +275,7 @@ const Page = () => {
 
                             <div>
                                 <label className='label' >Responsable Protocolo</label>
-                                <select className='input input-bordered' defaultValue={protocolToEdit ? protocolToEdit.protocolResponsible.TFUN_ID : null} {...register('FUN_TIPOFUNID', { required: true })} >
+                                <select className='input input-bordered' defaultValue={protocolToEdit ? protocolToEdit.mapProtocolResponsible.TFUN_ID : null} {...register('FUN_TIPOFUNID', { required: true })} >
                                     <option value="" >Seleccione</option>
                                     {
                                         protocolResponsible.map((item: any) => (
@@ -286,7 +286,7 @@ const Page = () => {
                             </div>
                             <div>
                                 <label className='label' >Actividad</label>
-                                <select className='input input-bordered' defaultValue={protocolToEdit ? protocolToEdit.activity.PREFUN_ID : null} {...register('FUN_PREG_ID', { required: true })} >
+                                <select className='input input-bordered' defaultValue={protocolToEdit ? protocolToEdit.mapActivity.PREFUN_ID : null} {...register('FUN_PREG_ID', { required: true })} >
                                     <option value="" >Seleccione</option>
                                     {
                                         activities.map((item: any) => (

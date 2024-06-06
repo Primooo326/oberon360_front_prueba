@@ -10,7 +10,7 @@ export default function ParametrosContent() {
     console.log(currentPath);
     const parametros2 = [
 
-        { title: "Directorio", href: "", icon: <MdOutlineFolder className="w-6 h-auto text-gray-500" /> },
+        { title: "Directorio", href: "/parametros/directorio", icon: <MdOutlineFolder className="w-6 h-auto text-gray-500" /> },
 
         {
             parent: "Protocolos",
@@ -24,17 +24,17 @@ export default function ParametrosContent() {
         {
             parent: "Novedades",
             childrens: [
-                { title: "Categoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto" /> },
-                { title: "Subcategoria Novedad", href: "", icon: <MdOutlineCategory className="w-6 h-auto" /> },
+                { title: "Categoria Novedad", href: "/parametros/categoria-novedad", icon: <MdOutlineCategory className="w-6 h-auto" /> },
+                { title: "Subcategoria Novedad", href: "/parametros/subcategoria-novedad", icon: <MdOutlineCategory className="w-6 h-auto" /> },
             ]
         },
-        { title: "Motivo Viaticos", href: "", icon: <MdOutlinePayments className="w-6 h-auto" /> },
-        { title: "Categoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
-        { title: "Subcategoria Pre-Operacional", href: "", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
+        { title: "Motivo Viaticos", href: "/parametros/motivo-viaticos", icon: <MdOutlinePayments className="w-6 h-auto" /> },
+        { title: "Categoria Pre-Operacional", href: "/parametros/categoria-preoperacional", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
+        { title: "Subcategoria Pre-Operacional", href: "/parametros/subcategoria-preoperacional", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
         { title: "Conductores", href: "/parametros/conductores", icon: <MdFaceUnlock className="w-6 h-auto" /> },
-        { title: "Puntos", href: "", icon: <MdOutlineLocationOn className="w-6 h-auto" /> },
-        { title: "Itinerario", href: "", icon: <MdAltRoute className="w-6 h-auto" /> },
-        { title: "Vehiculos", href: "", icon: <MdOutlineLocalShipping className="w-6 h-auto" /> },
+        { title: "Puntos", href: "/parametros/puntos", icon: <MdOutlineLocationOn className="w-6 h-auto" /> },
+        { title: "Itinerario", href: "/parametros/itinerario", icon: <MdAltRoute className="w-6 h-auto" /> },
+        { title: "Vehiculos", href: "/parametros/vehiculos", icon: <MdOutlineLocalShipping className="w-6 h-auto" /> },
     ]
 
     return (
