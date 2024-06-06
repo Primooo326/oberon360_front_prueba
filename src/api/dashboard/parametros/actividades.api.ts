@@ -1,5 +1,3 @@
-// activity
-
 import { fetchApiWeb } from "@/api/instances";
 
 export const getActivities = async (page: number = 1, take: number = 10, term?: string) => {
