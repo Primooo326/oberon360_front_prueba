@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function UbicacionCluster({ ubicaciones, showUbicaciones }: { ubicaciones: IUbicacionCliente[], showUbicaciones: boolean }) {
     const [selectedMarker, setSelectedMarker] = useState<null | IUbicacionCliente>(null);
     const handleMarkerClick = (marker: any) => {
+        console.log(marker);
         setSelectedMarker(marker);
     };
     const clusterStylesUbicacion = [
@@ -62,7 +63,7 @@ export default function UbicacionCluster({ ubicaciones, showUbicaciones }: { ubi
                             onCloseClick={() => setSelectedMarker(null)}
                         >
                             <div className="mapPopover" >
-                                <p>Cliente: <span>{selectedMarker.client.CLIE_COMERCIAL}</span></p>
+                                <p>Cliente: <span>{selectedMarker.copClient.CLIE_COMERCIAL}</span></p>
                                 <p>Nombre: <span>{selectedMarker.CLIUBIC_NOMBRE}</span> </p>
                                 <p>Direccion: <span>{selectedMarker.CLIUBIC_DIRECCION}</span> </p>
 

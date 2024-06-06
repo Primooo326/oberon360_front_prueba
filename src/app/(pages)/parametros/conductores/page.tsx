@@ -143,7 +143,7 @@ export default function page() {
         data.forEach((element: any) => {
             dataExport.push({
                 "ID": element?.CONDUCTOR_ID,
-                "Tipo de Documento": element?.typeIdentification?.TIP_IDEN_DESCRIPCION,
+                "Tipo de Documento": element?.mapTypeIdentification?.TIP_IDEN_DESCRIPCION,
                 "Documento": element?.CONDUCTOR_IDENTIFICACION,
                 "Código": element?.CONDUCTOR_CODCONDUCTOR,
                 "Nombre Completo": `${element?.CONDUCTOR_PRIMERNOMBRE} ${element?.CONDUCTOR_SEGUNDONOMBRE} ${element?.CONDUCTOR_PRIMERAPELLIDO} ${element?.CONDUCTOR_SEGUNDOAPELLIDO}`,
@@ -270,7 +270,7 @@ export default function page() {
         },
         {
             name: 'Tipo de Documento',
-            cell: (row: any) => row.typeIdentification.TIP_IDEN_DESCRIPCION,
+            cell: (row: any) => row.mapTypeIdentification.TIP_IDEN_DESCRIPCION,
             sortable: true,
         },
         {
@@ -415,7 +415,7 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">Tipo de Documento</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} defaultValue={conductorToEdit ? conductorToEdit.typeIdentification.TIP_IDEN_ID : null} >
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_TIPOIDENTIFICACION")} defaultValue={conductorToEdit ? conductorToEdit.mapTypeIdentification.TIP_IDEN_ID : null} >
                                         <option value="1">CEDULA DE CUIDADANIA</option>
                                         <option value="2">NIT</option>
                                         <option value="3">CEDULA DE EXTRANJERIA</option>

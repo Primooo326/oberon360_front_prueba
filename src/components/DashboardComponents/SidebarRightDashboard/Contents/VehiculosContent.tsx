@@ -31,9 +31,9 @@ export default function VehiculosContent() {
                 {
                     ...responseConductor,
                     CONDUCTOR_NOMBRE_COMPLETO: `${responseConductor.CONDUCTOR_PRIMERNOMBRE || ''} ${responseConductor.CONDUCTOR_SEGUNDONOMBRE || ''} ${responseConductor.CONDUCTOR_PRIMERAPELLIDO || ''} ${responseConductor.CONDUCTOR_SEGUNDOAPELLIDO || ''}`,
-                    typeIdentification: {
-                        ...responseConductor.typeIdentification,
-                        TIP_IDEN_SIGLAS: defineSiglTipDoc(responseConductor.typeIdentification.TIP_IDEN_DESCRIPCION)
+                    mapTypeIdentification: {
+                        ...responseConductor.mapTypeIdentification,
+                        TIP_IDEN_SIGLAS: defineSiglTipDoc(responseConductor.mapTypeIdentification.TIP_IDEN_DESCRIPCION)
                     },
 
                 }
@@ -255,7 +255,7 @@ export default function VehiculosContent() {
                                         <>
                                             {index !== 0 && <hr className={defineBgLine(itinerario.itinerarioEvaluated)} />}
                                             <div className="timeline-start timeline-box text-sm w-full flex flex-col">
-                                                {itinerario.point.PUN_NOMBRE.replace(/_/g, " ")}
+                                                {itinerario.mapPoint.PUN_NOMBRE.replace(/_/g, " ")}
                                                 {itinerario.itinerarioEvaluated.estado === "ANTICIPADO" && (
                                                     <span className="text-success"> {itinerario.itinerarioEvaluated.tiempoDiferenciaStr} antes</span>
                                                 )}
@@ -281,7 +281,7 @@ export default function VehiculosContent() {
                                                 <FaCheckCircle className={defineBgCheck(itinerario.itinerarioEvaluated)} />
                                             </div>
                                             <div className="timeline-end timeline-box text-sm w-full flex flex-col">
-                                                {itinerario.point.PUN_NOMBRE.replace(/_/g, " ")}
+                                                {itinerario.mapPoint.PUN_NOMBRE.replace(/_/g, " ")}
                                                 {itinerario.itinerarioEvaluated.estado === "ANTICIPADO" && (
                                                     <span className="text-success"> {itinerario.itinerarioEvaluated.tiempoDiferenciaStr} antes</span>
                                                 )}

@@ -8,7 +8,7 @@ export interface IItenary {
     IPE_IDPUNTO: string;
     IPE_FECHA_PRESUPUESTADO: string;
     IPE_ESTADO: number;
-    point: {
+    mapPoint: {
         PUN_ID: string;
         PUN_NOMBRE: string;
         PUN_LATITUD: string;

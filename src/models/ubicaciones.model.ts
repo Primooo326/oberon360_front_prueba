@@ -111,7 +111,7 @@ export interface IUbicacionCliente {
     CLIUBIC_UPDATE_IP: string;
     CLIUBIC_UPDATE_SESSION_ID: string;
     CLIUBIC_UPDATE_USER_ID: string;
-    client: ICliente;
+    copClient: ICliente;
 }
 export interface ICliente {
     CLIE_ID_REG: string;

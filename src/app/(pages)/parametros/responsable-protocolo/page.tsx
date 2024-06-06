@@ -2,7 +2,7 @@
 import Table from '@/components/shared/Table/Table';
 import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { createActivity, deleteActivity, getActivities, updateActivity } from "@/api/dashboard/parametros/actividades.api"
+import { createProtocolResponsible, deleteProtocolResponsible, getProtocolResponsible, updateProtocolResponsible } from "@/api/dashboard/parametros/respProtocolo.api"
 import Modal from '@/components/shared/Modal';
 import { useForm } from 'react-hook-form';
 import { FaXmark } from 'react-icons/fa6';
@@ -12,10 +12,11 @@ import { toast } from 'react-toastify';
 const Page = () => {
 
     // {
-    //         "PREFUN_ID": "VIAT",
-    //         "PREFUN_PREGUNTA": "LEGALIZACIÓN VIÁTICOS",
-    //         "PREFUN_STATUS": "0"
-    //     }
+    //             "TFUN_ID": "TIPO1",
+    //             "TFUN_NOMBRE": "RECOLECCION DE LECHES",
+    //             "TFUN_ORDEN": "1",
+    //             "TFUN_STATUS": "1"
+    //         }
     const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm();
 
     const [selectedRows, setSelectedRows] = useState<any[]>([]);
@@ -36,11 +37,11 @@ const Page = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
 
-    const [actividadToEdit, setActividadToEdit] = useState<any | null>(null);
+    const [respProtocoloToEdit, setRespProtocoloToEdit] = useState<any | null>(null);
 
-    const [actividadToDelete, setActividadToDelete] = useState<any | null>(null);
+    const [respProtocoloToDelete, setRespProtocoloToDelete] = useState<any | null>(null);
 
-    const [actividadCodVerificar, setActividadCodVerificar] = useState<string>('');
+    const [respProtocoloCodVerificar, setRespProtocoloCodVerificar] = useState<string>('');
 
     const [term, setTerm] = useState<string>('');
 
@@ -72,37 +73,38 @@ const Page = () => {
         if (selectedRows.length) {
             data = selectedRows;
         } else {
-            const response = await getActivities(1, paginationOptions.itemCount);
+            const response = await getProtocolResponsible(1, paginationOptions.itemCount);
             data = response?.data;
         }
         const dataExport: { [key: string]: any }[] = [];
 
         data.forEach((element: any) => {
             dataExport.push({
-                "Código": element.PREFUN_ID,
-                "Actividad": element.PREFUN_PREGUNTA,
-                "Estado": element.PREFUN_STATUS === '1' ? 'Activo' : 'Inactivo',
+                "Código": element.TFUN_ID,
+                "Responsable Protocolo": element.TFUN_NOMBRE,
+                "Numero de orden": element.TFUN_ORDEN,
+                "Estado": element.TFUN_STATUS === '1' ? 'Activo' : 'Inactivo',
             });
         });
-        generateDownloadExcel(dataExport, "Actividades");
+        generateDownloadExcel(dataExport, "Responsable Protocolo");
     };
 
     const onSubmit = async (data: any) => {
         console.log(data);
         try {
-            if (actividadToEdit.PREFUN_ID) {
-                const response = await updateActivity(data, actividadToEdit.PREFUN_ID);
+            if (respProtocoloToEdit.PREFUN_ID) {
+                const response = await updateProtocolResponsible(data, respProtocoloToEdit.TFUN_ID);
                 if (response) {
                     fetchData();
-                    setActividadToEdit(null);
-                    toast.success("Actividad actualizada correctamente");
+                    setRespProtocoloToEdit(null);
+                    toast.success("Responsable protocolo actualizado correctamente");
                 }
             } else {
-                const response = await createActivity(data);
+                const response = await createProtocolResponsible(data);
                 if (response) {
                     fetchData();
-                    setActividadToEdit(null);
-                    toast.success("Actividad creada correctamente");
+                    setRespProtocoloToEdit(null);
+                    toast.success("Responsable protocolo creado correctamente");
                 }
             }
         } catch (error: any) {
@@ -111,10 +113,11 @@ const Page = () => {
     }
 
     const handleCreate = () => {
-        setActividadToEdit({
-            PREFUN_ID: "",
-            PREFUN_PREGUNTA: "",
-            PREFUN_STATUS: "1"
+        setRespProtocoloToEdit({
+            TFUN_ID: '',
+            TFUN_NOMBRE: '',
+            TFUN_ORDEN: '',
+            TFUN_STATUS: '1'
         });
     }
 
@@ -123,7 +126,7 @@ const Page = () => {
         try {
             termino = termino !== null ? termino : term;
             setLoading(true);
-            const response = await getActivities(page, take, termino || "");
+            const response = await getProtocolResponsible(page, take, termino || "");
             setData(response.data);
             setPaginationOptions({
                 currentItems: response.data,
@@ -144,15 +147,15 @@ const Page = () => {
 
     const onDeleteActivity = async (id: string) => {
         try {
-            const response = await deleteActivity(id);
+            const response = await deleteProtocolResponsible(id);
             if (response) {
                 fetchData();
-                setActividadToDelete(null);
-                toast.success("Actividad eliminada correctamente");
+                setRespProtocoloToDelete(null);
+                toast.success("Responsable Protocolo eliminado correctamente");
             }
         } catch (error: any) {
             console.log(error);
-            toast.error("Error al eliminar la actividad");
+            toast.error("Error al eliminar el Responsable Protocolo");
         }
     }
     const onChangeBuscador = (e: any) => {
@@ -166,37 +169,42 @@ const Page = () => {
     }, [])
 
     useEffect(() => {
-        if (actividadToEdit) {
-            for (const key in actividadToEdit) {
-                setValue(key, actividadToEdit[key])
+        if (respProtocoloToEdit) {
+            for (const key in respProtocoloToEdit) {
+                setValue(key, respProtocoloToEdit[key])
             }
         } else {
             reset()
         }
-    }, [actividadToEdit])
+    }, [respProtocoloToEdit])
 
     const columnas = [
         {
             name: "Código",
-            cell: (row: any) => row.PREFUN_ID,
+            cell: (row: any) => row.TFUN_ID,
             sortable: true,
 
         },
         {
-            name: "Actividad",
-            cell: (row: any) => row.PREFUN_PREGUNTA,
-            selector: (row: any) => row.PREFUN_PREGUNTA,
+            name: "Responsable Protocolo",
+            cell: (row: any) => row.TFUN_NOMBRE,
+            selector: (row: any) => row.TFUN_NOMBRE,
+            sortable: true,
+        },
+        {
+            name: "Numero de orden",
+            cell: (row: any) => row.TFUN_ORDEN,
             sortable: true,
         },
         {
             name: "Estado",
-            cell: (row: any) => row.PREFUN_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-error'>Inactivo</span>,
+            cell: (row: any) => row.TFUN_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-error'>Inactivo</span>,
         },
         {
             name: "Acciones",
             cell: (row: any) => <div className="flex gap-3" >
-                <button className="btn btn-sm btn-warning" onClick={() => setActividadToEdit(row)} >Editar</button>
-                <button className="btn btn-sm btn-error" onClick={() => { setActividadToDelete(row); console.log(row); }} >Eliminar</button>
+                <button className="btn btn-sm btn-warning" onClick={() => setRespProtocoloToEdit(row)} >Editar</button>
+                <button className="btn btn-sm btn-error" onClick={() => { setRespProtocoloToDelete(row); console.log(row); }} >Eliminar</button>
             </div>
         }
     ]
@@ -205,18 +213,18 @@ const Page = () => {
             <div className='w-full h-full overflow-auto scroll p-8' >
                 <div className="flex gap-5 mb-8 items-center">
                     <h1 className='font-bold text-3xl' >
-                        Listado de Actividades
+                        Listado de Responsable Protocolo
                     </h1>
                 </div>
                 <div className="w-full mb-3 flex justify-between items-center" >
                     <div>
                         <label className="input input-bordered flex items-center gap-2">
-                            <input type="text" className="grow" placeholder="Buscar actividad" onChange={onChangeBuscador} />
+                            <input type="text" className="grow" placeholder="Buscar responsable Protocolo" onChange={onChangeBuscador} />
                             <FaSearch className="text-gray-500" />
                         </label>
                     </div>
                     <div className="flex gap-3" >
-                        <button className="btn btn-success" onClick={() => handleCreate()} >Nueva Actividad</button>
+                        <button className="btn btn-success" onClick={() => handleCreate()} >Nuevo Responsable Protocolo</button>
                         <button className="btn btn-primary" onClick={() => getDataExport()} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                     </div>
 
@@ -224,15 +232,15 @@ const Page = () => {
                 <Table data={data} columns={columnas} selectableRows
                     onSelectedRowsChange={handleChange} paginationOptions={paginationOptions} onChangePage={onChangePage} onChangePerPage={onChangePerPage} progressPending={loading} />
             </div>
-            <Modal id="Actividad" className="rounded-xl " isOpen={actividadToEdit} onClose={() => { setActividadToEdit(null) }} >
+            <Modal id="Actividad" className="rounded-xl " isOpen={respProtocoloToEdit} onClose={() => { setRespProtocoloToEdit(null) }} >
                 <div className='modal-header flex justify-between items-center border-b w-full px-10' >
 
                     <h1 className='text-2xl font-bold' >
                         {
-                            actividadToEdit ? "Editar Actividad" : "Nueva Actividad"
+                            respProtocoloToEdit ? "Editar Responsable Protocolo" : "Nuevo Responsable Protocolo"
                         }
                     </h1>
-                    <button onClick={() => setActividadToEdit(null)} >
+                    <button onClick={() => setRespProtocoloToEdit(null)} >
                         <FaXmark />
                     </button>
                 </div>
@@ -242,15 +250,19 @@ const Page = () => {
 
                             <div>
                                 <label className='label' >Código</label>
-                                <input className='input input-bordered' defaultValue={actividadToEdit ? actividadToEdit.PREFUN_ID : null} {...register('PREFUN_ID', { required: true, minLength: 3 })} />
+                                <input className='input input-bordered' defaultValue={respProtocoloToEdit ? respProtocoloToEdit.TFUN_ID : null} {...register('TFUN_ID', { required: true, minLength: 3 })} />
                             </div>
                             <div>
-                                <label className='label' >Actividad</label>
-                                <input className='input input-bordered' defaultValue={actividadToEdit ? actividadToEdit.PREFUN_PREGUNTA : null} {...register('PREFUN_PREGUNTA', { required: true, minLength: 3 })} />
+                                <label className='label' >Responsable Protocolo</label>
+                                <input className='input input-bordered' defaultValue={respProtocoloToEdit ? respProtocoloToEdit.TFUN_NOMBRE : null} {...register('TFUN_NOMBRE', { required: true, minLength: 3 })} />
+                            </div>
+                            <div>
+                                <label className='label' >Numero de orden</label>
+                                <input type='number' min={1} className='input input-bordered' defaultValue={respProtocoloToEdit ? respProtocoloToEdit.TFUN_ORDEN : null} {...register('TFUN_ORDEN', { required: true })} />
                             </div>
                             <div>
                                 <label className='label' >Estado</label>
-                                <select className='input input-bordered' defaultValue={actividadToEdit ? actividadToEdit.PREFUN_STATUS : null}  {...register('PREFUN_STATUS', { required: true })} >
+                                <select className='input input-bordered' defaultValue={respProtocoloToEdit ? respProtocoloToEdit.TFUN_STATUS : null}  {...register('TFUN_STATUS', { required: true })} >
                                     <option value="1" >Activo</option>
                                     <option value="0" >Inactivo</option>
                                 </select>
@@ -258,42 +270,42 @@ const Page = () => {
                         </div>
 
                         <div className='flex justify-end gap-3' >
-                            <button className='btn btn-error' onClick={() => setActividadToEdit(null)} >Cancelar</button>
+                            <button className='btn btn-error' onClick={() => setRespProtocoloToEdit(null)} >Cancelar</button>
                             <button className='btn btn-success' onClick={handleSubmit(onSubmit)} >Guardar</button>
                         </div>
                     </form>
                 </div>
             </Modal>
             {
-                actividadToDelete &&
-                <Modal id='modalDeleteActividad' className="rounded-xl " isOpen={actividadToDelete} onClose={() => setActividadToDelete(null)} >
+                respProtocoloToDelete &&
+                <Modal id='modalDeleteActividad' className="rounded-xl " isOpen={respProtocoloToDelete} onClose={() => setRespProtocoloToDelete(null)} >
                     <div className='modal-header flex justify-between items-center border-b w-full px-10' >
                         <div />
                         <h1 className='text-2xl font-bold' >
                             Eliminar Actividad
                         </h1>
-                        <button onClick={() => setActividadToDelete(null)} >
+                        <button onClick={() => setRespProtocoloToDelete(null)} >
                             <FaXmark />
                         </button>
                     </div>
                     <div>
                         <div className='p-10 flex flex-col items-center gap-3' >
                             <h1 className='text-xl' >
-                                ¿Está seguro de eliminar la actividad <span className='font-bold' >{actividadToDelete.PREFUN_PREGUNTA}</span> con código <span className='font-bold' >{actividadToDelete.PREFUN_ID}</span>?
+                                ¿Está seguro de eliminar el responsable Protocolo <span className='font-bold' >{respProtocoloToDelete.TFUN_NOMBRE}</span> con código <span className='font-bold' >{respProtocoloToDelete.TFUN_ID}</span>?
                             </h1>
                             <div>
                                 <p className='font-bold mb-5' >
-                                    Para confirmar la eliminación de la actividad, por favor ingrese el código de la actividad a eliminar.
+                                    Para confirmar la eliminación del responsable protocolo, por favor ingrese el código del responsable protocolo a eliminar.
                                 </p>
                                 <div className="form-control">
 
-                                    <input type="text" placeholder="Código de la actividad" className="input input-bordered" value={actividadCodVerificar} onChange={(e) => setActividadCodVerificar(e.target.value)} onPaste={(e) => e.preventDefault()} />
+                                    <input type="text" placeholder="Código del responsable protocolo" className="input input-bordered" value={respProtocoloCodVerificar} onChange={(e) => setRespProtocoloCodVerificar(e.target.value)} onPaste={(e) => e.preventDefault()} />
 
                                 </div>
                             </div>
                             <div className='flex justify-center gap-5 mt-5' >
-                                <button className="btn btn-error" onClick={() => setActividadToDelete(null)} >Cancelar</button>
-                                <button className="btn btn-success" onClick={() => onDeleteActivity(actividadToDelete.PREFUN_ID)} disabled={actividadCodVerificar !== `${actividadToDelete.PREFUN_ID}`} >Eliminar</button>
+                                <button className="btn btn-error" onClick={() => setRespProtocoloToDelete(null)} >Cancelar</button>
+                                <button className="btn btn-success" onClick={() => onDeleteActivity(respProtocoloToDelete.TFUN_ID)} disabled={respProtocoloCodVerificar !== `${respProtocoloToDelete.TFUN_ID}`} >Eliminar</button>
                             </div>
                         </div>
                     </div>

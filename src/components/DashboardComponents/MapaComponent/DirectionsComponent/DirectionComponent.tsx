@@ -69,19 +69,19 @@ export default function DirectionComponent() {
             const results2 = await directionsService.route(
                 {
                     origin: {
-                        lat: Number.parseFloat(`${waypointsGroup[0].point.PUN_LATITUD}`),
-                        lng: Number.parseFloat(`${waypointsGroup[0].point.PUN_LONGITUD}`)
+                        lat: Number.parseFloat(`${waypointsGroup[0].mapPoint.PUN_LATITUD}`),
+                        lng: Number.parseFloat(`${waypointsGroup[0].mapPoint.PUN_LONGITUD}`)
                     },
                     destination: {
-                        lat: Number.parseFloat(`${waypointsGroup[waypointsGroup.length - 1].point.PUN_LATITUD}`),
-                        lng: Number.parseFloat(`${waypointsGroup[waypointsGroup.length - 1].point.PUN_LONGITUD}`)
+                        lat: Number.parseFloat(`${waypointsGroup[waypointsGroup.length - 1].mapPoint.PUN_LATITUD}`),
+                        lng: Number.parseFloat(`${waypointsGroup[waypointsGroup.length - 1].mapPoint.PUN_LONGITUD}`)
                     },
                     travelMode: google.maps.TravelMode.DRIVING,
                     waypoints: waypointsGroup.slice(1, waypointsGroup.length - 1).map((waypoint: any) => {
                         return {
                             location: {
-                                lat: Number.parseFloat(`${waypoint.point.PUN_LATITUD}`),
-                                lng: Number.parseFloat(`${waypoint.point.PUN_LONGITUD}`)
+                                lat: Number.parseFloat(`${waypoint.mapPoint.PUN_LATITUD}`),
+                                lng: Number.parseFloat(`${waypoint.mapPoint.PUN_LONGITUD}`)
                             },
                             stopover: true
                         }
@@ -95,10 +95,10 @@ export default function DirectionComponent() {
             const restulTrazado = await directionsService.route({
                 origin: {
                     lat: Number.parseFloat(
-                        `${waypointsTrazados[0].point.PUN_LATITUD}`,
+                        `${waypointsTrazados[0].mapPoint.PUN_LATITUD}`,
                     ),
                     lng: Number.parseFloat(
-                        `${waypointsTrazados[0].point.PUN_LONGITUD}`,
+                        `${waypointsTrazados[0].mapPoint.PUN_LONGITUD}`,
                     ),
                 },
                 destination: currentUbication,
@@ -107,10 +107,10 @@ export default function DirectionComponent() {
                     return {
                         location: {
                             lat: Number.parseFloat(
-                                `${waypoint.point.PUN_LATITUD}`,
+                                `${waypoint.mapPoint.PUN_LATITUD}`,
                             ),
                             lng: Number.parseFloat(
-                                `${waypoint.point.PUN_LONGITUD}`,
+                                `${waypoint.mapPoint.PUN_LONGITUD}`,
                             ),
                         },
                         stopover: true,
@@ -124,8 +124,8 @@ export default function DirectionComponent() {
         setOriginRef({
             current: {
                 value: {
-                    lat: Number.parseFloat(`${origin.point.PUN_LATITUD}`),
-                    lng: Number.parseFloat(`${origin.point.PUN_LONGITUD}`)
+                    lat: Number.parseFloat(`${origin.mapPoint.PUN_LATITUD}`),
+                    lng: Number.parseFloat(`${origin.mapPoint.PUN_LONGITUD}`)
                 }
             }
         })
@@ -133,8 +133,8 @@ export default function DirectionComponent() {
         setDestinationRef({
             current: {
                 value: {
-                    lat: Number.parseFloat(`${destination.point.PUN_LATITUD}`),
-                    lng: Number.parseFloat(`${destination.point.PUN_LONGITUD}`)
+                    lat: Number.parseFloat(`${destination.mapPoint.PUN_LATITUD}`),
+                    lng: Number.parseFloat(`${destination.mapPoint.PUN_LONGITUD}`)
                 }
             }
         })
