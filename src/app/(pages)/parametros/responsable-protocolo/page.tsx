@@ -33,6 +33,7 @@ const Page = () => {
         hasNextPage: false
     });
 
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -69,6 +70,8 @@ const Page = () => {
     }
 
     const getDataExport = async () => {
+        setButtonDisabled(true);
+
         let data = []
         if (selectedRows.length) {
             data = selectedRows;
@@ -87,10 +90,14 @@ const Page = () => {
             });
         });
         generateDownloadExcel(dataExport, "Responsable Protocolo");
+        setButtonDisabled(false);
+
     };
 
     const onSubmit = async (data: any) => {
         console.log(data);
+        setButtonDisabled(true);
+
         try {
             if (respProtocoloToEdit.PREFUN_ID) {
                 const response = await updateProtocolResponsible(data, respProtocoloToEdit.TFUN_ID);
@@ -110,6 +117,7 @@ const Page = () => {
         } catch (error: any) {
             console.log(error);
         }
+        setButtonDisabled(false);
     }
 
     const handleCreate = () => {
@@ -146,6 +154,8 @@ const Page = () => {
     }
 
     const onDeleteActivity = async (id: string) => {
+        setButtonDisabled(true);
+
         try {
             const response = await deleteProtocolResponsible(id);
             if (response) {
@@ -157,6 +167,7 @@ const Page = () => {
             console.log(error);
             toast.error("Error al eliminar el Responsable Protocolo");
         }
+        setButtonDisabled(false);
     }
     const onChangeBuscador = (e: any) => {
         setTerm(e.target.value);
@@ -225,7 +236,7 @@ const Page = () => {
                     </div>
                     <div className="flex gap-3" >
                         <button className="btn btn-success" onClick={() => handleCreate()} >Nuevo Responsable Protocolo</button>
-                        <button className="btn btn-primary" onClick={() => getDataExport()} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
+                        <button className="btn btn-primary" onClick={() => getDataExport()} disabled={buttonDisabled} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                     </div>
 
                 </div>
@@ -271,7 +282,7 @@ const Page = () => {
 
                         <div className='flex justify-end gap-3' >
                             <button className='btn btn-error' onClick={() => setRespProtocoloToEdit(null)} >Cancelar</button>
-                            <button className='btn btn-success' onClick={handleSubmit(onSubmit)} >Guardar</button>
+                            <button className='btn btn-success' onClick={handleSubmit(onSubmit)} disabled={buttonDisabled} >Guardar</button>
                         </div>
                     </form>
                 </div>
@@ -305,7 +316,7 @@ const Page = () => {
                             </div>
                             <div className='flex justify-center gap-5 mt-5' >
                                 <button className="btn btn-error" onClick={() => setRespProtocoloToDelete(null)} >Cancelar</button>
-                                <button className="btn btn-success" onClick={() => onDeleteActivity(respProtocoloToDelete.TFUN_ID)} disabled={respProtocoloCodVerificar !== `${respProtocoloToDelete.TFUN_ID}`} >Eliminar</button>
+                                <button className="btn btn-success" onClick={() => onDeleteActivity(respProtocoloToDelete.TFUN_ID)} disabled={respProtocoloCodVerificar !== `${respProtocoloToDelete.TFUN_ID}` || buttonDisabled} >Eliminar</button>
                             </div>
                         </div>
                     </div>

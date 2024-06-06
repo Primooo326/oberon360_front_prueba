@@ -37,6 +37,8 @@ export default function page() {
         hasNextPage: false
     });
 
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+
     const [term, setTerm] = useState<string>('');
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -44,6 +46,7 @@ export default function page() {
 
     const onSubmit: SubmitHandler<any> = async (data) => {
         let base64 = null;
+        setButtonDisabled(true);
         if (imgToChange) {
 
             const base64Convert = new Promise((resolve, reject) => {
@@ -69,13 +72,9 @@ export default function page() {
             CONDUCTOR_ESTADO: `${data.CONDUCTOR_ESTADO}`,
             CONDUCTOR_FOTO: base64
         }
-        // if (base64) {
-        // } else {
-        //     delete dataToSend.CONDUCTOR_FOTO;
-        // }
 
         if (conductorToEdit.CONDUCTOR_ID !== 0) {
-            updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID).then(() => {
+            await updateDriver(dataToSend, conductorToEdit.CONDUCTOR_ID).then(() => {
                 setConductorToEdit(null);
                 fetchData();
                 toast.success('Conductor actualizado correctamente');
@@ -84,7 +83,7 @@ export default function page() {
                 toast.error('Error actualizando conductor');
             });
         } else {
-            createDriver(dataToSend).then(() => {
+            await createDriver(dataToSend).then(() => {
                 setConductorToEdit(null);
                 fetchData();
                 toast.success('Conductor creado correctamente');
@@ -93,6 +92,7 @@ export default function page() {
                 toast.error('Error creando conductor');
             });
         }
+        setButtonDisabled(false);
     }
 
     const onChangeBuscador = (e: any) => {
@@ -108,20 +108,22 @@ export default function page() {
         console.log("create");
         setConductorToEdit({
             CONDUCTOR_ID: 0,
-            CONDUCTOR_PRIMERNOMBRE: '',
-            CONDUCTOR_SEGUNDONOMBRE: '',
-            CONDUCTOR_PRIMERAPELLIDO: '',
-            CONDUCTOR_SEGUNDOAPELLIDO: '',
-            CONDUCTOR_CORREO: '',
-            CONDUCTOR_CODCONDUCTOR: '',
-            CONDUCTOR_TELPERSONAL: '',
-            CONDUCTOR_TELCORPORATIVO: '',
-            CONDUCTOR_ID_TIPOIDENTIFICACION: 1,
-            CONDUCTOR_IDENTIFICACION: '',
+            CONDUCTOR_PRIMERNOMBRE: "",
+            CONDUCTOR_SEGUNDONOMBRE: "",
+            CONDUCTOR_PRIMERAPELLIDO: "",
+            CONDUCTOR_SEGUNDOAPELLIDO: "",
+            CONDUCTOR_CORREO: "",
+            CONDUCTOR_CODCONDUCTOR: "",
+            CONDUCTOR_TELPERSONAL: "",
+            CONDUCTOR_TELCORPORATIVO: "",
+            CONDUCTOR_IDENTIFICACION: "",
             CONDUCTOR_ID_RH: 1,
+            CONDUCTOR_ID_TIPOIDENTIFICACION: 1,
             CONDUCTOR_ESTADO: 1,
-            CONDUCTOR_FOTO: null
-        })
+            CONDUCTOR_FOTO: "",
+            mapFactorRh: { FACTOR_RH_DESCRIPCION: "A -", FACTOR_RH_ID_REG: 1 },
+            mapTypeIdentification: { TIP_IDEN_DESCRIPCION: "CEDULA DE CUIDADANIA", TIP_IDEN_ID: 1 }
+        });
         setImgSelected("");
     }
 
@@ -131,6 +133,8 @@ export default function page() {
     }
 
     const getDataExport = async () => {
+        setButtonDisabled(true);
+
         let data = [];
         if (selectedRows.length) {
             data = selectedRows;
@@ -150,10 +154,11 @@ export default function page() {
                 "Teléfono Personal": element?.CONDUCTOR_TELPERSONAL,
                 "Teléfono Corporativo": element?.CONDUCTOR_TELCORPORATIVO,
                 "Correo Electrónico": element?.CONDUCTOR_CORREO,
-                "RH": element?.factorRh?.FACTOR_RH_DESCRIPCION
+                "RH": element?.mapFactorRh?.FACTOR_RH_DESCRIPCION
             });
         });
         generateDownloadExcel(dataExport, "Conductores");
+        setButtonDisabled(false);
     };
 
 
@@ -201,6 +206,8 @@ export default function page() {
     };
 
     const deleteConductor = async () => {
+        setButtonDisabled(true);
+
         try {
             await deleteDriver(conductorToDelete.CONDUCTOR_ID);
             setConductorToDelete(null);
@@ -210,6 +217,7 @@ export default function page() {
             console.error('Error deleting driver:', error);
             toast.error('Error eliminando conductor');
         }
+        setButtonDisabled(false);
     }
 
     useEffect(() => {
@@ -227,6 +235,7 @@ export default function page() {
             setImgSelected("");
         }
     }, [conductorToEdit, setValue, reset]);
+
 
     const columnas: any = [
         {
@@ -282,8 +291,8 @@ export default function page() {
 
         {
             name: "RH",
-            cell: (row: any) => row.factorRh ? row.factorRh.FACTOR_RH_DESCRIPCION : "No definido",
-            selector: (row: any) => row.factorRh ? row.factorRh.FACTOR_RH_DESCRIPCION : "No definido",
+            cell: (row: any) => row.mapFactorRh ? row.mapFactorRh.FACTOR_RH_DESCRIPCION : "No definido",
+            selector: (row: any) => row.mapFactorRh ? row.mapFactorRh.FACTOR_RH_DESCRIPCION : "No definido",
 
         },
         {
@@ -316,7 +325,7 @@ export default function page() {
                 </div>
                 <div className="flex gap-3" >
                     <button className="btn btn-success" onClick={() => handleCreate()} >Nuevo Conductor</button>
-                    <button className="btn btn-primary" onClick={() => getDataExport()}>Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
+                    <button disabled={buttonDisabled} className="btn btn-primary" onClick={() => getDataExport()}>Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                 </div>
 
             </div>
@@ -439,7 +448,7 @@ export default function page() {
                                     <div className="label">
                                         <span className="label-text">RH</span>
                                     </div>
-                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} defaultValue={conductorToEdit ? conductorToEdit.factorRh.FACTOR_RH_ID_REG : null}  >
+                                    <select className="select select-bordered w-full max-w-xs" {...register("CONDUCTOR_ID_RH")} defaultValue={conductorToEdit ? conductorToEdit.mapFactorRh.FACTOR_RH_ID_REG : null}  >
                                         <option value={1}>A -</option>
                                         <option value={2}>A +</option>
                                         <option value={3}>AB -</option>
@@ -467,7 +476,7 @@ export default function page() {
 
                         <div className='flex justify-center gap-5 mt-5' >
                             <button className="btn btn-error" onClick={() => setConductorToEdit(null)} >Cancelar</button>
-                            <button type="submit" onClick={handleSubmit(onSubmit)} className="btn btn-success" >Guardar</button>
+                            <button disabled={buttonDisabled} type="submit" onClick={handleSubmit(onSubmit)} className="btn btn-success" >Guardar</button>
                         </div>
                     </form>
                 </div>
@@ -522,7 +531,7 @@ export default function page() {
                             </div>
                             <div className='flex justify-center gap-5 mt-5' >
                                 <button className="btn btn-error" onClick={() => setConductorToDelete(null)} >Cancelar</button>
-                                <button className="btn btn-success" disabled={conductorCodVerificar !== conductorToDelete.CONDUCTOR_CODCONDUCTOR} onClick={() => deleteConductor()} >Eliminar</button>
+                                <button className="btn btn-success" disabled={conductorCodVerificar !== conductorToDelete.CONDUCTOR_CODCONDUCTOR || buttonDisabled} onClick={() => deleteConductor()} >Eliminar</button>
                             </div>
                         </div>
                     </div>

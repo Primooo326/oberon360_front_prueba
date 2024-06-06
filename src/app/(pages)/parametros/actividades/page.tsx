@@ -35,6 +35,7 @@ const Page = () => {
 
     const [loading, setLoading] = useState<boolean>(true);
 
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
     const [actividadToEdit, setActividadToEdit] = useState<any | null>(null);
 
@@ -68,6 +69,8 @@ const Page = () => {
     }
 
     const getDataExport = async () => {
+        setButtonDisabled(true);
+
         let data = []
         if (selectedRows.length) {
             data = selectedRows;
@@ -85,9 +88,12 @@ const Page = () => {
             });
         });
         generateDownloadExcel(dataExport, "Actividades");
+        setButtonDisabled(false);
     };
 
     const onSubmit = async (data: any) => {
+        setButtonDisabled(true);
+
         console.log(data);
         try {
             if (actividadToEdit.PREFUN_ID) {
@@ -108,6 +114,7 @@ const Page = () => {
         } catch (error: any) {
             console.log(error);
         }
+        setButtonDisabled(false);
     }
 
     const handleCreate = () => {
@@ -143,6 +150,8 @@ const Page = () => {
     }
 
     const onDeleteActivity = async (id: string) => {
+        setButtonDisabled(true);
+
         try {
             const response = await deleteActivity(id);
             if (response) {
@@ -154,6 +163,7 @@ const Page = () => {
             console.log(error);
             toast.error("Error al eliminar la actividad");
         }
+        setButtonDisabled(false);
     }
     const onChangeBuscador = (e: any) => {
         setTerm(e.target.value);
@@ -217,7 +227,7 @@ const Page = () => {
                     </div>
                     <div className="flex gap-3" >
                         <button className="btn btn-success" onClick={() => handleCreate()} >Nueva Actividad</button>
-                        <button className="btn btn-primary" onClick={() => getDataExport()} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
+                        <button className="btn btn-primary" onClick={() => getDataExport()} disabled={buttonDisabled} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                     </div>
 
                 </div>
@@ -259,7 +269,7 @@ const Page = () => {
 
                         <div className='flex justify-end gap-3' >
                             <button className='btn btn-error' onClick={() => setActividadToEdit(null)} >Cancelar</button>
-                            <button className='btn btn-success' onClick={handleSubmit(onSubmit)} >Guardar</button>
+                            <button className='btn btn-success' disabled={buttonDisabled} onClick={handleSubmit(onSubmit)} >Guardar</button>
                         </div>
                     </form>
                 </div>
@@ -293,7 +303,7 @@ const Page = () => {
                             </div>
                             <div className='flex justify-center gap-5 mt-5' >
                                 <button className="btn btn-error" onClick={() => setActividadToDelete(null)} >Cancelar</button>
-                                <button className="btn btn-success" onClick={() => onDeleteActivity(actividadToDelete.PREFUN_ID)} disabled={actividadCodVerificar !== `${actividadToDelete.PREFUN_ID}`} >Eliminar</button>
+                                <button className="btn btn-success" onClick={() => onDeleteActivity(actividadToDelete.PREFUN_ID)} disabled={actividadCodVerificar !== `${actividadToDelete.PREFUN_ID}` || buttonDisabled} >Eliminar</button>
                             </div>
                         </div>
                     </div>

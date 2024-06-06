@@ -6,7 +6,7 @@ import { createProtocol, deleteProtocol, getProtocol, updateProtocol } from "@/a
 import { getProtocolResponsible } from "@/api/dashboard/parametros/respProtocolo.api"
 import { getActivities } from "@/api/dashboard/parametros/actividades.api"
 import Modal from '@/components/shared/Modal';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { FaXmark } from 'react-icons/fa6';
 import { generateDownloadExcel } from '@/utils/tools';
 import { toast } from 'react-toastify';
@@ -43,6 +43,7 @@ const Page = () => {
     const [protocolCodVerificar, setProtocolCodVerificar] = useState<string>('');
 
     const [term, setTerm] = useState<string>('');
+    const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
 
     const handleChange = ({ selectedRows }: any) => {
         setSelectedRows(selectedRows);
@@ -68,6 +69,7 @@ const Page = () => {
     }
 
     const getDataExport = async () => {
+        setButtonDisabled(true);
         let data = []
         if (selectedRows.length) {
             data = selectedRows;
@@ -86,9 +88,12 @@ const Page = () => {
             });
         });
         generateDownloadExcel(dataExport, "Protocolos");
+        setButtonDisabled(false);
     };
 
     const onSubmit = async (data: any) => {
+        setButtonDisabled(true);
+
         data.FUN_CARGOID = null
         console.log(data);
         try {
@@ -110,6 +115,7 @@ const Page = () => {
         } catch (error: any) {
             console.log(error);
         }
+        setButtonDisabled(false);
     }
 
     const handleCreate = () => {
@@ -170,6 +176,8 @@ const Page = () => {
     }
 
     const onDeleteProtocol = async (id: string) => {
+        setButtonDisabled(true);
+
         try {
             const response = await deleteProtocol(id);
             if (response) {
@@ -181,6 +189,7 @@ const Page = () => {
             console.log(error);
             toast.error("Error al eliminar el protocolo");
         }
+        setButtonDisabled(false);
     }
     const onChangeBuscador = (e: any) => {
         setTerm(e.target.value);
@@ -250,7 +259,7 @@ const Page = () => {
                     </div>
                     <div className="flex gap-3" >
                         <button className="btn btn-success" onClick={() => handleCreate()} >Nuevo Protocolo</button>
-                        <button className="btn btn-primary" onClick={() => getDataExport()} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
+                        <button disabled={buttonDisabled} className="btn btn-primary" onClick={() => getDataExport()} >Exportar datos {selectedRows.length === 0 ? "(Todos)" : `(${selectedRows.length})`}</button>
                     </div>
 
                 </div>
@@ -314,7 +323,7 @@ const Page = () => {
 
                         <div className='flex justify-end gap-3' >
                             <button className='btn btn-error' onClick={() => setProtocolToEdit(null)} >Cancelar</button>
-                            <button className='btn btn-success' onClick={handleSubmit(onSubmit)} >Guardar</button>
+                            <button className='btn btn-success' disabled={buttonDisabled} onClick={handleSubmit(onSubmit)} >Guardar</button>
                         </div>
                     </form>
                 </div>
@@ -348,7 +357,7 @@ const Page = () => {
                             </div>
                             <div className='flex justify-center gap-5 mt-5' >
                                 <button className="btn btn-error" onClick={() => setProtocolToDelete(null)} >Cancelar</button>
-                                <button className="btn btn-success" onClick={() => onDeleteProtocol(protocolToDelete.FUN_ID)} disabled={protocolCodVerificar !== `${protocolToDelete.FUN_ID}`} >Eliminar</button>
+                                <button className="btn btn-success" onClick={() => onDeleteProtocol(protocolToDelete.FUN_ID)} disabled={protocolCodVerificar !== `${protocolToDelete.FUN_ID}` || buttonDisabled} >Eliminar</button>
                             </div>
                         </div>
                     </div>
