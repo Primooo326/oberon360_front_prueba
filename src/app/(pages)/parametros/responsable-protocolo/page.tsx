@@ -208,10 +208,6 @@ const Page = () => {
             sortable: true,
         },
         {
-            name: "Estado",
-            cell: (row: any) => row.TFUN_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-error'>Inactivo</span>,
-        },
-        {
             name: "Acciones",
             cell: (row: any) => <div className="flex gap-3" >
                 <button className="btn btn-sm btn-warning" onClick={() => setRespProtocoloToEdit(row)} >Editar</button>

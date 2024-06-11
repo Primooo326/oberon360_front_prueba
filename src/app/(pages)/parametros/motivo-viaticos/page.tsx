@@ -193,10 +193,7 @@ const Page = () => {
             selector: (row: any) => row.TIPRUTA_DESCRIPCION,
             sortable: true,
         },
-        {
-            name: "Estado",
-            cell: (row: any) => row.TIPRUTA_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-error'>Inactivo</span>,
-        },
+
         {
             name: "Acciones",
             cell: (row: any) => <div className="flex gap-3" >

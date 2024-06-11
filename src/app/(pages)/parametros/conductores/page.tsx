@@ -296,11 +296,6 @@ export default function page() {
 
         },
         {
-            name: "Estado",
-            cell: (row: any) => row.CONDUCTOR_ESTADO !== "1" ? <span className='badge badge-error'> Inactivo</span> : <span className='badge badge-success'> Activo</span>,
-            selector: (row: any) => row.CONDUCTOR_ESTADO,
-        },
-        {
             name: 'Acciones',
             cell: (row: any) => <div className='flex gap-3' >
                 <button className="btn btn-sm btn-warning" onClick={() => { setConductorToEdit(row); console.log(row); }} >Editar</button>

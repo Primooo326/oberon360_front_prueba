@@ -231,10 +231,6 @@ const Page = () => {
             selector: (row: any) => row.FUN_FUNCION,
         },
         {
-            name: "Estado",
-            cell: (row: any) => row.FUN_STATUS === '1' ? <span className='badge badge-success'>Activo</span> : <span className='badge badge-error'>Inactivo</span>,
-        },
-        {
             name: "Acciones",
             cell: (row: any) => <div className="flex gap-3" >
                 <button className="btn btn-sm btn-warning" onClick={() => setProtocolToEdit(row)} >Editar</button>
