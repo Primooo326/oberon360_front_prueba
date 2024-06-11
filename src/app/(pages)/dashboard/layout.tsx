@@ -34,7 +34,7 @@ export default function RootLayout({
   const { setMobiles } = useMobilesStore()
   const { setOleoductos } = useOleoductosStore()
   const { setIndicadores } = useIndicadoresStore()
-  const { mapExpand, itemSidebarRight, showSidebarRight, setItemSidebarRight } = useSystemStore()
+  const { mapExpand, itemSidebarRight, showSidebarRight, setItemSidebarRight, setItemDrawer, setShowDrawer } = useSystemStore()
   const showSidebarRightRef = useRef(showSidebarRight)
   const itemSidebarRightRef = useRef(itemSidebarRight)
   const mapExpandRef = useRef(mapExpand)
@@ -217,13 +217,16 @@ export default function RootLayout({
 
     }
     getIndicadores();
-
+    setShowDrawer(true)
+    setItemDrawer("Mapa Operativo")
     fetchData()
     const interval = setInterval(fetchData, 5000);
 
     return () => {
       clearInterval(interval);
     };
+
+
 
 
   }, [])

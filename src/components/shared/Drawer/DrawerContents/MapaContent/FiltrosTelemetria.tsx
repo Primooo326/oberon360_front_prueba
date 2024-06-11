@@ -1,25 +1,24 @@
 "use client"
 import type { IVehiculo } from '@/models/vehiculos.model'
+import { useFiltrosMapa } from '@/states/FiltrosMapa.state';
 import { useSystemStore } from '@/states/System.state';
 import { useVehiculosStore } from '@/states/Vehiculos.state'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import Select, { type StylesConfig } from 'react-select';
 
-export default function FiltrosContent() {
-
+export default function FiltrosTelemetria() {
+    const { toggleFiltro } = useFiltrosMapa()
+    const { telemetriaFiltro } = useFiltrosMapa().filtrosMapState
     const { vehiculos, setVehiculosFiltered, vehiculosFiltered } = useVehiculosStore()
-    const { setItemSidebarRight, setShowSidebarRight } = useSystemStore()
+    const { setItemSidebarRight, setShowSidebarRight, resetMapConfig } = useSystemStore()
     const [placasVehiculosOptions, setPlacasVehiculosOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [placasVehiculosSelected, setPlacasVehiculosSelected] = useState<{ value: IVehiculo, label: string } | null>(null)
-
     const [conductoresOptions, setConductoresOptions] = useState<{ value: IVehiculo, label: string }[]>([])
     const [conductoresSelected, setConductoresSelected] = useState<{ value: IVehiculo, label: string } | null>(null)
 
     const [showDropTipo, setShowDropTipo] = useState(true)
     const [showDropEstado, setShowDropEstado] = useState(true)
-
-
 
     const handleSelectVehiculo: any = (selectedOption: { value: IVehiculo, label: string }) => {
         if (selectedOption) {
@@ -113,16 +112,6 @@ export default function FiltrosContent() {
         })
     }
 
-    const changeEstadoEnOperacion = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setVehiculosFiltered({
-            ...vehiculosFiltered,
-            changeEstado: {
-                ...vehiculosFiltered.changeEstado,
-                enOperacion: e.target.checked
-            }
-        })
-    }
-
     const changeEstadoDisponibles = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVehiculosFiltered({
             ...vehiculosFiltered,
@@ -143,15 +132,24 @@ export default function FiltrosContent() {
     }
 
     return (
-        <div className="mt-8 space-y-4">
-            <div className="divider" />
-            <div className='px-5'>
-                <h1 className='text-xl font-semibold mb-5'>Telemetria</h1>
-                <div className='mb-5'>
+        <div className="space-y-4">
+            <div className=''>
+                <div className='mb-5 flex justify-between items-center'>
                     <h2 className='mb-2 font-semibold'>
+                        Visualizar en el mapa
+                    </h2>
+                    <input type="checkbox" className="toggle toggle-success" onChange={(e) => {
+                        e.preventDefault()
+                        resetMapConfig()
+                        toggleFiltro("telemetriaFiltro")
+                    }} checked={telemetriaFiltro} />
+                </div>
+
+                <div className='mb-5'>
+                    <h2 className='mb-2 '>
                         Buscar vehiculo por
                     </h2>
-                    <div className='space-y-2 ps-3'>
+                    <div className='space-y-2 '>
 
                         <div>
                             <label className='text-sm'>Placa vehiculo</label>
@@ -181,11 +179,11 @@ export default function FiltrosContent() {
                     </div>
                 </div>
                 <div>
-                    <h2 className='mb-2 font-semibold'>
+                    <h2 className='mb-2 '>
                         Filtrar vehiculos por
                     </h2>
-                    <div className="space-y-2 ps-3">
-                        <ul className="menu  rounded-box">
+                    <div className="space-y-2">
+                        <ul className="menu rounded-box">
                             <li>
                                 <span className={`menu-dropdown-toggle ${showDropTipo && 'menu-dropdown-show'}`} onClick={() => setShowDropTipo(!showDropTipo)}>Tipo</span>
                                 <ul className={`menu-dropdown ${showDropTipo && 'menu-dropdown-show'}`}>

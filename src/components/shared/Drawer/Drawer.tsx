@@ -1,6 +1,6 @@
 "use client"
 import { FaMoon, FaSun } from "react-icons/fa6";
-import { CgHome } from "react-icons/cg";
+import { HiOutlineMap } from "react-icons/hi2";
 import { PiBell } from "react-icons/pi";
 import { FiSettings } from "react-icons/fi";
 import { useSystemStore } from "@/states/System.state";
@@ -9,10 +9,11 @@ import Image from "next/image";
 import { LuUserCog2 } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import FiltrosContent from "./DrawerContents/FiltrosContent";
+import FiltrosTelemetria from "./DrawerContents/MapaContent/FiltrosTelemetria";
 import ParametrosContent from "./DrawerContents/ParametrosContent";
 import SubmenuDrawerContainer from "./SubmenuDrawerContainer";
 import { FaUserNurse } from "react-icons/fa6";
+import MapaContent from "./DrawerContents/MapaContent/MapaContent";
 interface SubMenu {
   title: string;
   icon: JSX.Element;
@@ -33,12 +34,12 @@ export default function Drawer() {
 
   const subMenus: SubMenu[] = [
     {
-      title: "Inicio",
-      icon: <CgHome className="w-6 h-auto" />,
+      title: "Mapa Operativo",
+      icon: <HiOutlineMap className="w-6 h-auto" />,
       href: "/dashboard",
       component: (
-        <SubmenuDrawerContainer title="Filtros Avanzados">
-          <FiltrosContent />
+        <SubmenuDrawerContainer canClose={false} title="Mapa Operativo">
+          <MapaContent />
         </SubmenuDrawerContainer>
       ),
     },
@@ -46,21 +47,11 @@ export default function Drawer() {
       title: "Novedades",
       icon: <PiBell className="w-6 h-auto" />,
       href: "/novedades",
-      component: (
-        <SubmenuDrawerContainer title="Novedades">
-          <div>Novedades</div>
-        </SubmenuDrawerContainer>
-      ),
     },
     {
       title: "Asistencia",
       icon: <FaUserNurse className="w-6 h-auto" />,
       href: "/asistencia",
-      component: (
-        <SubmenuDrawerContainer title="Asistencia">
-          <div>Asistencia</div>
-        </SubmenuDrawerContainer>
-      ),
     },
     {
       title: "Parámetros",
@@ -77,13 +68,16 @@ export default function Drawer() {
 
   useEffect(() => {
 
+
     if (showDrawer) {
-      if (itemDrawer === "filtros") {
-        setCurrentSubMenu(subMenus[0]);
-      } else if (itemDrawer === "parametros") {
-        setCurrentSubMenu(subMenus[3]);
+      const subMenu = subMenus.find((subMenu) => subMenu.title === itemDrawer);
+      if (subMenu) {
+        setCurrentSubMenu(subMenu);
       }
     }
+    // if (pathname === '/dashboard') {
+    //   setCurrentSubMenu(subMenus[0])
+    // }
 
   }, [itemDrawer, showDrawer]);
 
@@ -115,10 +109,14 @@ export default function Drawer() {
                 onClick={() => {
                   if (subMenu.href) {
                     router.push(subMenu.href);
+                  }
+                  if (subMenu.component) {
+                    setCurrentSubMenu(subMenu)
+                    setShowDrawer(true)
+                    setItemDrawer(subMenu.title)
                   } else {
-                    setCurrentSubMenu(subMenu);
-                    setShowDrawer(true);
-                    setItemDrawer(subMenu.title.toLowerCase());
+                    setShowDrawer(false)
+
                   }
                 }}
               >
