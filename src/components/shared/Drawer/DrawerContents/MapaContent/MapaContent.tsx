@@ -10,6 +10,7 @@ import FiltrosProteccion from './FiltrosProteccion';
 import { useFiltrosMapa } from '@/states/FiltrosMapa.state';
 import FiltrosMobile from './FiltrosMobile';
 import FiltrosOleoducto from './FiltrosOleoducto';
+import PuntosInteres from './PuntosInteres';
 
 export default function MapaContent() {
 
@@ -24,7 +25,7 @@ export default function MapaContent() {
 
   const items = [
 
-    { title: "Puntos de Interes", icon: <MdOutlineLocationOn className="w-6 h-auto text-gray-500" />, component: <div>Puntos de Interes</div> },
+    { title: "Puntos de Interés", icon: <MdOutlineLocationOn className="w-6 h-auto text-gray-500" />, component: <PuntosInteres /> },
     { title: "Simular Ruta", icon: <MdAltRoute className="w-6 h-auto" />, component: <div>Simular Ruta</div> },
     { title: "Solucionar Alertas", icon: <AiOutlineAlert className="w-6 h-auto" />, component: <div>Solucionar Alertas</div> },
     { title: "Informacion General", icon: <MdOutlineFolder className="w-6 h-auto" />, component: <div>Informacion General</div> },

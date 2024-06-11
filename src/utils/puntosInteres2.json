@@ -1,0 +1,94 @@
+[
+	{
+		"value": "15",
+		"text": "ACOPIO\r\n"
+	},
+	{
+		"value": "19",
+		"text": "ALTA EFICIENCIA\r\n"
+	},
+	{
+		"value": "18",
+		"text": "BODEGA"
+	},
+	{
+		"value": "12",
+		"text": "CEDIS"
+	},
+	{
+		"value": "17",
+		"text": "DISTRIBUIDORES\r\n"
+	},
+	{
+		"value": "20",
+		"text": "EDIFICIO ADMINISTRATIVO\r\n"
+	},
+	{
+		"value": "1",
+		"text": "FINCA"
+	},
+	{
+		"value": "2",
+		"text": "FINCA VIP"
+	},
+	{
+		"value": "5",
+		"text": "GASOLINERIA"
+	},
+	{
+		"value": "7",
+		"text": "HOSPITAL"
+	},
+	{
+		"value": "4",
+		"text": "HOTEL"
+	},
+	{
+		"value": "8",
+		"text": "MONTALLANTAS"
+	},
+	{
+		"value": "9",
+		"text": "PARQUEADERO"
+	},
+	{
+		"value": "6",
+		"text": "PEAJE"
+	},
+	{
+		"value": "23",
+		"text": "PERSONAS VIP"
+	},
+	{
+		"value": "3",
+		"text": "PLANTA"
+	},
+	{
+		"value": "21",
+		"text": "PLATAFORMA"
+	},
+	{
+		"value": "10",
+		"text": "POLICIA"
+	},
+	{
+		"value": "11",
+		"text": "PUNTO DE CONTROL"
+	},
+	{
+		"value": "22",
+		"text": "RECETA"
+	},
+	{
+		"value": "16",
+		"text": "RECIBO"
+	},
+	{
+		"value": "14",
+		"text": "RESTAURANTE"
+	},
+	{
+		"value": "13",
+		"text": "TALLER"
+	}
+]
