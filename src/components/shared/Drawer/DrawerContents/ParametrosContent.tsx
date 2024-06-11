@@ -7,7 +7,6 @@ export default function ParametrosContent() {
     const { setShowDrawer } = useSystemStore()
     const router = useRouter()
     const currentPath = usePathname()
-    console.log(currentPath);
     const parametros2 = [
 
         { title: "Directorio", href: "/parametros/directorio", icon: <MdOutlineFolder className="w-6 h-auto text-gray-500" /> },

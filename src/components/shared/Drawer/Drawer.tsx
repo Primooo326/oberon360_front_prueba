@@ -1,3 +1,4 @@
+"use client"
 import { FaMoon, FaSun } from "react-icons/fa6";
 import { CgHome } from "react-icons/cg";
 import { PiBell } from "react-icons/pi";
@@ -7,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { LuUserCog2 } from "react-icons/lu";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FiltrosContent from "./DrawerContents/FiltrosContent";
 import ParametrosContent from "./DrawerContents/ParametrosContent";
 import SubmenuDrawerContainer from "./SubmenuDrawerContainer";
@@ -24,7 +25,7 @@ interface Modulos {
 }
 
 export default function Drawer() {
-  const { theme, setTheme, showDrawer, setShowDrawer } = useSystemStore();
+  const { theme, setTheme, showDrawer, setShowDrawer, itemDrawer, setItemDrawer } = useSystemStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -56,8 +57,8 @@ export default function Drawer() {
       icon: <FaUserNurse className="w-6 h-auto" />,
       href: "/asistencia",
       component: (
-        <SubmenuDrawerContainer title="Novedades">
-          <div>Novedades</div>
+        <SubmenuDrawerContainer title="Asistencia">
+          <div>Asistencia</div>
         </SubmenuDrawerContainer>
       ),
     },
@@ -71,6 +72,20 @@ export default function Drawer() {
       ),
     },
   ];
+
+
+
+  useEffect(() => {
+
+    if (showDrawer) {
+      if (itemDrawer === "filtros") {
+        setCurrentSubMenu(subMenus[0]);
+      } else if (itemDrawer === "parametros") {
+        setCurrentSubMenu(subMenus[3]);
+      }
+    }
+
+  }, [itemDrawer, showDrawer]);
 
   const styleSubmenu =
     "p-1.5 text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg hover:bg-gray-100";
@@ -103,6 +118,7 @@ export default function Drawer() {
                   } else {
                     setCurrentSubMenu(subMenu);
                     setShowDrawer(true);
+                    setItemDrawer(subMenu.title.toLowerCase());
                   }
                 }}
               >
@@ -112,12 +128,6 @@ export default function Drawer() {
           ))}
         </div>
         <div className="flex flex-col items-center space-y-6">
-          {/* <div className="tooltip tooltip-right" data-tip="Buscar componentes">
-
-                        <button className={styleSubmenu} onClick={() => router.push("/components")} >
-                            <IoSearchOutline className="w-6 h-auto" />
-                        </button>
-                    </div> */}
 
           <button
             className={styleSubmenu}

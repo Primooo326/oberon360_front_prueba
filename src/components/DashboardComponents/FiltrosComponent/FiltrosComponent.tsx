@@ -10,7 +10,7 @@ export default function FiltrosComponent() {
     const { toggleFiltro } = useFiltrosMapa()
     const { mobileFiltro, oleoductosFiltro, proteccionFiltro, telemetriaFiltro } = useFiltrosMapa().filtrosMapState
     const { clientes, setClienteSelected } = useClientesStore();
-    const { resetMapConfig, setShowDrawer: setShowSidebar, showDrawer: showSidebar } = useSystemStore()
+    const { resetMapConfig, setShowDrawer: setShowSidebar, showDrawer: showSidebar, setItemDrawer } = useSystemStore()
     const [clientesOptions, setClientesOptions] = useState<{ value: string, label: string }[]>([])
     const [selectedOption, setSelectedOption] = useState<{ value: string, label: string } | null>(null)
     const stylesSelect: StylesConfig = {
@@ -63,7 +63,7 @@ export default function FiltrosComponent() {
                     Mobile
                 </button>
                 <button className='btn btn-sm btn-ghost text-gray-500 border-gray-400'
-                    onClick={() => setShowSidebar(!showSidebar)}>
+                    onClick={() => { setItemDrawer("filtros"); setShowSidebar(true); }}>
                     Filtros avanzados
                     <BiFilter className='text-gray-500 w-5 h-auto' />
                 </button>

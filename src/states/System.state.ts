@@ -10,8 +10,13 @@ interface ItemsSidebarRight {
 interface SystemState {
     theme: string;
     setTheme: (theme: string) => void;
+
     showDrawer: boolean;
     setShowDrawer: (showSidebar: boolean) => void;
+
+    itemDrawer: string
+    setItemDrawer: (itemDrawer: string) => void;
+
     itemSidebarRight: {
         item: "vehiculos" | "ubicaciones" | "oleoducto";
         content: IVehiculo | any;
@@ -19,14 +24,19 @@ interface SystemState {
 
     },
     setItemSidebarRight: (itemSidebarRight: ItemsSidebarRight) => void;
+
     showSidebarRight: boolean;
     setShowSidebarRight: (showSidebarRight: boolean) => void;
+
     showModalProtocolo: boolean;
     setShowModalProtocolo: (showModalProtocolo: boolean) => void;
+
     itemProtocolo: itemContent;
     setItemProtocolo: (itemProtocolo: itemContent) => void;
+
     mapExpand: boolean;
     setMapExpand: (mapExpand: boolean) => void;
+
     mapConfig: {
         zoom: number;
         fixed: boolean;
@@ -39,16 +49,24 @@ interface SystemState {
         center: { lat: number; lng: number; };
         showLoadMap: boolean;
     }) => void;
+
     resetMapConfig: () => void;
 }
 
 export const useSystemStore = create<SystemState>((set) => ({
     theme: "oberon",
     setTheme: (theme) => set({ theme }),
+
     showDrawer: false,
-    setShowDrawer: (showSidebar) => set({ showDrawer: showSidebar }),
+    setShowDrawer: (showDrawer) => set({ showDrawer }),
+
+
+    itemDrawer: "",
+    setItemDrawer: (itemDrawer) => set({ itemDrawer }),
+
     mapExpand: false,
     setMapExpand: (mapExpand) => set({ mapExpand }),
+
     mapConfig: {
         zoom: 5,
         fixed: true,
@@ -56,16 +74,19 @@ export const useSystemStore = create<SystemState>((set) => ({
         showLoadMap: false
     },
     setMapConfig: (mapConfig) => set({ mapConfig }),
+
     itemSidebarRight: {} as ItemsSidebarRight,
     setItemSidebarRight: (itemSidebarRight) => {
 
         return set({ itemSidebarRight })
     },
+
     showSidebarRight: false,
     setShowSidebarRight: (showSidebarRight) => set({ showSidebarRight }),
 
     showModalProtocolo: false,
     setShowModalProtocolo: (showModalProtocolo) => set({ showModalProtocolo }),
+
     itemProtocolo: {} as itemContent,
     setItemProtocolo: (itemProtocolo) => set({ itemProtocolo }),
 
