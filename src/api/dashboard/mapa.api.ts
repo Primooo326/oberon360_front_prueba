@@ -14,7 +14,7 @@ export const getAsistencia = async (page: number = 1, take: number = 100) => {
 }
 
 export const getEventsPlates = async (page: number = 1, take: number = 290) => {
-    return await fetchApiWeb.get("map/getEventsPlates");
+    return await fetchApiWeb.get(`map/getEventsPlates?page=${page}&take=${take}`);
 }
 export const getEventsMotorcycle = async () => {
     return await fetchApiWeb.get("map/getEventsMotorcycle");

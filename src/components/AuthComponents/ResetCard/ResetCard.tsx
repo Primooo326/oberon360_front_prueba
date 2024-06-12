@@ -26,7 +26,7 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
         try {
             const respuesta = await changePassword(newPassword, confirmPassword);
             console.log(respuesta);
-            Cookies.set("token", respuesta.data.token);
+            // Cookies.set("token", respuesta.data.token);
             router.push("/dashboard");
 
         } catch (error: any) {
@@ -44,6 +44,7 @@ export default function ResetCard({ setCargando }: { setCargando: (b: boolean) =
 
     useEffect(() => {
         toast.info("Por favor cambia tu contraseña", { autoClose: 5000 })
+        setCargando(false)
     }, [])
     return (
         <div className="card bg-primary p-[30px] flex flex-col items-center">

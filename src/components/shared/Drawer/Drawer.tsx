@@ -38,7 +38,7 @@ export default function Drawer() {
       icon: <HiOutlineMap className="w-6 h-auto" />,
       href: "/dashboard",
       component: (
-        <SubmenuDrawerContainer canClose={false} title="Mapa Operativo">
+        <SubmenuDrawerContainer title="Mapa Operativo">
           <MapaContent />
         </SubmenuDrawerContainer>
       ),

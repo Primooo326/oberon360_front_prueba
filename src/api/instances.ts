@@ -41,13 +41,13 @@ const instance = (api: "base" | "web" | "i+c") => {
         (error) => {
             console.log("error response::::", error);
             if (error.response && Number(error.response.status) === 401) {
-                Cookies.remove('token');
+                // Cookies.remove('token');
                 window.location.href = '/auth';
             } else if (error.code === 'ERR_NETWORK') {
                 toast.error('Error de red, verifique su conexión a internet.');
             } else if (error.response.data.message) {
-                toast.error(error.response.data.message);
 
+                toast.error(error.response.data.message);
             }
             else {
                 console.log(error);
