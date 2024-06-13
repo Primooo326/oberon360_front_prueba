@@ -27,9 +27,15 @@ export default function ParametrosContent() {
                 { title: "Subcategoria Novedad", href: "/parametros/subcategoria-novedad", icon: <MdOutlineCategory className="w-6 h-auto" /> },
             ]
         },
+        {
+            parent: "Pre-Opeacional",
+            childrens: [
+                { title: "Categoria Pre-Operacional", href: "/parametros/categoria-preoperacional", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
+                { title: "Subcategoria Pre-Operacional", href: "/parametros/subcategoria-preoperacional", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
+            ]
+        },
         { title: "Motivo Viaticos", href: "/parametros/motivo-viaticos", icon: <MdOutlinePayments className="w-6 h-auto" /> },
-        { title: "Categoria Pre-Operacional", href: "/parametros/categoria-preoperacional", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
-        { title: "Subcategoria Pre-Operacional", href: "/parametros/subcategoria-preoperacional", icon: <MdOutlineBuildCircle className="w-6 h-auto" /> },
+
         { title: "Conductores", href: "/parametros/conductores", icon: <MdFaceUnlock className="w-6 h-auto" /> },
         { title: "Puntos", href: "/parametros/puntos", icon: <MdOutlineLocationOn className="w-6 h-auto" /> },
         { title: "Itinerario", href: "/parametros/itinerario", icon: <MdAltRoute className="w-6 h-auto" /> },
